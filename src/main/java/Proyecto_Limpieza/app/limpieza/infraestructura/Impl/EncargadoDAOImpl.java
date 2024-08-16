@@ -2,6 +2,7 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.Impl;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.EncargadoRepository;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.ListadoEncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IEncargadoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,9 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
     }
 
     @Override
-    public void guardarEncargado(Encargado encargado) {
+    public Encargado guardarEncargado(Encargado encargado) {
         encargadoRepository.save(encargado);
+        return encargado;
     }
 
     @Override

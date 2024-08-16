@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.security.spec.ECField;
 import java.util.List;
 
 @Entity
