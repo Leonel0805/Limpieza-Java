@@ -10,11 +10,12 @@ public record ListadoEncargadoDTO (
 
         Long id,
         String DNI,
+        String name,
         String apellido,
         Edificio edificio,
         List<Pedido>pedidos
 ){
     public ListadoEncargadoDTO(Encargado encargado) {
-        this(encargado.getId(), encargado.getDNI(), encargado.getApellido(), encargado.getEdificio(), encargado.getPedidos());
+        this(encargado.getId(), encargado.getDNI(), encargado.getName(), encargado.getApellido(), encargado.getEdificio(), encargado.getPedidos());
     }
 }

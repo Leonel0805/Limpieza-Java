@@ -30,8 +30,9 @@ public class Encargado extends User {
     @Embedded //aca le indicamos que queremos sumar lo de la Clase Edificio, sin una nueva tabla
     private Edificio edificio;
 
-    @OneToMany
+    @OneToMany(mappedBy = "encargado", cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
+
 
     public Encargado(EncargadoDTO encargadoDTO) {
         super(encargadoDTO.name(), encargadoDTO.email(), encargadoDTO.password(), Boolean.TRUE);
