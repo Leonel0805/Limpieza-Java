@@ -1,8 +1,10 @@
 package Proyecto_Limpieza.app.limpieza.infraestructura.controllers;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
+import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
 import Proyecto_Limpieza.app.limpieza.services.EncargadoService;
@@ -61,14 +63,27 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-//    @PutMapping()
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarPedidoEstado(@PathVariable Long id, @RequestBody @Valid EstadoPedidoDTO estadoPedidoDTO) {
+
+        ListadoPedidoDTO pedidoResponse = pedidoService.actualizarPedidoById(id, estadoPedidoDTO);
+
+        if (pedidoResponse == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "Error al actualizar pedido, pedido no existe");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido actualizado correctamente!");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
 
         ListadoPedidoDTO pedidoResponse = pedidoService.deleteById(id);
-        return null;
+        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido 'CANCELADO' correctamente!");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

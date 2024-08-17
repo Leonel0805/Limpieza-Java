@@ -3,6 +3,7 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.domain.models.edificio.Edificio;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.edificioDTO.EdificioDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 
 import java.util.List;
@@ -14,11 +15,11 @@ public record ListadoEncargadoDTO (
         String DNI,
         String name,
         String apellido,
-        Edificio edificio,
+        EdificioDTO edificio,
         List<ListadoPedidoDTO> pedidos
 ){
     public ListadoEncargadoDTO(Encargado encargado) {
-        this(encargado.getId(), encargado.getDNI(), encargado.getName(), encargado.getApellido(), encargado.getEdificio(),
+        this(encargado.getId(), encargado.getDNI(), encargado.getName(), encargado.getApellido(), new EdificioDTO(encargado.getEdificio()),
                 encargado.getPedidos().stream()
                         .map(pedido -> new ListadoPedidoDTO(pedido))
                         .collect(Collectors.toList())

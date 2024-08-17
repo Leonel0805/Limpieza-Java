@@ -3,6 +3,7 @@ package Proyecto_Limpieza.app.limpieza.services;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PedidoDAOImpl;
@@ -66,6 +67,22 @@ public class PedidoService{
         return new ListadoPedidoDTO(pedido);
     }
 
+    public ListadoPedidoDTO actualizarPedidoById(Long id, EstadoPedidoDTO estadoPedidoDTO) {
+
+        Optional<Pedido> pedidoOptional = pedidoDAOImpl.findById(id);
+        EstadoPedido estadoPedido = estadoPedidoDTO.estado();
+
+        if (pedidoOptional.isEmpty()) {
+            return null;
+        }
+
+        Pedido pedido = pedidoOptional.get();
+        pedido.setEstado(estadoPedido);
+        pedidoDAOImpl.guardarPedido(pedido);
+
+        ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
+        return pedidoResponse;
+    }
 
     public ListadoPedidoDTO deleteById(Long id) {
 
@@ -77,7 +94,7 @@ public class PedidoService{
 
         Pedido pedido = pedidoOptional.get();
 
-        pedido.setEstado(EstadoPedido.CANCELADO);
+        pedido.setEstado(EstadoPedido.ELIMINADO);
         this.save(pedido);
 
 
