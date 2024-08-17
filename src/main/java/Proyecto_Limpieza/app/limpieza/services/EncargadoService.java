@@ -29,8 +29,8 @@ public class EncargadoService {
     }
 
 
-    public Optional<Encargado> findById(Long id) {
-        return persistencia.findById(id);
+    public Optional<Encargado> findByIdIsActive(Long id, Boolean isActive) {
+        return persistencia.findByIdAndIsActive(id, isActive);
     }
 
 
@@ -44,7 +44,7 @@ public class EncargadoService {
 
     public ListadoEncargadoDTO actualizarEncargado(Long id, EncargadoDTO encargadoDTO) {
 
-        Optional<Encargado> encargadoOptional = persistencia.findById(id);
+        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsActive(id, Boolean.TRUE);
         if (encargadoOptional.isEmpty()) {
             return null;
         }
@@ -58,9 +58,12 @@ public class EncargadoService {
     }
 
 
-    public ListadoEncargadoDTO deleteById(Long id) {
-        Optional<Encargado> encargadoOptional = persistencia.findById(id);
+    public ListadoEncargadoDTO deleteById(Long id){
 
+//        buscamos el encargado por id
+        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsActive(id, Boolean.TRUE);
+
+        System.out.println(encargadoOptional);
         if (encargadoOptional.isEmpty()) {
             return null;
         }

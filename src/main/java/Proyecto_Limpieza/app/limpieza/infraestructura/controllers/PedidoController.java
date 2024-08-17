@@ -61,6 +61,14 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+//    @PutMapping()
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+
+        ListadoPedidoDTO pedidoResponse = pedidoService.deleteById(id);
+        return null;
+    }
 
 }

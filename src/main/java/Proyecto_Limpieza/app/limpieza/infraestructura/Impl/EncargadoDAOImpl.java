@@ -2,7 +2,6 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.Impl;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.EncargadoRepository;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.ListadoEncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IEncargadoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,8 +21,8 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
     }
 
     @Override
-    public Optional<Encargado> findById(Long id) {
-        return encargadoRepository.findById(id);
+    public Optional<Encargado> findByIdAndIsActive(Long id, Boolean isActive) {
+        return encargadoRepository.findByIdAndIsActive(id, isActive);
     }
 
     @Override
@@ -31,9 +30,9 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
         encargadoRepository.save(encargado);
         return encargado;
     }
-
-    @Override
-    public void deleteById(Long id) {
-        encargadoRepository.deleteById(id);
-    }
+//
+//    @Override
+//    public void deleteById(Long id) {
+//        encargadoRepository.deleteById(id);
+//    }
 }

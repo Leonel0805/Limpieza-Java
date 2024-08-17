@@ -1,6 +1,7 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
+import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
@@ -46,26 +47,40 @@ public class PedidoService{
         return  pedidoDTO;
     }
 
+    public void save(Pedido pedido) {
+        pedidoDAOImpl.guardarPedido(pedido);
+    }
 
     public ListadoPedidoDTO guardarPedido(PedidoDTO pedidoDTO) {
 
-        Optional<Encargado> encargadoOptional = encargadoService.findById(pedidoDTO.encargado_id());
+        Optional<Encargado> encargadoOptional = encargadoService.findByIdIsActive(pedidoDTO.encargado_id(), Boolean.TRUE);
 
-        System.out.println(pedidoDTO.encargado_id());
-        System.out.println(encargadoOptional);
         if (encargadoOptional.isEmpty()) {
             return null;
         }
 
         Encargado encargado = encargadoOptional.get();
         Pedido pedido = new Pedido(pedidoDTO, encargado);
-        pedidoDAOImpl.guardarPedido(pedido);
+        this.save(pedido);
 
         return new ListadoPedidoDTO(pedido);
     }
 
 
-    public void deleteById(Long id) {
+    public ListadoPedidoDTO deleteById(Long id) {
 
+        Optional<Pedido> pedidoOptional = pedidoDAOImpl.findById(id);
+
+        if (pedidoOptional == null) {
+            return null;
+        }
+
+        Pedido pedido = pedidoOptional.get();
+
+        pedido.setEstado(EstadoPedido.CANCELADO);
+        this.save(pedido);
+
+
+        return new ListadoPedidoDTO(pedido);
     }
 }
