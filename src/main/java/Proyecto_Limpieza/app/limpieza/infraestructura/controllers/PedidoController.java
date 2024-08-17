@@ -52,6 +52,10 @@ public class PedidoController {
     public ResponseEntity<?> guardarPedido(@RequestBody @Valid PedidoDTO pedidoDTO) {
 
         ListadoPedidoDTO pedidoResponse = pedidoService.guardarPedido(pedidoDTO);
+        if (pedidoResponse == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "Error al crear pedido, Encargado no existe");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
         APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido creado correctamente!");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

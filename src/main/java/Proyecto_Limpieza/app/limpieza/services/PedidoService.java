@@ -51,6 +51,7 @@ public class PedidoService{
 
         Optional<Encargado> encargadoOptional = encargadoService.findById(pedidoDTO.encargado_id());
 
+        System.out.println(pedidoDTO.encargado_id());
         System.out.println(encargadoOptional);
         if (encargadoOptional.isEmpty()) {
             return null;
