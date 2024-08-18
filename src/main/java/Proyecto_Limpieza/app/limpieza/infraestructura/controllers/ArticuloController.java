@@ -12,7 +12,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
@@ -22,12 +22,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/articulos")
+@PreAuthorize("denyAll()")
 public class ArticuloController {
 
     @Autowired
     private ArticuloService articuloService;
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<ListadoArticuloDTO>> findAll() {
 
         List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAll().stream()
@@ -38,6 +40,7 @@ public class ArticuloController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('CREATE')")
     public ResponseEntity<ListadoArticuloDTO> findById(@PathVariable Long id) {
 
         Optional<Articulo> articuloOptional = articuloService.findById(id);
