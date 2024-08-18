@@ -9,6 +9,7 @@ public interface IPedidoDAO {
 
     List<Pedido> findAll();
 
+    List<Pedido> findAllNoDelete();
     Optional<Pedido> findById(Long id);
 
     void guardarPedido(Pedido pedido);

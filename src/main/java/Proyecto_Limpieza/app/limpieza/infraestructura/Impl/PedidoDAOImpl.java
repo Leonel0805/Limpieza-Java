@@ -21,6 +21,11 @@ public class PedidoDAOImpl implements IPedidoDAO {
     }
 
     @Override
+    public List<Pedido> findAllNoDelete() {
+        return pedidoRepository.findAllEstadoNoCancelado();
+    }
+
+    @Override
     public Optional<Pedido> findById(Long id) {
         return pedidoRepository.findById(id);
     }

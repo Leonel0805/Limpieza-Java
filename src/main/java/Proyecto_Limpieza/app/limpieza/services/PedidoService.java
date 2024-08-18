@@ -33,6 +33,15 @@ public class PedidoService{
         return pedidosResponse;
     }
 
+    public List<ListadoPedidoDTO> findAllNoDelete() {
+
+        List<ListadoPedidoDTO> pedidosResponse = pedidoDAOImpl.findAllNoDelete().stream()
+                .map(pedido -> new ListadoPedidoDTO(pedido))
+                .collect(Collectors.toList());
+
+        return pedidosResponse;
+    }
+
 
     public ListadoPedidoDTO findById(Long id) {
 

@@ -32,7 +32,7 @@ public class PedidoController {
     @GetMapping
     public ResponseEntity<?> findAll() {
 
-        List<ListadoPedidoDTO> pedidosResponse = pedidoService.findAll();
+        List<ListadoPedidoDTO> pedidosResponse = pedidoService.findAllNoDelete();
         return ResponseEntity.status(HttpStatus.OK).body(pedidosResponse);
     }
 
@@ -82,7 +82,7 @@ public class PedidoController {
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
 
         ListadoPedidoDTO pedidoResponse = pedidoService.deleteById(id);
-        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido 'CANCELADO' correctamente!");
+        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido 'ELIMINADO' correctamente!");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
