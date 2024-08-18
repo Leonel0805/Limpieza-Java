@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/articulo")
+@RequestMapping("/api/articulos")
 public class ArticuloController {
 
     @Autowired

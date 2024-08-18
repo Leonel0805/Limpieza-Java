@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/encargado")
+@RequestMapping("/api/encargados")
 public class EncargadoController {
 
     @Autowired
