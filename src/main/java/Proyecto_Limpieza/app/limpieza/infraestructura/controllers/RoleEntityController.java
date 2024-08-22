@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.relation.Role;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,18 +49,9 @@ public class RoleEntityController {
 //        permission4.setName("DeletePermission");
 //        permissionEntityRepository.save(permission4);
 
-        RoleEntity rol = new RoleEntity(rolDTO);
-
-        Set<PermissionEntity> permissionList = rolDTO.permission_ids().stream()
-                        .map(id -> permissionEntityRepository.findById(id))
-                        .filter(Optional::isPresent) // Filtra los permisos que se encontraron
-                        .map(Optional::get) // Obtiene el valor del Optional
-                        .collect(Collectors.toSet()); // Recolecta en un Set
+        RoleEntity rol = roleEntityService.findByRoleName(rolDTO);
 
 
-        rol.setPermissions(permissionList);
-
-        roleEntityService.guardarRoleEntity(rol);
         return ResponseEntity.ok(rol);
     }
 }

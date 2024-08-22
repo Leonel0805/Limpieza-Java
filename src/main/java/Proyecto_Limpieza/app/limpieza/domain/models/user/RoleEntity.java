@@ -25,7 +25,7 @@ public class RoleEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true)
     private RoleEnum roleName;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -35,5 +35,9 @@ public class RoleEntity {
     public RoleEntity(RolDTO rolDTO) {
 
         this.roleName = rolDTO.roleName();
+    }
+
+    public void addAllPermission(Set<PermissionEntity> permission) {
+        permissions.addAll(permission);
     }
 }
