@@ -36,7 +36,7 @@ public class EncargadoController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        Optional<Encargado> encargadoOptional = encargadoService.findByIdIsActive(id, Boolean.TRUE);
+        Optional<Encargado> encargadoOptional = encargadoService.findByIdAndIsEnabled(id, Boolean.TRUE);
 
         if (encargadoOptional.isEmpty()) {
             APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se encontró ningún encargado");

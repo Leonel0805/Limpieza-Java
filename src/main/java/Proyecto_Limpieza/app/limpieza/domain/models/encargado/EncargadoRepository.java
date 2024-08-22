@@ -13,5 +13,5 @@ public interface EncargadoRepository extends JpaRepository<Encargado, Long> {
     @Query(value = "SELECT * FROM encargados WHERE is_active = True", nativeQuery = true)
     List<Encargado> findAll();
 
-    Optional<Encargado> findByIdAndIsActive(Long id, Boolean isActive);
+    Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive);
 }

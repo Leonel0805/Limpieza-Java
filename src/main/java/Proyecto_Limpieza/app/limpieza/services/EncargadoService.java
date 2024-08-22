@@ -29,8 +29,8 @@ public class EncargadoService {
     }
 
 
-    public Optional<Encargado> findByIdIsActive(Long id, Boolean isActive) {
-        return persistencia.findByIdAndIsActive(id, isActive);
+    public Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive) {
+        return persistencia.findByIdAndIsEnabled(id, isActive);
     }
 
 
@@ -44,7 +44,7 @@ public class EncargadoService {
 
     public ListadoEncargadoDTO actualizarEncargado(Long id, EncargadoDTO encargadoDTO) {
 
-        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsActive(id, Boolean.TRUE);
+        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsEnabled(id, Boolean.TRUE);
         if (encargadoOptional.isEmpty()) {
             return null;
         }
@@ -61,7 +61,7 @@ public class EncargadoService {
     public ListadoEncargadoDTO deleteById(Long id){
 
 //        buscamos el encargado por id
-        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsActive(id, Boolean.TRUE);
+        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsEnabled(id, Boolean.TRUE);
 
         System.out.println(encargadoOptional);
         if (encargadoOptional.isEmpty()) {
@@ -69,7 +69,7 @@ public class EncargadoService {
         }
 
         Encargado encargado = encargadoOptional.get();
-        encargado.setIsActive(Boolean.FALSE);
+        encargado.setIsEnabled(Boolean.FALSE);
         persistencia.guardarEncargado(encargado);
 
         return new ListadoEncargadoDTO(encargado);
@@ -78,7 +78,7 @@ public class EncargadoService {
     //    Metodos
     public void actualizarValores(EncargadoDTO encargadoDTO, Encargado encargado) {
 
-        encargado.setName(encargadoDTO.name());
+        encargado.setUsername(encargadoDTO.name());
         encargado.setEmail(encargadoDTO.email());
         encargado.setPassword(encargadoDTO.password());
         encargado.setDNI(encargadoDTO.DNI());

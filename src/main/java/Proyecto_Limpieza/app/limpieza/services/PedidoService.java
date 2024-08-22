@@ -63,7 +63,7 @@ public class PedidoService{
 
     public ListadoPedidoDTO guardarPedido(PedidoDTO pedidoDTO) {
 
-        Optional<Encargado> encargadoOptional = encargadoService.findByIdIsActive(pedidoDTO.encargado_id(), Boolean.TRUE);
+        Optional<Encargado> encargadoOptional = encargadoService.findByIdAndIsEnabled(pedidoDTO.encargado_id(), Boolean.TRUE);
 
         if (encargadoOptional.isEmpty()) {
             return null;

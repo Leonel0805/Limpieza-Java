@@ -14,6 +14,6 @@ public record EncargadoPedidoDTO(
         String apellido
 ) {
     public EncargadoPedidoDTO(Encargado encargado) {
-        this(encargado.getId(), encargado.getDNI(), encargado.getName(), encargado.getApellido());
+        this(encargado.getId(), encargado.getDNI(), encargado.getUsername(), encargado.getApellido());
     }
 }

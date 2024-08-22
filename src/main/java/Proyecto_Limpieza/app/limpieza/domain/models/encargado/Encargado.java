@@ -2,7 +2,7 @@ package Proyecto_Limpieza.app.limpieza.domain.models.encargado;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.edificio.Edificio;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
-import Proyecto_Limpieza.app.limpieza.domain.models.user.User;
+import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Encargado extends User {
+public class Encargado extends UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Encargado extends User {
 
 
     public Encargado(EncargadoDTO encargadoDTO) {
-        super(encargadoDTO.name(), encargadoDTO.email(), encargadoDTO.password(), Boolean.TRUE);
+        super(encargadoDTO.name(), encargadoDTO.email(), encargadoDTO.password());
         this.DNI = encargadoDTO.DNI();
         this.apellido = encargadoDTO.apellido();
         this.edificio = new Edificio(encargadoDTO.edificio());

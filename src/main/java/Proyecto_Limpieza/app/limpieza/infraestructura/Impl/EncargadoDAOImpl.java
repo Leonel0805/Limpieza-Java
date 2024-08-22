@@ -21,8 +21,8 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
     }
 
     @Override
-    public Optional<Encargado> findByIdAndIsActive(Long id, Boolean isActive) {
-        return encargadoRepository.findByIdAndIsActive(id, isActive);
+    public Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive) {
+        return encargadoRepository.findByIdAndIsEnabled(id, isActive);
     }
 
     @Override

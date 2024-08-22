@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface IEncargadoDAO {
 
     List<Encargado> findAll();
-    Optional<Encargado> findByIdAndIsActive(Long id, Boolean isActive);
+    Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive);
 
     Encargado guardarEncargado(Encargado encargado);
 //

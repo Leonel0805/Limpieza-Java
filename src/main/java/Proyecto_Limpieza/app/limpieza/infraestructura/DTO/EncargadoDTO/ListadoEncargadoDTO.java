@@ -19,7 +19,7 @@ public record ListadoEncargadoDTO (
         List<ListadoPedidoDTO> pedidos
 ){
     public ListadoEncargadoDTO(Encargado encargado) {
-        this(encargado.getId(), encargado.getDNI(), encargado.getName(), encargado.getApellido(), new EdificioDTO(encargado.getEdificio()),
+        this(encargado.getId(), encargado.getDNI(), encargado.getUsername(), encargado.getApellido(), new EdificioDTO(encargado.getEdificio()),
                 encargado.getPedidos().stream()
                         .map(pedido -> new ListadoPedidoDTO(pedido))
                         .collect(Collectors.toList())

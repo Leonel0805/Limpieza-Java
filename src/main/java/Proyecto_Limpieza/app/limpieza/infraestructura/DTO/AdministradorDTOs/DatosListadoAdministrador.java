@@ -12,6 +12,6 @@ public record DatosListadoAdministrador(
 ) {
 
     public DatosListadoAdministrador(Administrador admin) {
-        this(admin.getId(), admin.getName(), admin.getEmail(), admin.getPassword());
+        this(admin.getId(), admin.getUsername(), admin.getEmail(), admin.getPassword());
     }
 }

@@ -56,8 +56,13 @@ public class AdministradorController {
 
 //        Convertimos lo enviado por el client en un objeto
         Administrador admin = new Administrador(datosadministrador);
+
+//        agregamos rol
+//        admin.getRoles().add()
+
 //        Lo guardamos en la database
         administradorService.guardarAdmin(admin);
+
 //      Modificamos la forma de ver los datos, enviar DTO
         DatosListadoAdministrador adminDTO = new DatosListadoAdministrador(admin);
 
@@ -82,7 +87,7 @@ public class AdministradorController {
         Administrador admin = adminOptional.get();
 
 //        Seteamos sus nuevos valores
-        admin.setName(datosAdministrador.name());
+        admin.setUsername(datosAdministrador.name());
         admin.setEmail(datosAdministrador.email());
         admin.setPassword(datosAdministrador.password());
 
@@ -109,7 +114,7 @@ public class AdministradorController {
 
         Administrador admin = adminOptional.get();
 
-        admin.setIsActive(Boolean.FALSE);
+        admin.setIsEnabled(Boolean.FALSE);
         administradorService.guardarAdmin(admin);
 
         DatosListadoAdministrador adminDTO = new DatosListadoAdministrador(admin);
