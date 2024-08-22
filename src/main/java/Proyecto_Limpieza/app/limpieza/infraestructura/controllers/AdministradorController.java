@@ -2,8 +2,8 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.controllers;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResponseDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.DatosAdministrador;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.DatosListadoAdministrador;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.ListadoAdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.services.AdministradorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ public class AdministradorController {
 
 //    Get All admins
     @GetMapping
-    public ResponseEntity<List<DatosListadoAdministrador>> findAll() {
+    public ResponseEntity<List<ListadoAdministradorDTO>> findAll() {
 //        Convertimos a lista de DTO para mostrar los datos que queremos
-        List<DatosListadoAdministrador> list_administradores = administradorService.findAll().stream()
-                .map(administrador -> new DatosListadoAdministrador(administrador))
+        List<ListadoAdministradorDTO> list_administradores = administradorService.findAll().stream()
+                .map(administrador -> new ListadoAdministradorDTO(administrador))
                 .collect(Collectors.toList());
 
 
@@ -37,13 +37,13 @@ public class AdministradorController {
 
 //    Get admin byid
     @GetMapping("/{id}")
-    public ResponseEntity<DatosListadoAdministrador> findById(@PathVariable Long id) {
+    public ResponseEntity<ListadoAdministradorDTO> findById(@PathVariable Long id) {
 
         Optional<Administrador> adminOptional = administradorService.findById(id);
 
         if (adminOptional.isPresent()) {
             Administrador admin = adminOptional.get();
-            DatosListadoAdministrador adminReturn = new DatosListadoAdministrador(admin);
+            ListadoAdministradorDTO adminReturn = new ListadoAdministradorDTO(admin);
             return ResponseEntity.ok(adminReturn);
         } else {
             return ResponseEntity.notFound().build();
@@ -52,19 +52,9 @@ public class AdministradorController {
 
 //    POST admin
     @PostMapping
-    public ResponseEntity guardarAdmin(@RequestBody @Valid DatosAdministrador datosadministrador) throws URISyntaxException {
+    public ResponseEntity guardarAdmin(@RequestBody @Valid AdministradorDTO administradorDTO) throws URISyntaxException {
 
-//        Convertimos lo enviado por el client en un objeto
-        Administrador admin = new Administrador(datosadministrador);
-
-//        agregamos rol
-//        admin.getRoles().add()
-
-//        Lo guardamos en la database
-        administradorService.guardarAdmin(admin);
-
-//      Modificamos la forma de ver los datos, enviar DTO
-        DatosListadoAdministrador adminDTO = new DatosListadoAdministrador(admin);
+        ListadoAdministradorDTO adminDTO = administradorService.crearAdmin(administradorDTO);
 
         APIResponseDTO response = new APIResponseDTO(adminDTO, "Administrador creado correctamente!");
 
@@ -74,7 +64,7 @@ public class AdministradorController {
 
 //    PUT
     @PutMapping("/{id}")
-    public ResponseEntity actualizarAdmin(@PathVariable Long id, @RequestBody @Valid DatosAdministrador datosAdministrador) {
+    public ResponseEntity actualizarAdmin(@PathVariable Long id, @RequestBody @Valid AdministradorDTO datosAdministrador) {
 
 //        Obtenemos el admin por id
         Optional<Administrador> adminOptional = administradorService.findById(id);
@@ -95,7 +85,7 @@ public class AdministradorController {
         administradorService.guardarAdmin(admin);
 
 //        Convertimos en DTO al admin a mostrar
-        DatosListadoAdministrador adminDTO = new DatosListadoAdministrador(admin);
+        ListadoAdministradorDTO adminDTO = new ListadoAdministradorDTO(admin);
 
         APIResponseDTO response = new APIResponseDTO(adminDTO, "Administrador actualizado correctamente!");
 
@@ -117,7 +107,7 @@ public class AdministradorController {
         admin.setIsEnabled(Boolean.FALSE);
         administradorService.guardarAdmin(admin);
 
-        DatosListadoAdministrador adminDTO = new DatosListadoAdministrador(admin);
+        ListadoAdministradorDTO adminDTO = new ListadoAdministradorDTO(admin);
 
         APIResponseDTO response = new APIResponseDTO(adminDTO, "Aministrador eliminado");
 

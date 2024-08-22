@@ -1,11 +1,13 @@
 package Proyecto_Limpieza.app.limpieza.domain.models.user;
 
+import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,8 +16,13 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass //notacion para indicar que es una clasePadre y herede los campos a los hijos
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String username;
     @Column(unique = true)
@@ -50,6 +57,5 @@ public class UserEntity {
         this.accountNoExpired = Boolean.TRUE;
         this.accountNoLocked = Boolean.TRUE;
         this.credentialNoExpired = Boolean.TRUE;
-
     }
 }

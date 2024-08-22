@@ -49,8 +49,7 @@ public class RoleEntityController {
 //        permission4.setName("DeletePermission");
 //        permissionEntityRepository.save(permission4);
 
-        RoleEntity rol = roleEntityService.findByRoleName(rolDTO);
-
+        RoleEntity rol = roleEntityService.crearRolYActualizar(rolDTO);
 
         return ResponseEntity.ok(rol);
     }

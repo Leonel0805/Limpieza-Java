@@ -2,7 +2,7 @@ package Proyecto_Limpieza.app.limpieza.domain.models.administrador;
 
 
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.DatosAdministrador;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,15 +13,14 @@ import lombok.Setter;
 @Table(name = "administradores")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Administrador extends UserEntity {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    public Administrador(DatosAdministrador datosadministrador) {
+    public Administrador(AdministradorDTO datosadministrador) {
         super(datosadministrador.name(), datosadministrador.email(), datosadministrador.password());
 
     }

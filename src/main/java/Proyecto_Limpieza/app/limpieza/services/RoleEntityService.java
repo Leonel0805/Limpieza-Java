@@ -26,15 +26,11 @@ public class RoleEntityService {
         persistencia.guardarRole(roleEntity);
     }
 
-    public RoleEntity findByRoleName(RolDTO rolDTO) {
+    public RoleEntity crearRolYActualizar(RolDTO rolDTO) {
 
         Optional<RoleEntity> roleOptional = persistencia.findByRoleName(rolDTO.roleName());
 
-        Set<PermissionEntity> permissionList = rolDTO.permission_ids().stream()
-                .map(id -> permissionEntityRepository.findById(id))
-                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
-                .map(Optional::get) // Obtiene el valor del Optional
-                .collect(Collectors.toSet()); // Recolecta en un Set
+        Set<PermissionEntity> permissionList = this.addPermissionsRol(rolDTO);
 
         if (roleOptional.isEmpty()) {
             RoleEntity rolNuevo = new RoleEntity(rolDTO);
@@ -49,5 +45,15 @@ public class RoleEntityService {
         guardarRoleEntity(rolEncontrado);
 
         return rolEncontrado;
+    }
+
+    public Set<PermissionEntity> addPermissionsRol(RolDTO rolDTO) {
+        Set<PermissionEntity> permissionList = rolDTO.permission_ids().stream()
+                .map(id -> permissionEntityRepository.findById(id))
+                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
+                .map(Optional::get) // Obtiene el valor del Optional
+                .collect(Collectors.toSet()); // Recolecta en un Set
+
+        return permissionList;
     }
 }

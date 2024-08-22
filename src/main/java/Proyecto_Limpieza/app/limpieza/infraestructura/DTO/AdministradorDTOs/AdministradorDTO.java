@@ -1,7 +1,10 @@
 package Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs;
+import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEnum;
 import jakarta.validation.constraints.NotBlank;
 
-public record DatosAdministrador(
+import java.util.Set;
+
+public record AdministradorDTO(
 
         @NotBlank
         String name,
@@ -10,7 +13,8 @@ public record DatosAdministrador(
         String email,
 
         @NotBlank(message = "Password no puede estar vació") //no lanza el mensaje
-        String password
+        String password,
 
+        Set<RoleEnum> roles
 ) {
 }

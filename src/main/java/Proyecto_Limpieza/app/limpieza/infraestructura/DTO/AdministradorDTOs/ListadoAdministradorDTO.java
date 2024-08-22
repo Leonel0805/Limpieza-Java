@@ -2,7 +2,7 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
 
-public record DatosListadoAdministrador(
+public record ListadoAdministradorDTO(
 
         Long id,
         String name,
@@ -11,7 +11,7 @@ public record DatosListadoAdministrador(
 
 ) {
 
-    public DatosListadoAdministrador(Administrador admin) {
+    public ListadoAdministradorDTO(Administrador admin) {
         this(admin.getId(), admin.getUsername(), admin.getEmail(), admin.getPassword());
     }
 }
