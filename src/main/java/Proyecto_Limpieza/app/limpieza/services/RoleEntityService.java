@@ -1,14 +1,13 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.PermissionEntityRepository;
-import Proyecto_Limpieza.app.limpieza.domain.models.user.PermissionEntity;
-import Proyecto_Limpieza.app.limpieza.domain.models.user.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.permission.PermissionEntityRepository;
+import Proyecto_Limpieza.app.limpieza.domain.models.permission.PermissionEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.RolesDTOs.RolDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.RoleEntityDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ public class RoleEntityService {
     RoleEntityDAOImpl persistencia;
 
     @Autowired
-    PermissionEntityRepository permissionEntityRepository;
+    PermissionEntityService permissionEntityService;
 
     public void guardarRoleEntity(RoleEntity roleEntity) {
         persistencia.guardarRole(roleEntity);
@@ -30,7 +29,7 @@ public class RoleEntityService {
 
         Optional<RoleEntity> roleOptional = persistencia.findByRoleName(rolDTO.roleName());
 
-        Set<PermissionEntity> permissionList = this.addPermissionsRol(rolDTO);
+        Set<PermissionEntity> permissionList = permissionEntityService.addPermissionsRol(rolDTO);
 
         if (roleOptional.isEmpty()) {
             RoleEntity rolNuevo = new RoleEntity(rolDTO);
@@ -47,13 +46,5 @@ public class RoleEntityService {
         return rolEncontrado;
     }
 
-    public Set<PermissionEntity> addPermissionsRol(RolDTO rolDTO) {
-        Set<PermissionEntity> permissionList = rolDTO.permission_ids().stream()
-                .map(id -> permissionEntityRepository.findById(id))
-                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
-                .map(Optional::get) // Obtiene el valor del Optional
-                .collect(Collectors.toSet()); // Recolecta en un Set
 
-        return permissionList;
-    }
 }

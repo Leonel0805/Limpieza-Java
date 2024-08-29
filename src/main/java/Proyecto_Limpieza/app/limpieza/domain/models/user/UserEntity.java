@@ -1,23 +1,21 @@
 package Proyecto_Limpieza.app.limpieza.domain.models.user;
 
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEnum;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.management.relation.Role;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter //Lombock
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
 
     @Id

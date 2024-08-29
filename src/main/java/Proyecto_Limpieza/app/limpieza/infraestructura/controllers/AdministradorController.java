@@ -25,12 +25,10 @@ public class AdministradorController {
 
 //    Get All admins
     @GetMapping
-    public ResponseEntity<List<ListadoAdministradorDTO>> findAll() {
-//        Convertimos a lista de DTO para mostrar los datos que queremos
-        List<ListadoAdministradorDTO> list_administradores = administradorService.findAll().stream()
-                .map(administrador -> new ListadoAdministradorDTO(administrador))
-                .collect(Collectors.toList());
+    public ResponseEntity<?> findAll() {
 
+//        Convertimos a lista de DTO para mostrar los datos que queremos
+        List<ListadoAdministradorDTO> list_administradores = administradorService.findAll();
 
         return ResponseEntity.ok(list_administradores);
     }
@@ -56,6 +54,10 @@ public class AdministradorController {
 
         ListadoAdministradorDTO adminDTO = administradorService.crearAdmin(administradorDTO);
 
+        if (adminDTO == null) {
+            APIResponseDTO response = new APIResponseDTO(adminDTO, "No se pudo crear el admin.");
+            return ResponseEntity.badRequest().body(response);
+        }
         APIResponseDTO response = new APIResponseDTO(adminDTO, "Administrador creado correctamente!");
 
         return ResponseEntity.created(new URI("/api/administradores"))

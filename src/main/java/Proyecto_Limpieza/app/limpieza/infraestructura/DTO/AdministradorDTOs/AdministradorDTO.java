@@ -1,5 +1,5 @@
 package Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs;
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEnum;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Set;

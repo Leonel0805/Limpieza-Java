@@ -1,9 +1,8 @@
 package Proyecto_Limpieza.app.limpieza.infraestructura.persistencia;
 
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEnum;
-import Proyecto_Limpieza.app.limpieza.domain.models.user.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 
-import javax.management.relation.Role;
 import java.util.Optional;
 
 public interface IRoleEntityDAO {

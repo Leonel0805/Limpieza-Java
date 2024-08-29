@@ -1,6 +1,5 @@
-package Proyecto_Limpieza.app.limpieza.domain.models.roles;
+package Proyecto_Limpieza.app.limpieza.domain.models.role;
 
-import Proyecto_Limpieza.app.limpieza.domain.models.user.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

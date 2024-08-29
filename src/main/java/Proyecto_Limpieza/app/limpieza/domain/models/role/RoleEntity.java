@@ -1,7 +1,7 @@
-package Proyecto_Limpieza.app.limpieza.domain.models.user;
+package Proyecto_Limpieza.app.limpieza.domain.models.role;
 
 
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEnum;
+import Proyecto_Limpieza.app.limpieza.domain.models.permission.PermissionEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.RolesDTOs.RolDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

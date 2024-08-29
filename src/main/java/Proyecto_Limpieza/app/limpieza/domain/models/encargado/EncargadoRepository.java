@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface EncargadoRepository extends JpaRepository<Encargado, Long> {
 
-    @Query(value = "SELECT * FROM encargados WHERE is_active = True", nativeQuery = true)
+    @Query(value = "SELECT * FROM encargados e JOIN user_entity u ON e.id = u.id WHERE is_enabled = True", nativeQuery = true)
     List<Encargado> findAll();
 
     Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive);

@@ -65,7 +65,9 @@ public class SecurityConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
 //        el provider necesita estos 2 componentes
+
         provider.setUserDetailsService(userDetailsService());
+//        provider.setUserDetailsService(null); //creamos user details service personalizado
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
@@ -90,6 +92,11 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(userDetailsList);
     }
+
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

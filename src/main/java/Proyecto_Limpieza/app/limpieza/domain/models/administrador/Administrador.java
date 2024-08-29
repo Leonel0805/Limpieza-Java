@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name = "administradores")
 @Getter
 @Setter
-
+@AllArgsConstructor
 public class Administrador extends UserEntity {
 //
 //    @Id

@@ -20,9 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Encargado extends UserEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
     private String DNI;
     private String apellido;

@@ -1,12 +1,10 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.PermissionEntityRepository;
-import Proyecto_Limpieza.app.limpieza.domain.models.roles.RoleEntityRepository;
-import Proyecto_Limpieza.app.limpieza.domain.models.user.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.ListadoAdministradorDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.RoleEntityDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IAdministradorDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +23,14 @@ public class AdministradorService {
     @Autowired
     RoleEntityRepository roleEntityRepository;
 
-    public List<Administrador> findAll() {
-        return iAdministradorDAO.findAll();
+    public List<ListadoAdministradorDTO> findAll() {
+
+            List<ListadoAdministradorDTO> administradorList = iAdministradorDAO.findAll().stream()
+                    .map(administrador -> new ListadoAdministradorDTO(administrador))
+                    .collect(Collectors.toList());
+
+        return administradorList;
+
     }
 
     public Optional<Administrador> findById(Long id) {
@@ -46,7 +50,12 @@ public class AdministradorService {
         Administrador admin = new Administrador(administradorDTO);
 
         Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
-        guardarAdmin(admin);
+
+        if (adminRoles == null) {
+            return null;
+        }
+
+        guardarAdmin(adminRoles);
 
         return new ListadoAdministradorDTO(adminRoles);
     }
@@ -59,12 +68,15 @@ public class AdministradorService {
                 .map(Optional::get) // Obtiene el valor del Optional
                 .collect(Collectors.toSet()); // Recolecta en un Set;
 
-        System.out.println("roles asignados");
         System.out.println(rolesList);
+
+        if (rolesList.isEmpty()) {
+            return null;
+        }
+
         admin.getRoles().addAll(rolesList);
-
-
         return admin;
+
     }
 
 }

@@ -1,4 +1,4 @@
-package Proyecto_Limpieza.app.limpieza.domain.models.user;
+package Proyecto_Limpieza.app.limpieza.domain.models.permission;
 
 
 import jakarta.persistence.*;
@@ -19,6 +19,7 @@ public class PermissionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
-    private String name;
+    private PermissionEnum name;
 }
