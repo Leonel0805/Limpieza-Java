@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name = "administradores")
@@ -20,8 +21,8 @@ public class Administrador extends UserEntity {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 
-    public Administrador(AdministradorDTO datosadministrador) {
-        super(datosadministrador.name(), datosadministrador.email(), datosadministrador.password());
+    public Administrador(AdministradorDTO datosadministrador, String hashPassword) {
+        super(datosadministrador.name(), datosadministrador.email(), hashPassword);
 
     }
 }

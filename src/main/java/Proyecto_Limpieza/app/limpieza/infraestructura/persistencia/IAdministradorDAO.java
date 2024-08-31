@@ -10,6 +10,8 @@ public interface IAdministradorDAO {
     List<Administrador> findAll();
     Optional<Administrador> findById(Long id);
 
+    Optional<Administrador> findByIdAndIsEnabled(Long id);
+
     void guardarAdmin(Administrador admin);
 
     void deleteById(Long id);

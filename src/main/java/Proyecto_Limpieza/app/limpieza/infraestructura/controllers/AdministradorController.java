@@ -7,6 +7,7 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.List
 import Proyecto_Limpieza.app.limpieza.services.AdministradorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,17 +36,16 @@ public class AdministradorController {
 
 //    Get admin byid
     @GetMapping("/{id}")
-    public ResponseEntity<ListadoAdministradorDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        Optional<Administrador> adminOptional = administradorService.findById(id);
+        ListadoAdministradorDTO adminResponse = administradorService.findByIdAndIsEnabled(id);
 
-        if (adminOptional.isPresent()) {
-            Administrador admin = adminOptional.get();
-            ListadoAdministradorDTO adminReturn = new ListadoAdministradorDTO(admin);
-            return ResponseEntity.ok(adminReturn);
-        } else {
-            return ResponseEntity.notFound().build();
+        if (adminResponse == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo encontrar ningún administrador");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body(adminResponse);
     }
 
 //    POST admin

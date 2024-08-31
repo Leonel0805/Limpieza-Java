@@ -40,7 +40,7 @@ public class ArticuloController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('CREATE')")
+    @PreAuthorize("hasAuthority('CREATE') or hasAuthority('READ')")
     public ResponseEntity<ListadoArticuloDTO> findById(@PathVariable Long id) {
 
         Optional<Articulo> articuloOptional = articuloService.findById(id);
@@ -58,6 +58,7 @@ public class ArticuloController {
 
     //    Guardar articulo
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity guardarArticulo(@RequestBody @Valid ArticuloDTO articuloDTO) {
 
         Articulo articulo = new Articulo(articuloDTO);

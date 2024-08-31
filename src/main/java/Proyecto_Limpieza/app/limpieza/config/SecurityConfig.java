@@ -1,5 +1,6 @@
 package Proyecto_Limpieza.app.limpieza.config;
 
+import Proyecto_Limpieza.app.limpieza.services.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -45,7 +47,7 @@ public class SecurityConfig {
 //                    http.requestMatchers(HttpMethod.GET, "/api/articulos").permitAll();
 //
 ////                    Configurar endpoints privados
-//                    http.requestMatchers(HttpMethod.POST, "/api/articulos").hasAuthority("CREATE");
+//                    http.requestMatchers(HttpMethod.POST, "/api/articulos").hasRole("ADMIN");
 //
 ////                    Configurar endpoints denegados
 //                    http.anyRequest().denyAll();
@@ -61,37 +63,37 @@ public class SecurityConfig {
 
     //    Provider database
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
 //        el provider necesita estos 2 componentes
 
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(userDetailService);
 //        provider.setUserDetailsService(null); //creamos user details service personalizado
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-
-//        simulamos la base de datos crenando un UserDetails
-        List<UserDetails> userDetailsList = new ArrayList<>();
-
-        userDetailsList.add(User.withUsername("leonel")
-                .password("leonel")
-                .roles("ADMIN")
-                .authorities("READ", "CREATE")
-                .build());
-
-        userDetailsList.add(User.withUsername("juan")
-                .password("juan")
-                .roles("USER")
-                .authorities("READ")
-                .build());
-
-        return new InMemoryUserDetailsManager(userDetailsList);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//
+////        simulamos la base de datos crenando un UserDetails
+//        List<UserDetails> userDetailsList = new ArrayList<>();
+//
+//        userDetailsList.add(User.withUsername("leonel")
+//                .password("leonel")
+//                .roles("ADMIN")
+//                .authorities("READ", "CREATE")
+//                .build());
+//
+//        userDetailsList.add(User.withUsername("juan")
+//                .password("juan")
+//                .roles("USER")
+//                .authorities("READ")
+//                .build());
+//
+//        return new InMemoryUserDetailsManager(userDetailsList);
+//    }
 
 //    @Bean
 //    public UserDetailsService userDetailsService() {
@@ -100,6 +102,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+//        este es para pruebas nada mas
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }

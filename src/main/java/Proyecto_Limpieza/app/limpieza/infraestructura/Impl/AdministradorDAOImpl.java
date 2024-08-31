@@ -26,6 +26,11 @@ public class AdministradorDAOImpl implements IAdministradorDAO {
     }
 
     @Override
+    public Optional<Administrador> findByIdAndIsEnabled(Long id) {
+        return administradorRepository.findByIdAndIsEnabled(id);
+    }
+
+    @Override
     public void guardarAdmin(Administrador admin) {
         administradorRepository.save(admin);
     }

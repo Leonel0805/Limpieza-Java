@@ -5,8 +5,10 @@ import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.ListadoAdministradorDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.AdministradorDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IAdministradorDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,14 +20,17 @@ import java.util.stream.Collectors;
 public class AdministradorService {
 
     @Autowired
-    IAdministradorDAO iAdministradorDAO;
+    AdministradorDAOImpl persistencia;
 
     @Autowired
     RoleEntityRepository roleEntityRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<ListadoAdministradorDTO> findAll() {
 
-            List<ListadoAdministradorDTO> administradorList = iAdministradorDAO.findAll().stream()
+            List<ListadoAdministradorDTO> administradorList = persistencia.findAll().stream()
                     .map(administrador -> new ListadoAdministradorDTO(administrador))
                     .collect(Collectors.toList());
 
@@ -34,20 +39,35 @@ public class AdministradorService {
     }
 
     public Optional<Administrador> findById(Long id) {
-        return iAdministradorDAO.findById(id);
+        return persistencia.findById(id);
+    }
+
+    public ListadoAdministradorDTO findByIdAndIsEnabled(Long id) {
+
+        Optional<Administrador> adminOptional = persistencia.findByIdAndIsEnabled(id);
+
+        if (adminOptional.isEmpty()) {
+            return null;
+        }
+
+        Administrador admin = adminOptional.get();
+        return new ListadoAdministradorDTO(admin);
     }
 
     public void guardarAdmin(Administrador admin) {
-        iAdministradorDAO.guardarAdmin(admin);
+        persistencia.guardarAdmin(admin);
     }
 
     public void deleteById(Long id) {
-        iAdministradorDAO.deleteById(id);
+        persistencia.deleteById(id);
     }
 
     public ListadoAdministradorDTO crearAdmin(AdministradorDTO administradorDTO) {
 
-        Administrador admin = new Administrador(administradorDTO);
+//        hasheamos la password
+        String hashPassword = passwordEncoder.encode(administradorDTO.password());
+
+        Administrador admin = new Administrador(administradorDTO, hashPassword);
 
         Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
 
