@@ -16,4 +16,8 @@ public interface AdministradorRepository extends JpaRepository<Administrador, Lo
 
     @Query(value = "SELECT * FROM administradores a JOIN user_entity u ON a.id = u.id WHERE a.id = :id AND u.is_enabled = TRUE", nativeQuery = true)
     Optional<Administrador> findByIdAndIsEnabled(@Param("id")Long id);
+
+
+    @Query(value = "SELECT * FROM administradores a JOIN user_entity u ON a.id = u.id WHERE u.email = :email AND u.is_enabled = true", nativeQuery = true)
+    Optional<Administrador> findByEmailAndIsEnabled(@Param("email") String email);
 }

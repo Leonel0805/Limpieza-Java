@@ -16,19 +16,23 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
     EncargadoRepository encargadoRepository;
 
     @Override
-    public List<Encargado> findAll() {
-        return encargadoRepository.findAll();
+    public List<Encargado> findAllIsEnabled() {
+        return encargadoRepository.findAllIsEnabled();
     }
 
     @Override
-    public Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive) {
-        return encargadoRepository.findByIdAndIsEnabled(id, isActive);
+    public Optional<Encargado> findByIdAndIsEnabled(Long id) {
+        return encargadoRepository.findByIdAndIsEnabled(id);
     }
 
     @Override
-    public Encargado guardarEncargado(Encargado encargado) {
+    public Optional<Encargado> findByEmailAndIsEnabled(String email) {
+        return encargadoRepository.findByEmailAndIsEnabled(email);
+    }
+
+    @Override
+    public void guardarEncargado(Encargado encargado) {
         encargadoRepository.save(encargado);
-        return encargado;
     }
 //
 //    @Override

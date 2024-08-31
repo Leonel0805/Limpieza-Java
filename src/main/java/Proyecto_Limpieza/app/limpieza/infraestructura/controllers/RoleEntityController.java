@@ -26,22 +26,6 @@ public class RoleEntityController {
     @PostMapping
     public ResponseEntity<?> guardarRoleEntity(@RequestBody RolDTO rolDTO) {
 
-//        PermissionEntity permission = new PermissionEntity();
-//        permission.setName("CreatePermission");
-//        permissionEntityRepository.save(permission);
-//
-//        PermissionEntity permission2 = new PermissionEntity();
-//        permission2.setName("ReadPermission");
-//        permissionEntityRepository.save(permission2);
-//
-//        PermissionEntity permission3 = new PermissionEntity();
-//        permission3.setName("UpdatePermission");
-//        permissionEntityRepository.save(permission3);
-//
-//        PermissionEntity permission4 = new PermissionEntity();
-//        permission4.setName("DeletePermission");
-//        permissionEntityRepository.save(permission4);
-
         RoleEntity rol = roleEntityService.crearRolYActualizar(rolDTO);
 
         return ResponseEntity.ok(rol);

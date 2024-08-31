@@ -45,15 +45,16 @@ public class ArticuloController {
     @PreAuthorize("hasAuthority('CREATE') or hasAuthority('READ')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        Articulo articulo = articuloService.findById(id);
+        try {
+            Articulo articulo = articuloService.findByIdAndStock(id);
+            ListadoArticuloDTO articuloDTO = new ListadoArticuloDTO(articulo);
+            return ResponseEntity.status(HttpStatus.OK).body(articuloDTO);
 
-        if (articulo == null) {
+        } catch (RuntimeException e) {
             APIResponseDTO response = new APIResponseDTO("BadRequest", "No se encontró el articulo");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        ListadoArticuloDTO articuloDTO = new ListadoArticuloDTO(articulo);
-        return ResponseEntity.status(HttpStatus.OK).body(articuloDTO);
     }
 
     //    POST
@@ -61,12 +62,18 @@ public class ArticuloController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity guardarArticulo(@RequestBody @Valid ArticuloDTO articuloDTO) {
 
-        Articulo articulo = articuloService.crearArticulo(articuloDTO);
+        try {
+            Articulo articulo = articuloService.crearArticulo(articuloDTO);
+            ListadoArticuloDTO articuloDTOList = new ListadoArticuloDTO(articulo);
+            APIResponseDTO response = new APIResponseDTO(articuloDTOList, "Articulo creado correctamente");
 
-        ListadoArticuloDTO articuloDTOList = new ListadoArticuloDTO(articulo);
-        APIResponseDTO response = new APIResponseDTO(articuloDTOList, "Articulo creado correctamente");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
     }
 
 //    PUT
@@ -74,34 +81,34 @@ public class ArticuloController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity actualizarArticulo(@PathVariable Long id, @RequestBody @Valid ArticuloDTO articuloDTO) {
 
-        Articulo articulo = articuloService.actualizarArticulo(id, articuloDTO);
+        try {
+            Articulo articulo = articuloService.actualizarArticulo(id, articuloDTO);
+            ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
+            APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo actualizado correctamente!");
 
-        if (articulo == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se encontró ningún articulo");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
-        ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
-        APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo actualizado correctamente!");
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity eliminarArticulo(@PathVariable Long id) {
 
-        Articulo articulo = articuloService.eliminarArticulo(id);
+        try {
+            Articulo articulo = articuloService.eliminarArticulo(id);
+            ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
+            APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo eliminado correctamente!");
 
-        if (articulo == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se encontró ningún articulo");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
-        APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo eliminado correctamente!");
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

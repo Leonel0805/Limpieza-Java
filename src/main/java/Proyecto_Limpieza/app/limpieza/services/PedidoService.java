@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 public class PedidoService{
 
     @Autowired
-    private PedidoDAOImpl pedidoDAOImpl;
+    private PedidoDAOImpl persistencia;
 
     @Autowired
     private EncargadoService encargadoService;
 
     public List<ListadoPedidoDTO> findAll() {
 
-        List<ListadoPedidoDTO> pedidosResponse = pedidoDAOImpl.findAll().stream()
+        List<ListadoPedidoDTO> pedidosResponse = persistencia.findAll().stream()
                 .map(pedido -> new ListadoPedidoDTO(pedido))
                 .collect(Collectors.toList());
 
@@ -35,7 +35,7 @@ public class PedidoService{
 
     public List<ListadoPedidoDTO> findAllNoDelete() {
 
-        List<ListadoPedidoDTO> pedidosResponse = pedidoDAOImpl.findAllNoDelete().stream()
+        List<ListadoPedidoDTO> pedidosResponse = persistencia.findAllNoDelete().stream()
                 .map(pedido -> new ListadoPedidoDTO(pedido))
                 .collect(Collectors.toList());
 
@@ -43,70 +43,51 @@ public class PedidoService{
     }
 
 
-    public ListadoPedidoDTO findById(Long id) {
+    public Pedido findById(Long id) {
 
-        Optional<Pedido> pedidoOptional = pedidoDAOImpl.findById(id);
+        Optional<Pedido> pedidoOptional = persistencia.findById(id);
 
         if (pedidoOptional.isEmpty()) {
-            return null;
+            throw new RuntimeException("Pedido no encontrado");
         }
 
         Pedido pedido = pedidoOptional.get();
 
-        ListadoPedidoDTO pedidoDTO = new ListadoPedidoDTO(pedido);
-        return  pedidoDTO;
+        return pedido;
     }
 
     public void save(Pedido pedido) {
-        pedidoDAOImpl.guardarPedido(pedido);
+        persistencia.guardarPedido(pedido);
     }
 
-    public ListadoPedidoDTO guardarPedido(PedidoDTO pedidoDTO) {
+    public Pedido guardarPedido(PedidoDTO pedidoDTO) {
 
-        Optional<Encargado> encargadoOptional = encargadoService.findByIdAndIsEnabled(pedidoDTO.encargado_id(), Boolean.TRUE);
+        Encargado encargado = encargadoService.findByIdAndIsEnabled(pedidoDTO.encargado_id()); //lanza exception
 
-        if (encargadoOptional.isEmpty()) {
-            return null;
-        }
-
-        Encargado encargado = encargadoOptional.get();
         Pedido pedido = new Pedido(pedidoDTO, encargado);
         this.save(pedido);
 
-        return new ListadoPedidoDTO(pedido);
+        return pedido;
     }
 
-    public ListadoPedidoDTO actualizarPedidoById(Long id, EstadoPedidoDTO estadoPedidoDTO) {
+    public Pedido actualizarPedidoById(Long id, EstadoPedidoDTO estadoPedidoDTO) {
 
-        Optional<Pedido> pedidoOptional = pedidoDAOImpl.findById(id);
+        Pedido pedido = this.findById(id);
         EstadoPedido estadoPedido = estadoPedidoDTO.estado();
 
-        if (pedidoOptional.isEmpty()) {
-            return null;
-        }
-
-        Pedido pedido = pedidoOptional.get();
         pedido.setEstado(estadoPedido);
-        pedidoDAOImpl.guardarPedido(pedido);
+        persistencia.guardarPedido(pedido);
 
-        ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
-        return pedidoResponse;
+        return pedido;
     }
 
-    public ListadoPedidoDTO deleteById(Long id) {
+    public Pedido deleteById(Long id) {
 
-        Optional<Pedido> pedidoOptional = pedidoDAOImpl.findById(id);
-
-        if (pedidoOptional == null) {
-            return null;
-        }
-
-        Pedido pedido = pedidoOptional.get();
+        Pedido pedido =  this.findById(id);
 
         pedido.setEstado(EstadoPedido.ELIMINADO);
         this.save(pedido);
 
-
-        return new ListadoPedidoDTO(pedido);
+        return pedido;
     }
 }

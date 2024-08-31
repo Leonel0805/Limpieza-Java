@@ -15,4 +15,6 @@ public interface IAdministradorDAO {
     void guardarAdmin(Administrador admin);
 
     void deleteById(Long id);
+
+    Optional<Administrador> findByEmailAndIsEnabled(String email);
 }

@@ -40,4 +40,11 @@ public class AdministradorDAOImpl implements IAdministradorDAO {
     public void deleteById(Long id) {
     administradorRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Administrador> findByEmailAndIsEnabled(String email) {
+        return administradorRepository.findByEmailAndIsEnabled(email);
+    }
+
+
 }

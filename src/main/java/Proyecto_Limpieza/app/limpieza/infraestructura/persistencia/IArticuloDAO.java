@@ -1,6 +1,7 @@
 package Proyecto_Limpieza.app.limpieza.infraestructura.persistencia;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface IArticuloDAO {
     Optional<Articulo> findById(Long id);
 
     Optional<Articulo> findByNombre(String nombre);
+
+    Optional<Articulo> findByIdAndStock(Long id);
 
     void guardarArticulo(Articulo articulo);
 

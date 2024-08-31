@@ -22,11 +22,12 @@ public class ArticuloService {
     }
 
 
-    public Articulo findById(Long id) {
-        Optional<Articulo> articuloOptional = persistencia.findById(id);
+    public Articulo findByIdAndStock(Long id) {
+
+        Optional<Articulo> articuloOptional = persistencia.findByIdAndStock(id);
 
         if (articuloOptional.isEmpty()) {
-            return null;
+            throw new RuntimeException("Articulo no encontrado o está sin stock");
         }
 
         Articulo articulo = articuloOptional.get();
@@ -55,11 +56,7 @@ public class ArticuloService {
 
     public Articulo actualizarArticulo(Long id, ArticuloDTO articuloDTO) {
 
-        Articulo articulo = this.findById(id);
-
-        if (articulo == null) {
-            return null;
-        }
+        Articulo articulo = this.findByIdAndStock(id);
 
         this.actualizarValores(articuloDTO, articulo);
         this.guardarArticulo(articulo);
@@ -69,14 +66,11 @@ public class ArticuloService {
 
     public Articulo eliminarArticulo(Long id) {
 
-        Articulo articulo = this.findById(id);
-
-        if (articulo == null) {
-            return null;
-        }
+        Articulo articulo = this.findByIdAndStock(id);
 
         articulo.setStock(0);
         articulo.setSin_stock(Boolean.TRUE);
+
         this.guardarArticulo(articulo);
 
         return articulo;

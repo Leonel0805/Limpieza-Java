@@ -2,6 +2,7 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.edificioDTO.EdificioDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
@@ -20,7 +21,6 @@ public record EncargadoDTO(
         @NotBlank
         String apellido,
 
-        EdificioDTO edificio,
-        List<Pedido> pedidos
+        EdificioDTO edificio
 ) {
 }

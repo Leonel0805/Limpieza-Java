@@ -1,6 +1,7 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
+import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
@@ -53,7 +54,7 @@ public class AdministradorService {
         Optional<Administrador> adminOptional = persistencia.findByIdAndIsEnabled(id);
 
         if (adminOptional.isEmpty()) {
-            return null;
+            throw new RuntimeException("No se encontró ningún Administrador");
         }
 
         Administrador admin = adminOptional.get();
@@ -63,15 +64,17 @@ public class AdministradorService {
 
     public Administrador crearAdmin(AdministradorDTO administradorDTO) {
 
+        Optional<Administrador> administradorOptional = persistencia.findByEmailAndIsEnabled(administradorDTO.email());
+
+        if (administradorOptional.isPresent()) {
+            throw new RuntimeException("Email ya existente.");
+        }
 //        hasheamos la password
-        String hashPassword = this.hashPassword(administradorDTO.password());
+        String hashPassword = this.hashedPassword(administradorDTO.password());
 
         Administrador admin = new Administrador(administradorDTO, hashPassword);
-        Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
 
-        if (adminRoles == null) {
-            return null;
-        }
+        Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
 
         guardarAdmin(adminRoles);
         return adminRoles;
@@ -81,10 +84,6 @@ public class AdministradorService {
     public Administrador actualizarAdmin(Long id, AdministradorDTO adminDTO) {
 
         Administrador administrador = this.findByIdAndIsEnabled(id);
-
-        if (administrador == null) {
-            return null;
-        }
 
         this.actualizarValores(adminDTO, administrador);
         guardarAdmin(administrador);
@@ -114,7 +113,7 @@ public class AdministradorService {
                 .collect(Collectors.toSet()); // Recolecta en un Set;
 
         if (rolesList.isEmpty()) {
-            return null;
+            throw new RuntimeException("No se asignó ningún rol.");
         }
 
         admin.getRoles().addAll(rolesList);
@@ -126,10 +125,10 @@ public class AdministradorService {
 
         administrador.setUsername(administradorDTO.name());
         administrador.setEmail(administradorDTO.email());
-        administrador.setPassword(this.hashPassword(administradorDTO.password()));
+        administrador.setPassword(this.hashedPassword(administradorDTO.password()));
     }
 
-    public String hashPassword(String password) {
+    public String hashedPassword(String password) {
         return passwordEncoder.encode(password);
     }
 

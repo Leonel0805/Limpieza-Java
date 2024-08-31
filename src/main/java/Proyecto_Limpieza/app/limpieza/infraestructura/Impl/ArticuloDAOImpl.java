@@ -31,6 +31,11 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
+    public Optional<Articulo> findByIdAndStock(Long id) {
+        return articuloRepository.findByIdAndStock(id);
+    }
+
+    @Override
     public void guardarArticulo(Articulo articulo) {
         articuloRepository.save(articulo);
     }

@@ -2,10 +2,15 @@ package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.edificio.Edificio;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
+import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.ListadoEncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.EncargadoDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,61 +23,75 @@ public class EncargadoService {
     @Autowired
     private EncargadoDAOImpl persistencia;
 
+    @Autowired
+    RoleEntityRepository roleEntityRepository;
 
-    public List<ListadoEncargadoDTO> findAll() {
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-        List<ListadoEncargadoDTO> encargadoList = persistencia.findAll().stream()
-               .map(encargado -> new ListadoEncargadoDTO(encargado))
-                .collect(Collectors.toList());
+    public List<Encargado> findAllIsEnabled() {
 
+        List<Encargado> encargadoList = persistencia.findAllIsEnabled();
         return encargadoList;
     }
 
 
-    public Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive) {
-        return persistencia.findByIdAndIsEnabled(id, isActive);
-    }
+    public Encargado findByIdAndIsEnabled(Long id) {
 
+        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsEnabled(id);
 
-    public ListadoEncargadoDTO guardarEncargado(EncargadoDTO encargadoDTO) {
-
-        Encargado encargado = new Encargado(encargadoDTO);
-        Encargado guardado = persistencia.guardarEncargado(encargado);
-
-        return new ListadoEncargadoDTO(guardado);
-    }
-
-    public ListadoEncargadoDTO actualizarEncargado(Long id, EncargadoDTO encargadoDTO) {
-
-        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsEnabled(id, Boolean.TRUE);
         if (encargadoOptional.isEmpty()) {
-            return null;
+            throw  new RuntimeException("No se encontro ningun Encargado");
+        }
+        Encargado encargado = encargadoOptional.get();
+
+        return encargado;
+    }
+
+
+    public Encargado guardarEncargado(EncargadoDTO encargadoDTO) {
+
+//        Verificamos si hay un email existente
+        Optional<Encargado> encargadoOptional = persistencia.findByEmailAndIsEnabled(encargadoDTO.email());
+
+        if (encargadoOptional.isPresent()) {
+            throw new RuntimeException("Email ya registrado.");
         }
 
-        Encargado encargado = encargadoOptional.get();
+//        hasheamos la pass al crear Encargado
+        String hashPassword = this.hashedPassword(encargadoDTO.password());
+        Encargado encargado = new Encargado(encargadoDTO, hashPassword);
+
+//        seteamos rol USER a Encargado
+        RoleEntity rol = roleEntityRepository.findByRoleName(RoleEnum.USER)
+                .orElseThrow(() -> new RuntimeException("Rol predeterminado no encontrado"));
+
+        encargado.getRoles().add(rol);
+        persistencia.guardarEncargado(encargado);
+
+        return encargado;
+    }
+
+    public Encargado actualizarEncargado(Long id, EncargadoDTO encargadoDTO) {
+
+        Encargado encargado = this.findByIdAndIsEnabled(id);
 
         this.actualizarValores(encargadoDTO, encargado);
         persistencia.guardarEncargado(encargado);
 
-        return new ListadoEncargadoDTO(encargado);
+        return encargado;
     }
 
 
-    public ListadoEncargadoDTO deleteById(Long id){
+    public Encargado deleteById(Long id){
 
 //        buscamos el encargado por id
-        Optional<Encargado> encargadoOptional = persistencia.findByIdAndIsEnabled(id, Boolean.TRUE);
+        Encargado encargado = this.findByIdAndIsEnabled(id);
 
-        System.out.println(encargadoOptional);
-        if (encargadoOptional.isEmpty()) {
-            return null;
-        }
-
-        Encargado encargado = encargadoOptional.get();
         encargado.setIsEnabled(Boolean.FALSE);
         persistencia.guardarEncargado(encargado);
 
-        return new ListadoEncargadoDTO(encargado);
+        return encargado;
     }
 
     //    Metodos
@@ -80,11 +99,15 @@ public class EncargadoService {
 
         encargado.setUsername(encargadoDTO.name());
         encargado.setEmail(encargadoDTO.email());
-        encargado.setPassword(encargadoDTO.password());
+        encargado.setPassword(this.hashedPassword(encargadoDTO.password()));
         encargado.setDNI(encargadoDTO.DNI());
         encargado.setApellido(encargadoDTO.apellido());
         encargado.setEdificio(new Edificio(encargadoDTO.edificio()));
-        encargado.setPedidos(encargadoDTO.pedidos());
     }
+
+    public String hashedPassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
 
 }

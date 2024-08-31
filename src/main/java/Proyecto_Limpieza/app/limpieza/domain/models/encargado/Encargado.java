@@ -2,6 +2,8 @@ package Proyecto_Limpieza.app.limpieza.domain.models.encargado;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.edificio.Edificio;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
 import jakarta.persistence.*;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Encargados")
@@ -34,11 +37,11 @@ public class Encargado extends UserEntity {
     private List<Pedido> pedidos;
 
 
-    public Encargado(EncargadoDTO encargadoDTO) {
-        super(encargadoDTO.name(), encargadoDTO.email(), encargadoDTO.password());
+    public Encargado(EncargadoDTO encargadoDTO, String hassPassword) {
+        super(encargadoDTO.name(), encargadoDTO.email(), hassPassword);
         this.DNI = encargadoDTO.DNI();
         this.apellido = encargadoDTO.apellido();
         this.edificio = new Edificio(encargadoDTO.edificio());
-        this.pedidos = encargadoDTO.pedidos();
     }
+
 }

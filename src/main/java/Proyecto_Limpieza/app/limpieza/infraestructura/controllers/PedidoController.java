@@ -39,51 +39,69 @@ public class PedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        ListadoPedidoDTO pedidoDTO = pedidoService.findById(id);
+        try {
+            Pedido pedido = pedidoService.findById(id);
+            ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
 
-        if (pedidoDTO == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se encontró ningún pedido con ese ID");
+            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoResponse);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoDTO);
     }
 
 //    POST
     @PostMapping
     public ResponseEntity<?> guardarPedido(@RequestBody @Valid PedidoDTO pedidoDTO) {
 
-        ListadoPedidoDTO pedidoResponse = pedidoService.guardarPedido(pedidoDTO);
-        if (pedidoResponse == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "Error al crear pedido, Encargado no existe");
+        try {
+            Pedido pedido = pedidoService.guardarPedido(pedidoDTO);
+            ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
+            APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido creado correctamente!");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido creado correctamente!");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarPedidoEstado(@PathVariable Long id, @RequestBody @Valid EstadoPedidoDTO estadoPedidoDTO) {
 
-        ListadoPedidoDTO pedidoResponse = pedidoService.actualizarPedidoById(id, estadoPedidoDTO);
+        try {
+            Pedido pedido = pedidoService.actualizarPedidoById(id, estadoPedidoDTO);
+            ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
+            APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido actualizado correctamente!");
 
-        if (pedidoResponse == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "Error al actualizar pedido, pedido no existe");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido actualizado correctamente!");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
 
-        ListadoPedidoDTO pedidoResponse = pedidoService.deleteById(id);
-        APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido 'ELIMINADO' correctamente!");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        try {
+            Pedido pedido = pedidoService.deleteById(id);
+            ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
+            APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido 'ELIMINADO' correctamente!");
+
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
     }
 
 }

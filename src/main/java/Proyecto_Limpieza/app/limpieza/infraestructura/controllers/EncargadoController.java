@@ -28,7 +28,10 @@ public class EncargadoController {
     @GetMapping
     public ResponseEntity<?> findAll() {
 
-        List<ListadoEncargadoDTO> encargadosDTOs = encargadoService.findAll();
+        List<ListadoEncargadoDTO> encargadosDTOs = encargadoService.findAllIsEnabled().stream()
+                .map(encargado -> new ListadoEncargadoDTO(encargado))
+                .collect(Collectors.toList());;
+
         return ResponseEntity.status(HttpStatus.OK).body(encargadosDTOs);
     }
 
@@ -36,55 +39,69 @@ public class EncargadoController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        Optional<Encargado> encargadoOptional = encargadoService.findByIdAndIsEnabled(id, Boolean.TRUE);
+        try {
+            Encargado encargado = encargadoService.findByIdAndIsEnabled(id);
+            ListadoEncargadoDTO encargadoDTO = new ListadoEncargadoDTO(encargado);
+            return ResponseEntity.status(HttpStatus.OK).body(encargadoDTO);
 
-        if (encargadoOptional.isEmpty()) {
-            APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se encontró ningún encargado");
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
-        Encargado encargado = encargadoOptional.get();
-        ListadoEncargadoDTO encargadoDTO = new ListadoEncargadoDTO(encargado);
-
-        return ResponseEntity.status(HttpStatus.OK).body(encargadoDTO);
     }
 
 //    POST
     @PostMapping
     public ResponseEntity<?> guardarEncargado(@RequestBody @Valid EncargadoDTO encargadoDTO) {
 
-        ListadoEncargadoDTO encargadoResponse =  encargadoService.guardarEncargado(encargadoDTO);
-        APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Encargado creado correctamente!");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        try {
+            Encargado encargado = encargadoService.guardarEncargado(encargadoDTO);
+
+            ListadoEncargadoDTO encargadoResponse = new ListadoEncargadoDTO(encargado);
+            APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Encargado creado correctamente!");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
     }
 
     //    PUT
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarEncargado(@PathVariable Long id, @RequestBody EncargadoDTO encargadoDTO) {
 
-        ListadoEncargadoDTO encargadoResponse = encargadoService.actualizarEncargado(id, encargadoDTO);
+        try {
+            Encargado encargado = encargadoService.actualizarEncargado(id, encargadoDTO);
 
-        if (encargadoResponse == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se puede actualizar ningún encargado");
+            ListadoEncargadoDTO encargadoResponse = new ListadoEncargadoDTO(encargado);
+            APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Encargado actualizado correctamente!");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Encargado actualizado correctamente!");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //    DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarEncargado(@PathVariable Long id) {
 
-       ListadoEncargadoDTO encargadoResponse = encargadoService.deleteById(id);
+        try {
+            Encargado encargado = encargadoService.deleteById(id);
+            ListadoEncargadoDTO encargadoResponse = new ListadoEncargadoDTO(encargado);
+            APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Encargado 'eliminado' correctamente!");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
 
-        if (encargadoResponse == null){
-            APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se pudo eliminar ningún encargado");
+        } catch (RuntimeException e) {
+
+            APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Encargado eliminado correctamente!");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 }

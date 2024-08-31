@@ -10,10 +10,12 @@ import java.util.Optional;
 
 public interface IEncargadoDAO {
 
-    List<Encargado> findAll();
-    Optional<Encargado> findByIdAndIsEnabled(Long id, Boolean isActive);
+    List<Encargado> findAllIsEnabled();
+    Optional<Encargado> findByIdAndIsEnabled(Long id);
 
-    Encargado guardarEncargado(Encargado encargado);
-//
+    Optional<Encargado> findByEmailAndIsEnabled(String email);
+    void guardarEncargado(Encargado encargado);
+
+
 //    void deleteById(Long id);
 }

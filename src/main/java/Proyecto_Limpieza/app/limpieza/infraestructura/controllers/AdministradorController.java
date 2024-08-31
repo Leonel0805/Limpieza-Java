@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,66 +37,67 @@ public class AdministradorController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        Administrador admin = administradorService.findByIdAndIsEnabled(id);
+        try {
+            Administrador admin = administradorService.findByIdAndIsEnabled(id);
+            ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
+            return ResponseEntity.status(HttpStatus.OK).body(adminResponse);
 
-        if (admin == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo encontrar ningún administrador");
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
-        return ResponseEntity.status(HttpStatus.OK).body(adminResponse);
     }
 
-//    POST
+//    POST falta verificar si existe el email
     @PostMapping
     public ResponseEntity guardarAdmin(@RequestBody @Valid AdministradorDTO administradorDTO){
 
-        Administrador admin = administradorService.crearAdmin(administradorDTO);
+        try {
+            Administrador admin = administradorService.crearAdmin(administradorDTO);
+            ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
+            APIResponseDTO response = new APIResponseDTO(adminResponse, "Administrador creado correctamente!");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-        if (admin == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo crear el admin.");
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-
-        ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
-        APIResponseDTO response = new APIResponseDTO(adminResponse, "Administrador creado correctamente!");
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 //    PUT
     @PutMapping("/{id}")
     public ResponseEntity actualizarAdmin(@PathVariable Long id, @RequestBody @Valid AdministradorDTO administradorDTO) {
 
-//        Obtenemos el admin por id
-        Administrador admin = administradorService.actualizarAdmin(id, administradorDTO);
+        try {
+            Administrador admin = administradorService.actualizarAdmin(id, administradorDTO);
+            ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
+            APIResponseDTO response = new APIResponseDTO(adminResponse, "Administrador actualizado correctamente!");
 
-        if (admin == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo actualizar el admin.");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
-        APIResponseDTO response = new APIResponseDTO(adminResponse, "Administrador actualizado correctamente!");
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 //    DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
 
-        Administrador admin = administradorService.desactivarAdmin(id);
+        try {
+            Administrador admin = administradorService.desactivarAdmin(id);
+            ListadoAdministradorDTO adminDTO = new ListadoAdministradorDTO(admin);
+            APIResponseDTO response = new APIResponseDTO(adminDTO, "Aministrador 'eliminado'");
 
-        if (admin == null) {
-            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se encontro ningún administrador");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(admin);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        ListadoAdministradorDTO adminDTO = new ListadoAdministradorDTO(admin);
-        APIResponseDTO response = new APIResponseDTO(adminDTO, "Aministrador 'eliminado'");
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

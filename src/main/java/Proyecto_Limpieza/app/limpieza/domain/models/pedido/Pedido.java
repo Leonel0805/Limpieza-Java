@@ -36,4 +36,5 @@ public class Pedido {
         this.estado = pedidoDTO.estado();
         this.encargado = encargado;
     }
+
 }
