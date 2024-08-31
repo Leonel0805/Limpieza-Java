@@ -16,8 +16,8 @@ public class AdministradorDAOImpl implements IAdministradorDAO {
     AdministradorRepository administradorRepository;
 
     @Override
-    public List<Administrador> findAll() {
-        return administradorRepository.findAll();
+    public List<Administrador> findAllIsEnabled() {
+        return administradorRepository.findAllIsEnabled();
     }
 
     @Override

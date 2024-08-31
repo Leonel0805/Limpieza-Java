@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface IAdministradorDAO {
 
-    List<Administrador> findAll();
+    List<Administrador> findAllIsEnabled();
     Optional<Administrador> findById(Long id);
 
     Optional<Administrador> findByIdAndIsEnabled(Long id);

@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,96 +21,81 @@ public class AdministradorController {
     @Autowired
     private AdministradorService administradorService;
 
-//    Get All admins
+//    Get All
     @GetMapping
     public ResponseEntity<?> findAll() {
-
 //        Convertimos a lista de DTO para mostrar los datos que queremos
-        List<ListadoAdministradorDTO> list_administradores = administradorService.findAll();
+        List<ListadoAdministradorDTO> list_administradores = administradorService.findAllIsEnabled().stream()
+                .map(administrador -> new ListadoAdministradorDTO(administrador))
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(list_administradores);
+        return ResponseEntity.status(HttpStatus.OK).body(list_administradores);
     }
 
-//    Get admin byid
+//    Get
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        ListadoAdministradorDTO adminResponse = administradorService.findByIdAndIsEnabled(id);
+        Administrador admin = administradorService.findByIdAndIsEnabled(id);
 
-        if (adminResponse == null) {
+        if (admin == null) {
             APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo encontrar ningún administrador");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
+        ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
         return ResponseEntity.status(HttpStatus.OK).body(adminResponse);
     }
 
-//    POST admin
+//    POST
     @PostMapping
-    public ResponseEntity guardarAdmin(@RequestBody @Valid AdministradorDTO administradorDTO) throws URISyntaxException {
+    public ResponseEntity guardarAdmin(@RequestBody @Valid AdministradorDTO administradorDTO){
 
-        ListadoAdministradorDTO adminDTO = administradorService.crearAdmin(administradorDTO);
+        Administrador admin = administradorService.crearAdmin(administradorDTO);
 
-        if (adminDTO == null) {
-            APIResponseDTO response = new APIResponseDTO(adminDTO, "No se pudo crear el admin.");
-            return ResponseEntity.badRequest().body(response);
+        if (admin == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo crear el admin.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        APIResponseDTO response = new APIResponseDTO(adminDTO, "Administrador creado correctamente!");
 
-        return ResponseEntity.created(new URI("/api/administradores"))
-                .body(response);
+        ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
+        APIResponseDTO response = new APIResponseDTO(adminResponse, "Administrador creado correctamente!");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 //    PUT
     @PutMapping("/{id}")
-    public ResponseEntity actualizarAdmin(@PathVariable Long id, @RequestBody @Valid AdministradorDTO datosAdministrador) {
+    public ResponseEntity actualizarAdmin(@PathVariable Long id, @RequestBody @Valid AdministradorDTO administradorDTO) {
 
 //        Obtenemos el admin por id
-        Optional<Administrador> adminOptional = administradorService.findById(id);
+        Administrador admin = administradorService.actualizarAdmin(id, administradorDTO);
 
-        if (adminOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (admin == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se pudo actualizar el admin.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-//        Obtenemos el objeto
-        Administrador admin = adminOptional.get();
+        ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
+        APIResponseDTO response = new APIResponseDTO(adminResponse, "Administrador actualizado correctamente!");
 
-//        Seteamos sus nuevos valores
-        admin.setUsername(datosAdministrador.name());
-        admin.setEmail(datosAdministrador.email());
-        admin.setPassword(datosAdministrador.password());
-
-//        Guardamos en la database con los nuevos valores
-        administradorService.guardarAdmin(admin);
-
-//        Convertimos en DTO al admin a mostrar
-        ListadoAdministradorDTO adminDTO = new ListadoAdministradorDTO(admin);
-
-        APIResponseDTO response = new APIResponseDTO(adminDTO, "Administrador actualizado correctamente!");
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 //    DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
 
-        Optional<Administrador> adminOptional = administradorService.findById(id);
+        Administrador admin = administradorService.desactivarAdmin(id);
 
-        if (adminOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (admin == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", "No se encontro ningún administrador");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(admin);
         }
 
-        Administrador admin = adminOptional.get();
-
-        admin.setIsEnabled(Boolean.FALSE);
-        administradorService.guardarAdmin(admin);
-
         ListadoAdministradorDTO adminDTO = new ListadoAdministradorDTO(admin);
+        APIResponseDTO response = new APIResponseDTO(adminDTO, "Aministrador 'eliminado'");
 
-        APIResponseDTO response = new APIResponseDTO(adminDTO, "Aministrador eliminado");
-
-        return ResponseEntity.ok(response);
-
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

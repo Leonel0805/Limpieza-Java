@@ -28,30 +28,10 @@ public class AdministradorService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<ListadoAdministradorDTO> findAll() {
 
-            List<ListadoAdministradorDTO> administradorList = persistencia.findAll().stream()
-                    .map(administrador -> new ListadoAdministradorDTO(administrador))
-                    .collect(Collectors.toList());
-
-        return administradorList;
-
-    }
 
     public Optional<Administrador> findById(Long id) {
         return persistencia.findById(id);
-    }
-
-    public ListadoAdministradorDTO findByIdAndIsEnabled(Long id) {
-
-        Optional<Administrador> adminOptional = persistencia.findByIdAndIsEnabled(id);
-
-        if (adminOptional.isEmpty()) {
-            return null;
-        }
-
-        Administrador admin = adminOptional.get();
-        return new ListadoAdministradorDTO(admin);
     }
 
     public void guardarAdmin(Administrador admin) {
@@ -62,13 +42,31 @@ public class AdministradorService {
         persistencia.deleteById(id);
     }
 
-    public ListadoAdministradorDTO crearAdmin(AdministradorDTO administradorDTO) {
+    public List<Administrador> findAllIsEnabled() {
+
+        List<Administrador> administradorList = persistencia.findAllIsEnabled();
+        return administradorList;
+    }
+
+    public Administrador findByIdAndIsEnabled(Long id) {
+
+        Optional<Administrador> adminOptional = persistencia.findByIdAndIsEnabled(id);
+
+        if (adminOptional.isEmpty()) {
+            return null;
+        }
+
+        Administrador admin = adminOptional.get();
+        return admin;
+    }
+
+
+    public Administrador crearAdmin(AdministradorDTO administradorDTO) {
 
 //        hasheamos la password
-        String hashPassword = passwordEncoder.encode(administradorDTO.password());
+        String hashPassword = hashPassword(administradorDTO);
 
         Administrador admin = new Administrador(administradorDTO, hashPassword);
-
         Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
 
         if (adminRoles == null) {
@@ -76,8 +74,35 @@ public class AdministradorService {
         }
 
         guardarAdmin(adminRoles);
+        return adminRoles;
+    }
 
-        return new ListadoAdministradorDTO(adminRoles);
+//    Actualizar admin
+    public Administrador actualizarAdmin(Long id, AdministradorDTO adminDTO) {
+
+        Administrador administrador = this.findByIdAndIsEnabled(id);
+
+        if (administrador == null) {
+            return null;
+        }
+
+        this.actualizarValores(adminDTO, administrador);
+        guardarAdmin(administrador);
+
+        return administrador;
+    }
+
+    public Administrador desactivarAdmin(Long id) {
+
+        Administrador admin = this.findByIdAndIsEnabled(id);
+        if (admin == null) {
+            return null;
+        }
+
+        admin.setIsEnabled(Boolean.FALSE);
+        this.guardarAdmin(admin);
+
+        return admin;
     }
 
     public Administrador asignarRoles(Administrador admin, AdministradorDTO administradorDTO) {
@@ -97,6 +122,17 @@ public class AdministradorService {
         admin.getRoles().addAll(rolesList);
         return admin;
 
+    }
+
+    public void actualizarValores(AdministradorDTO administradorDTO, Administrador administrador) {
+
+        administrador.setUsername(administradorDTO.name());
+        administrador.setEmail(administradorDTO.email());
+        administrador.setPassword(hashPassword(administradorDTO));
+    }
+
+    public String hashPassword(AdministradorDTO administradorDTO) {
+        return passwordEncoder.encode(administradorDTO.password());
     }
 
 }
