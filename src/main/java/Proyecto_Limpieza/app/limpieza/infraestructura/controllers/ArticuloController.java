@@ -28,99 +28,80 @@ public class ArticuloController {
     @Autowired
     private ArticuloService articuloService;
 
+//    GET ALL
     @GetMapping
     @PreAuthorize("permitAll()")
-    public ResponseEntity<List<ListadoArticuloDTO>> findAll() {
+    public ResponseEntity<?> findAll() {
 
         List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAll().stream()
                 .map(articulo -> new ListadoArticuloDTO(articulo))
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(list_articulosDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(list_articulosDTO);
     }
 
+//  GET ID
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('CREATE') or hasAuthority('READ')")
-    public ResponseEntity<ListadoArticuloDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable Long id) {
 
-        Optional<Articulo> articuloOptional = articuloService.findById(id);
+        Articulo articulo = articuloService.findById(id);
 
-        if (articuloOptional.isEmpty()) {
+        if (articulo == null) {
             APIResponseDTO response = new APIResponseDTO("BadRequest", "No se encontró el articulo");
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        Articulo articulo = articuloOptional.get();
         ListadoArticuloDTO articuloDTO = new ListadoArticuloDTO(articulo);
-
-        return ResponseEntity.ok(articuloDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(articuloDTO);
     }
 
-    //    Guardar articulo
+    //    POST
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity guardarArticulo(@RequestBody @Valid ArticuloDTO articuloDTO) {
 
-        Articulo articulo = new Articulo(articuloDTO);
-
-        articuloService.guardarArticulo(articulo);
+        Articulo articulo = articuloService.crearArticulo(articuloDTO);
 
         ListadoArticuloDTO articuloDTOList = new ListadoArticuloDTO(articulo);
-
         APIResponseDTO response = new APIResponseDTO(articuloDTOList, "Articulo creado correctamente");
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-//    Actualizar articulo
-
+//    PUT
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity actualizarArticulo(@PathVariable Long id, @RequestBody @Valid ArticuloDTO articuloDTO) {
 
-        Optional<Articulo> articuloOptional = articuloService.findById(id);
+        Articulo articulo = articuloService.actualizarArticulo(id, articuloDTO);
 
-        if (articuloOptional.isEmpty()) {
+        if (articulo == null) {
             APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se encontró ningún articulo");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
-        Articulo articulo = articuloOptional.get();
-
-        articulo.setNombre(articuloDTO.nombre());
-        articulo.setDescripcion(articuloDTO.descripcion());
-        articulo.setStock(articuloDTO.stock());
-        articulo.setPrecio(articuloDTO.precio());
-
-        articuloService.guardarArticulo(articulo);
 
         ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
         APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo actualizado correctamente!");
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
-
     }
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity eliminarArticulo(@PathVariable Long id) {
 
-        Optional<Articulo> articuloOptional = articuloService.findById(id);
+        Articulo articulo = articuloService.eliminarArticulo(id);
 
-        if (articuloOptional.isEmpty()) {
-            APIResponseDTO apiResponseDTO = new APIResponseDTO("Error - Bad Request", "No se encontró ningún articulo");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponseDTO);
+        if (articulo == null) {
+            APIResponseDTO response = new APIResponseDTO("Error - Bad Request", "No se encontró ningún articulo");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
-        Articulo articulo = articuloOptional.get();
-        articulo.setStock(0);
-        articulo.setSin_stock(Boolean.TRUE);
-
-        articuloService.guardarArticulo(articulo);
 
         ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
         APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo eliminado correctamente!");
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
-
     }
 }

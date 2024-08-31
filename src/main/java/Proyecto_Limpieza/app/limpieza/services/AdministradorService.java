@@ -64,7 +64,7 @@ public class AdministradorService {
     public Administrador crearAdmin(AdministradorDTO administradorDTO) {
 
 //        hasheamos la password
-        String hashPassword = hashPassword(administradorDTO);
+        String hashPassword = this.hashPassword(administradorDTO.password());
 
         Administrador admin = new Administrador(administradorDTO, hashPassword);
         Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
@@ -113,8 +113,6 @@ public class AdministradorService {
                 .map(Optional::get) // Obtiene el valor del Optional
                 .collect(Collectors.toSet()); // Recolecta en un Set;
 
-        System.out.println(rolesList);
-
         if (rolesList.isEmpty()) {
             return null;
         }
@@ -128,11 +126,11 @@ public class AdministradorService {
 
         administrador.setUsername(administradorDTO.name());
         administrador.setEmail(administradorDTO.email());
-        administrador.setPassword(hashPassword(administradorDTO));
+        administrador.setPassword(this.hashPassword(administradorDTO.password()));
     }
 
-    public String hashPassword(AdministradorDTO administradorDTO) {
-        return passwordEncoder.encode(administradorDTO.password());
+    public String hashPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
 }

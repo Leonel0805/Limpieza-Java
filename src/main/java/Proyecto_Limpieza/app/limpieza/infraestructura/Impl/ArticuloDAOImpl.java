@@ -26,6 +26,11 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
+    public Optional<Articulo> findByNombre(String nombre) {
+        return articuloRepository.findByNombre(nombre);
+    }
+
+    @Override
     public void guardarArticulo(Articulo articulo) {
         articuloRepository.save(articulo);
     }

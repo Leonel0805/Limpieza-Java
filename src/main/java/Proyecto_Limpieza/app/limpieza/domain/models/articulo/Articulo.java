@@ -19,6 +19,7 @@ public class Articulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String nombre;
     private String descripcion;
     private int stock;

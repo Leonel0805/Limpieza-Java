@@ -12,6 +12,8 @@ public interface IArticuloDAO {
 
     Optional<Articulo> findById(Long id);
 
+    Optional<Articulo> findByNombre(String nombre);
+
     void guardarArticulo(Articulo articulo);
 
     void eliminarArticulo(Long id);
