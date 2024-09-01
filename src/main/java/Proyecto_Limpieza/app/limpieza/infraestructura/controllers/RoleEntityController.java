@@ -3,9 +3,12 @@ package Proyecto_Limpieza.app.limpieza.infraestructura.controllers;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.permission.PermissionEntityRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResponseDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.RolesDTOs.RolDTO;
 import Proyecto_Limpieza.app.limpieza.services.RoleEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +22,6 @@ public class RoleEntityController {
     @Autowired
     RoleEntityService roleEntityService;
 
-
     @Autowired
     PermissionEntityRepository permissionEntityRepository;
 
@@ -27,7 +29,8 @@ public class RoleEntityController {
     public ResponseEntity<?> guardarRoleEntity(@RequestBody RolDTO rolDTO) {
 
         RoleEntity rol = roleEntityService.crearRolYActualizar(rolDTO);
+        APIResponseDTO response = new APIResponseDTO(rol, "Rol creado correctamente!");
 
-        return ResponseEntity.ok(rol);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
