@@ -2,17 +2,24 @@ package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserRepository;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthLoginDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
+import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -20,7 +27,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-//    sobreescribir metodo loadUserByUsername
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+//    sobreescribir metodo loadUserByUsername, al hacer request, se busca el username
+//    y se almacena en el sistema de Spring Security los authorities
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -41,6 +56,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 );
 
 
+//        retornamos un UserDetails que usa SpringSecurity
         User user = new User(userEntity.getUsername(),
                 userEntity.getPassword(),
                 userEntity.getIsEnabled(),
@@ -51,4 +67,41 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         return user;
     }
+
+
+    public AuthResponseDTO login(AuthLoginDTO authLoginDTO) {
+
+        String username = authLoginDTO.username();
+        String password = authLoginDTO.password();
+
+        Authentication authentication = this.authenticate(username, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String accessToken = jwtUtils.crearToken(authentication);
+
+        AuthResponseDTO response = new AuthResponseDTO(username,
+                "Logeado correctamente",
+                accessToken,
+                true);
+
+        return response;
+    }
+
+    public Authentication authenticate(String username, String password) {
+
+        UserDetails userDetails = this.loadUserByUsername(username);
+
+        if (userDetails == null) {
+            throw new BadCredentialsException("Error, username o password invalido");
+        }
+
+//        si el password enviado del request, no es igual al password guardado en la database error
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Error, password incorrecto");
+        }
+
+        return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
+
+    }
+
 }

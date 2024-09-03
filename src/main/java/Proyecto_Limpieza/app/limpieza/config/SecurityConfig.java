@@ -1,7 +1,10 @@
 package Proyecto_Limpieza.app.limpieza.config;
 
+import Proyecto_Limpieza.app.limpieza.config.filter.JwtTokenValidator;
 import Proyecto_Limpieza.app.limpieza.services.UserDetailServiceImpl;
 
+import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 
 @Configuration
@@ -25,6 +29,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity //habilitar anotaciones de seguridad para poner en el controller y no configurar en mi filterChain
 public class SecurityConfig {
 
+
+    //    agregamos el JwtTokenValidator
+    @Autowired
+    private JwtUtils jwtUtils;
 
 //    Filtros
     @Bean
@@ -46,6 +54,9 @@ public class SecurityConfig {
 ////                    Configurar endpoints denegados
 //                    http.anyRequest().denyAll();
 //                })
+
+                //agregamos el filtro de validar Token
+                .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();
     }
 

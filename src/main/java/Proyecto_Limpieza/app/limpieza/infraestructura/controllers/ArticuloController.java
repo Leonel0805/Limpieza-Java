@@ -7,6 +7,7 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResp
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ListadoArticuloDTO;
 import Proyecto_Limpieza.app.limpieza.services.ArticuloService;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +51,11 @@ public class ArticuloController {
             ListadoArticuloDTO articuloDTO = new ListadoArticuloDTO(articulo);
             return ResponseEntity.status(HttpStatus.OK).body(articuloDTO);
 
-        } catch (RuntimeException e) {
-            APIResponseDTO response = new APIResponseDTO("BadRequest", "No se encontró el articulo");
+        }
+        catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("BadRequest", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
     }
 
     //    POST
@@ -92,6 +93,7 @@ public class ArticuloController {
             APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+
     }
 
     @DeleteMapping("/{id}")
