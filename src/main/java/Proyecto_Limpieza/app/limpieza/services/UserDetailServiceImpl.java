@@ -1,8 +1,13 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
+import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserRepository;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthLoginDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthRegisterDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
 import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +25,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AdministradorService administradorService;
+
+    @Autowired
+    RoleEntityRepository roleEntityRepository;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -68,6 +82,51 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return user;
     }
 
+    public AuthResponseDTO registerUser(AuthRegisterDTO authRegisterDTO) {
+
+//        Obtenemos las credenciales enviadas
+        String username = authRegisterDTO.username();
+        String email = authRegisterDTO.email();
+        String password = passwordEncoder.encode(authRegisterDTO.password()) ;
+
+        if (authRegisterDTO.roles() == null) {
+            throw new RuntimeException("Error, Falta llenar roles");
+        }
+
+        Set<String> roles = authRegisterDTO.roles().stream()
+                .map(roleEnum -> roleEnum.name()
+                        .toString().toUpperCase())
+                .collect(Collectors.toSet());
+
+//        un Administrador no puede ser Encargado y un Encargado no puede tener Rol Administrador
+//        Creamos usuario
+
+        if (roles.contains("ADMIN")) {
+            AdministradorDTO adminDTO = new AdministradorDTO(username, email, password, authRegisterDTO.roles());
+            Administrador admin = new Administrador(adminDTO, password);
+
+            UserEntity adminWithRoles = this.asignarRoles(admin, authRegisterDTO);
+            userRepository.save(adminWithRoles);
+            administradorService.guardarAdmin(admin);
+            System.out.println( "asdf guardamos user y admin");
+        }
+
+
+        System.out.println("no guardamos");
+//        Creamos un UserDetails para spring security
+        UserDetails userDetails = this.loadUserByUsername(username);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
+
+        String accessToken = jwtUtils.crearToken(authentication);
+
+        AuthResponseDTO response = new AuthResponseDTO(username,
+                "Registrado correctamente",
+                accessToken,
+                true);
+
+        return response;
+    }
+
 
     public AuthResponseDTO login(AuthLoginDTO authLoginDTO) {
 
@@ -102,6 +161,23 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
 
+    }
+
+
+    public UserEntity asignarRoles(UserEntity user, AuthRegisterDTO authRegisterDTO) {
+
+        Set<RoleEntity> rolesList = authRegisterDTO.roles().stream()
+                .map(roleEnum -> roleEntityRepository.findByRoleName(roleEnum))
+                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
+                .map(Optional::get) // Obtiene el valor del Optional
+                .collect(Collectors.toSet()); // Recolecta en un Set;
+
+        if (rolesList.isEmpty()) {
+            throw new RuntimeException("No se encontró ni asignó ningún rol.");
+        }
+
+        user.getRoles().addAll(rolesList);
+        return user;
     }
 
 }
