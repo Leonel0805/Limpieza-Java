@@ -5,6 +5,8 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDT
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.ArticuloDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IArticuloDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +19,18 @@ public class ArticuloService {
     private ArticuloDAOImpl persistencia;
 
 
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
+
     public List<Articulo> findAll() {
         return persistencia.findAll();
     }
 
 
     public Articulo findByIdAndStock(Long id) {
+
+        String username = userDetailService.obtenerUsuarioAutenticado();
+        System.out.println(username);
 
         Optional<Articulo> articuloOptional = persistencia.findByIdAndStock(id);
 

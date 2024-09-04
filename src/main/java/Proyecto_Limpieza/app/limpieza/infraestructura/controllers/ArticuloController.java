@@ -29,6 +29,7 @@ public class ArticuloController {
     @Autowired
     private ArticuloService articuloService;
 
+
 //    GET ALL
     @GetMapping
     @PreAuthorize("permitAll()")

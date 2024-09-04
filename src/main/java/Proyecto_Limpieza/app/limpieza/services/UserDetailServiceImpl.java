@@ -54,7 +54,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         UserEntity userEntity = userRepository.findUserEntityByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("El usuario " +  username + "no existe"));
+                .orElseThrow(() -> new UsernameNotFoundException("El usuario " +  username + " no existe"));
 
 
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
@@ -82,6 +82,18 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return user;
     }
 
+
+    //    obtener Usuario autenticado
+    public String obtenerUsuarioAutenticado() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return "no esta authenticado";
+    }
+
     public AuthResponseDTO registerUser(AuthRegisterDTO authRegisterDTO) {
 
 //        Obtenemos las credenciales enviadas
@@ -90,7 +102,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         String password = passwordEncoder.encode(authRegisterDTO.password()) ;
 
         if (authRegisterDTO.roles() == null) {
-            throw new RuntimeException("Error, Falta llenar roles");
+            throw new RuntimeException("Error, Roles no existentes");
         }
 
         Set<String> roles = authRegisterDTO.roles().stream()
@@ -111,19 +123,20 @@ public class UserDetailServiceImpl implements UserDetailsService {
             System.out.println( "asdf guardamos user y admin");
         }
 
+//        Crear para Encargado
 
-        System.out.println("no guardamos");
 //        Creamos un UserDetails para spring security
         UserDetails userDetails = this.loadUserByUsername(username);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
+//        authenticamos de forma manual
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
+//        pasar un authentication null predeterminado antes de crear token
         String accessToken = jwtUtils.crearToken(authentication);
 
         AuthResponseDTO response = new AuthResponseDTO(username,
                 "Registrado correctamente",
                 accessToken,
                 true);
-
         return response;
     }
 
@@ -136,6 +149,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
         Authentication authentication = this.authenticate(username, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        System.out.println("asdf login");
+        System.out.println(authentication.getName());
         String accessToken = jwtUtils.crearToken(authentication);
 
         AuthResponseDTO response = new AuthResponseDTO(username,
@@ -153,14 +168,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (userDetails == null) {
             throw new BadCredentialsException("Error, username o password invalido");
         }
-
+//        verificamos contraseña
 //        si el password enviado del request, no es igual al password guardado en la database error
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Error, password incorrecto");
         }
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
-
     }
 
 
