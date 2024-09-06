@@ -32,7 +32,7 @@ public class JwtUtils {
 
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey); //le pasamos nuestra private key para autenticidad de backend
 
-        String username = authentication.getPrincipal().toString(); //o .getname()
+        String username = authentication.getName(); //o .getname()
 
 //        guardamos los authorities en string separados por,
         String authorities = authentication.getAuthorities().stream()

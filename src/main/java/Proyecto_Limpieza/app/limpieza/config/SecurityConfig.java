@@ -4,10 +4,12 @@ import Proyecto_Limpieza.app.limpieza.config.filter.JwtTokenValidator;
 import Proyecto_Limpieza.app.limpieza.services.UserDetailServiceImpl;
 
 import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,7 +28,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity //habilitar seguridad web
-@EnableMethodSecurity //habilitar anotaciones de seguridad para poner en el controller y no configurar en mi filterChain
 public class SecurityConfig {
 
 
@@ -41,22 +42,45 @@ public class SecurityConfig {
 //        hay que configurar los filtros
         return httpSecurity
                 .csrf(csrf -> csrf.disable()) //desactivamos porque no lo necesitamos
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //sin estado, seria para cuando los navegadores te piden cada cierto tiempo volver a iniciar sesion, sesiones que se guardan en memoria
                 //aca si config los endpoints
-//                .authorizeHttpRequests(http -> {
-////                    Configurar endpoints publicos
-//                    http.requestMatchers(HttpMethod.GET, "/api/articulos").permitAll();
-//
-////                    Configurar endpoints privados
-//                    http.requestMatchers(HttpMethod.POST, "/api/articulos").hasRole("ADMIN");
-//
-////                    Configurar endpoints denegados
-//                    http.anyRequest().denyAll();
-//                })
+
+                .authorizeHttpRequests(http -> {
+//                    Configurar endpoints publicos
+                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll();
+
+                    http.requestMatchers(HttpMethod.GET, "/api/pedidos/**").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/roles/**").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/api/roles/**").permitAll();
+
+
+
+//                   Configurar endpoints privados
+//                    ARTICULOS
+                    http.requestMatchers(HttpMethod.POST, "/api/articulos").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/articulos").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/articulos").hasRole("ADMIN");
+
+//                    PEDIDOS
+                    http.requestMatchers(HttpMethod.POST, "/api/pedidos").hasAnyRole("ADMIN", "ENCARGADO");
+                    http.requestMatchers(HttpMethod.PUT, "/api/pedidos").hasAnyRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/pedidos").hasAnyRole("ADMIN");
+
+//                    ADMINISTRADOR
+                    http.requestMatchers(HttpMethod.GET, "/api/administradores/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/administradores").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/administradores/**").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/administradores/{id}").hasRole("ADMIN");
+
+
+//                    Configurar endpoints denegados
+                    http.anyRequest().authenticated();
+                })
 
                 //agregamos el filtro de validar Token
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
+
                 .build();
     }
 
@@ -78,32 +102,6 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//
-////        simulamos la base de datos crenando un UserDetails
-//        List<UserDetails> userDetailsList = new ArrayList<>();
-//
-//        userDetailsList.add(User.withUsername("leonel")
-//                .password("leonel")
-//                .roles("ADMIN")
-//                .authorities("READ", "CREATE")
-//                .build());
-//
-//        userDetailsList.add(User.withUsername("juan")
-//                .password("juan")
-//                .roles("USER")
-//                .authorities("READ")
-//                .build());
-//
-//        return new InMemoryUserDetailsManager(userDetailsList);
-//    }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

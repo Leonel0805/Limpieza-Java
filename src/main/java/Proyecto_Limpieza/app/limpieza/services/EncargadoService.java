@@ -48,6 +48,9 @@ public class EncargadoService {
         return encargado;
     }
 
+    public void save(Encargado encargado) {
+        persistencia.guardarEncargado(encargado);
+    }
 
     public Encargado guardarEncargado(EncargadoDTO encargadoDTO) {
 

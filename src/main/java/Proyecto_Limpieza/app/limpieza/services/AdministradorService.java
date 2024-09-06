@@ -4,8 +4,10 @@ import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.ListadoAdministradorDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthRegisterDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.AdministradorDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IAdministradorDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +76,11 @@ public class AdministradorService {
 
         Administrador admin = new Administrador(administradorDTO, hashPassword);
 
-        Administrador adminRoles = this.asignarRoles(admin, administradorDTO);
+        Set<RoleEntity> roles = this.obtenerRoles(administradorDTO.roles());
+        admin.asignarRoles(roles);
 
-        guardarAdmin(adminRoles);
-        return adminRoles;
+        guardarAdmin(admin);
+        return admin;
     }
 
 //    Actualizar admin
@@ -104,22 +107,6 @@ public class AdministradorService {
         return admin;
     }
 
-    public Administrador asignarRoles(Administrador admin, AdministradorDTO administradorDTO) {
-
-        Set<RoleEntity> rolesList = administradorDTO.roles().stream()
-                .map(roleEnum -> roleEntityRepository.findByRoleName(roleEnum))
-                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
-                .map(Optional::get) // Obtiene el valor del Optional
-                .collect(Collectors.toSet()); // Recolecta en un Set;
-
-        if (rolesList.isEmpty()) {
-            throw new RuntimeException("No se asignó ningún rol.");
-        }
-
-        admin.getRoles().addAll(rolesList);
-        return admin;
-
-    }
 
     public void actualizarValores(AdministradorDTO administradorDTO, Administrador administrador) {
 
@@ -130,6 +117,17 @@ public class AdministradorService {
 
     public String hashedPassword(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    public Set<RoleEntity> obtenerRoles (Set<RoleEnum> roles) {
+
+        Set<RoleEntity> rolesList = roles.stream()
+                .map(roleEnum -> roleEntityRepository.findByRoleName(roleEnum))
+                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
+                .map(Optional::get) // Obtiene el valor del Optional
+                .collect(Collectors.toSet()); // Recolecta en un Set;
+
+        return rolesList;
     }
 
 }

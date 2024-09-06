@@ -1,14 +1,18 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
+import Proyecto_Limpieza.app.limpieza.domain.models.administrador.AdministradorRepository;
+import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
+import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserRepository;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthLoginDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthRegisterDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,6 +41,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     AdministradorService administradorService;
+
+    @Autowired
+    EncargadoService encargadoService;
 
     @Autowired
     RoleEntityRepository roleEntityRepository;
@@ -105,32 +112,35 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new RuntimeException("Error, Roles no existentes");
         }
 
-        Set<String> roles = authRegisterDTO.roles().stream()
+//        Crear Lista para verificar if es ADMIN o Encargado
+        Set<String> rolesList = authRegisterDTO.roles().stream()
                 .map(roleEnum -> roleEnum.name()
                         .toString().toUpperCase())
                 .collect(Collectors.toSet());
 
+//        creamos el usuario
 //        un Administrador no puede ser Encargado y un Encargado no puede tener Rol Administrador
-//        Creamos usuario
 
-        if (roles.contains("ADMIN")) {
-            AdministradorDTO adminDTO = new AdministradorDTO(username, email, password, authRegisterDTO.roles());
-            Administrador admin = new Administrador(adminDTO, password);
+        if (rolesList.contains("ADMIN")) {
+            Administrador admin = new Administrador(username, email, password);
+            admin.asignarRoles(this.obtenerRoles(authRegisterDTO.roles()));
 
-            UserEntity adminWithRoles = this.asignarRoles(admin, authRegisterDTO);
-            userRepository.save(adminWithRoles);
             administradorService.guardarAdmin(admin);
-            System.out.println( "asdf guardamos user y admin");
         }
 
 //        Crear para Encargado
+        if (rolesList.contains("ENCARGADO")) {
+            Encargado encargado = new Encargado(username, email, password);
+            encargado.asignarRoles(this.obtenerRoles(authRegisterDTO.roles()));
+
+            encargadoService.save(encargado);
+        }
 
 //        Creamos un UserDetails para spring security
         UserDetails userDetails = this.loadUserByUsername(username);
-//        authenticamos de forma manual
+//        authenticamos de forma manual, la password no hace falta
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-//        pasar un authentication null predeterminado antes de crear token
         String accessToken = jwtUtils.crearToken(authentication);
 
         AuthResponseDTO response = new AuthResponseDTO(username,
@@ -178,20 +188,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
 
-    public UserEntity asignarRoles(UserEntity user, AuthRegisterDTO authRegisterDTO) {
+    public Set<RoleEntity> obtenerRoles (Set<RoleEnum> roles) {
 
-        Set<RoleEntity> rolesList = authRegisterDTO.roles().stream()
+        Set<RoleEntity> rolesList = roles.stream()
                 .map(roleEnum -> roleEntityRepository.findByRoleName(roleEnum))
                 .filter(Optional::isPresent) // Filtra los permisos que se encontraron
                 .map(Optional::get) // Obtiene el valor del Optional
                 .collect(Collectors.toSet()); // Recolecta en un Set;
 
-        if (rolesList.isEmpty()) {
-            throw new RuntimeException("No se encontró ni asignó ningún rol.");
-        }
-
-        user.getRoles().addAll(rolesList);
-        return user;
+        return rolesList;
     }
 
 }

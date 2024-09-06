@@ -25,4 +25,8 @@ public class Administrador extends UserEntity {
         super(datosadministrador.name(), datosadministrador.email(), hashPassword);
 
     }
+
+    public Administrador(String username, String email, String hashPassword) {
+        super(username, email, hashPassword);
+    }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.management.relation.RoleList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,5 +56,9 @@ public class UserEntity {
         this.accountNoExpired = Boolean.TRUE;
         this.accountNoLocked = Boolean.TRUE;
         this.credentialNoExpired = Boolean.TRUE;
+    }
+
+    public void asignarRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
     }
 }

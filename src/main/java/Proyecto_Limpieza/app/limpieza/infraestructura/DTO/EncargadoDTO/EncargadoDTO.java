@@ -16,9 +16,7 @@ public record EncargadoDTO(
         @NotBlank(message = "Password no puede estar vació") //no lanza el mensaje
         String password,
 
-        @NotBlank
         String DNI,
-        @NotBlank
         String apellido,
 
         EdificioDTO edificio

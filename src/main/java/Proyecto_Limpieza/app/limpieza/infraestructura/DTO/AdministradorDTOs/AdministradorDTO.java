@@ -18,5 +18,6 @@ public record AdministradorDTO(
 
         @NotNull
         Set<RoleEnum> roles
+
 ) {
 }

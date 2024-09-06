@@ -34,34 +34,30 @@ public class JwtTokenValidator extends OncePerRequestFilter { //esto hace que ca
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-
-//        cuando se ejecuta el filtro recibimos el token
         String jwttoken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (jwttoken != null) {
-
+        if (jwttoken != null && jwttoken.startsWith("Bearer ")) {
             String JwtToken = jwttoken.substring(7);
             DecodedJWT decodedJWT = jwtUtils.validarToken(JwtToken);
 
-            String username = jwtUtils.extraerUsername(decodedJWT);
-            String stringAuthorities = jwtUtils.extraerClaim(decodedJWT, "Authorities").asString();
+            if (decodedJWT != null) {
+                String username = jwtUtils.extraerUsername(decodedJWT);
+                String stringAuthorities = jwtUtils.extraerClaim(decodedJWT, "Authorities").asString();
 
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
+                Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
 
-            SecurityContext context = SecurityContextHolder.getContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                System.out.println("Token valido. Authentication user: " + username);
 
-//            le enviamos la authenticacion al contexto de spring security
-            context.setAuthentication(authentication);
-
-            SecurityContextHolder.setContext(context);
+            } else {
+                System.out.println("Token invalid.");
+            }
+        } else {
+            System.out.println("No token or invalid token format.");
         }
 
-//        continuamos con el siguiente filtro, en caso de token ser null por lo tanto es rechazado
         filterChain.doFilter(request, response);
-
-
-
     }
 }
