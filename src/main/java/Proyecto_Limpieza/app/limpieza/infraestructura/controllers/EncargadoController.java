@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/encargados")
+@PreAuthorize("denyAll()")
 public class EncargadoController {
 
     @Autowired
@@ -26,6 +28,7 @@ public class EncargadoController {
 
 //    GET All
     @GetMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAll() {
 
         List<ListadoEncargadoDTO> encargadosDTOs = encargadoService.findAllIsEnabled().stream()
@@ -37,6 +40,7 @@ public class EncargadoController {
 
 //    Get by ID
     @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
@@ -52,6 +56,7 @@ public class EncargadoController {
 
 //    POST
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> guardarEncargado(@RequestBody @Valid EncargadoDTO encargadoDTO) {
 
         try {
@@ -70,6 +75,7 @@ public class EncargadoController {
 
     //    PUT
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> actualizarEncargado(@PathVariable Long id, @RequestBody EncargadoDTO encargadoDTO) {
 
         try {
@@ -88,6 +94,7 @@ public class EncargadoController {
 
     //    DELETE
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> eliminarEncargado(@PathVariable Long id) {
 
         try {

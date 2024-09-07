@@ -20,4 +20,7 @@ public interface EncargadoRepository extends JpaRepository<Encargado, Long> {
 
     @Query(value = "SELECT * FROM encargados e JOIN user_entity u ON e.id = u.id WHERE u.email = :email AND u.is_enabled", nativeQuery = true)
     Optional<Encargado> findByEmailAndIsEnabled(String email);
+
+    @Query(value = "SELECT * FROM encargados e JOIN user_entity u ON e.id = u.id WHERE u.username = :username AND u.is_enabled", nativeQuery = true)
+    Optional<Encargado> findByUsernameAndIsEnabled(String username);
 }

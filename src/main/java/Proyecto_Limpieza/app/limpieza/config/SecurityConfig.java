@@ -15,6 +15,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,7 +29,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 
 @Configuration
-@EnableWebSecurity //habilitar seguridad web
+@EnableMethodSecurity(prePostEnabled = true) //poner anotaciones
 public class SecurityConfig {
 
 
@@ -45,42 +47,40 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //sin estado, seria para cuando los navegadores te piden cada cierto tiempo volver a iniciar sesion, sesiones que se guardan en memoria
                 //aca si config los endpoints
 
-                .authorizeHttpRequests(http -> {
-//                    Configurar endpoints publicos
-                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll();
+//                .authorizeHttpRequests(http -> {
+////                    Configurar endpoints publicos
+//                    http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
+//                    http.requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll();
+//
+//                    http.requestMatchers(HttpMethod.GET, "/api/pedidos/**").permitAll();
+//                    http.requestMatchers(HttpMethod.GET, "/api/roles/**").permitAll();
+//                    http.requestMatchers(HttpMethod.POST, "/api/roles/**").permitAll();
+//
+//
+////                   Configurar endpoints privados
+////                    ARTICULOS
+//                    http.requestMatchers(HttpMethod.POST, "/api/articulos").hasRole("ADMIN");
+//                    http.requestMatchers(HttpMethod.PUT, "/api/articulos").hasRole("ADMIN");
+//                    http.requestMatchers(HttpMethod.DELETE, "/api/articulos").hasRole("ADMIN");
+//
+////                    PEDIDOS
+//                    http.requestMatchers(HttpMethod.POST, "/api/pedidos").hasAnyRole("ADMIN", "ENCARGADO");
+//                    http.requestMatchers(HttpMethod.PUT, "/api/pedidos").hasAnyRole("ADMIN");
+//                    http.requestMatchers(HttpMethod.DELETE, "/api/pedidos").hasAnyRole("ADMIN");
+//
+////                    ADMINISTRADOR
+//                    http.requestMatchers(HttpMethod.GET, "/api/administradores/**").hasRole("ADMIN");
+//                    http.requestMatchers(HttpMethod.POST, "/api/administradores").hasRole("ADMIN");
+//                    http.requestMatchers(HttpMethod.PUT, "/api/administradores/**").hasRole("ADMIN");
+//                    http.requestMatchers(HttpMethod.DELETE, "/api/administradores/{id}").hasRole("ADMIN");
+//
+//
+////                    Configurar endpoints denegados
+//                    http.anyRequest().denyAll();
+//                })
 
-                    http.requestMatchers(HttpMethod.GET, "/api/pedidos/**").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/api/roles/**").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/api/roles/**").permitAll();
-
-
-
-//                   Configurar endpoints privados
-//                    ARTICULOS
-                    http.requestMatchers(HttpMethod.POST, "/api/articulos").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.PUT, "/api/articulos").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/articulos").hasRole("ADMIN");
-
-//                    PEDIDOS
-                    http.requestMatchers(HttpMethod.POST, "/api/pedidos").hasAnyRole("ADMIN", "ENCARGADO");
-                    http.requestMatchers(HttpMethod.PUT, "/api/pedidos").hasAnyRole("ADMIN");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/pedidos").hasAnyRole("ADMIN");
-
-//                    ADMINISTRADOR
-                    http.requestMatchers(HttpMethod.GET, "/api/administradores/**").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.POST, "/api/administradores").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.PUT, "/api/administradores/**").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/administradores/{id}").hasRole("ADMIN");
-
-
-//                    Configurar endpoints denegados
-                    http.anyRequest().authenticated();
-                })
-
-                //agregamos el filtro de validar Token
+                //agregamos el filtro de validar Token}
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
-
                 .build();
     }
 

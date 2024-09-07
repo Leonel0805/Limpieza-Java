@@ -9,6 +9,7 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PedidoDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IPedidoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class PedidoService{
 
     @Autowired
     private EncargadoService encargadoService;
+
+    @Autowired
+    UserDetailServiceImpl userDetailService;
 
     public List<ListadoPedidoDTO> findAll() {
 
@@ -62,9 +66,22 @@ public class PedidoService{
 
     public Pedido guardarPedido(PedidoDTO pedidoDTO) {
 
-        Encargado encargado = encargadoService.findByIdAndIsEnabled(pedidoDTO.encargado_id()); //lanza exception
+        if (pedidoDTO.estado() == null) {
+            throw new RuntimeException("El estado del pedido no puede ser nulo o vacío.");
+        }
 
+        String stringEncargado;
+
+        if (pedidoDTO.nombre_encargado() != null) {
+            stringEncargado = pedidoDTO.nombre_encargado(); //exception
+
+        } else {
+            stringEncargado = userDetailService.obtenerUsuarioAutenticado(); //lanza exception
+        }
+
+        Encargado encargado = encargadoService.findByUsernameAndIsEnabled(stringEncargado); //exception
         Pedido pedido = new Pedido(pedidoDTO, encargado);
+
         this.save(pedido);
 
         return pedido;

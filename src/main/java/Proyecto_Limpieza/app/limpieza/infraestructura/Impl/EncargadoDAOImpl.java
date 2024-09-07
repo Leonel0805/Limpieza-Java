@@ -31,6 +31,11 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
     }
 
     @Override
+    public Optional<Encargado> findByUsernameAndIsEnabled(String username) {
+        return encargadoRepository.findByUsernameAndIsEnabled(username);
+    }
+
+    @Override
     public void guardarEncargado(Encargado encargado) {
         encargadoRepository.save(encargado);
     }

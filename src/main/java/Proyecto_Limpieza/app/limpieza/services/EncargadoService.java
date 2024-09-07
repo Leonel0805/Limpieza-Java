@@ -48,9 +48,22 @@ public class EncargadoService {
         return encargado;
     }
 
+
     public void save(Encargado encargado) {
         persistencia.guardarEncargado(encargado);
     }
+
+    public Encargado findByUsernameAndIsEnabled(String username) {
+
+        Optional<Encargado> encargadoOptional = persistencia.findByUsernameAndIsEnabled(username);
+
+        if (encargadoOptional.isEmpty()) {
+            throw new RuntimeException("No se encontró ningún encargado");
+        }
+
+        return encargadoOptional.get();
+    }
+
 
     public Encargado guardarEncargado(EncargadoDTO encargadoDTO) {
 
@@ -66,7 +79,7 @@ public class EncargadoService {
         Encargado encargado = new Encargado(encargadoDTO, hashPassword);
 
 //        seteamos rol USER a Encargado
-        RoleEntity rol = roleEntityRepository.findByRoleName(RoleEnum.USER)
+        RoleEntity rol = roleEntityRepository.findByRoleName(RoleEnum.ENCARGADO)
                 .orElseThrow(() -> new RuntimeException("Rol predeterminado no encontrado"));
 
         encargado.getRoles().add(rol);

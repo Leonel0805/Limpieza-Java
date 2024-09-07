@@ -1,18 +1,15 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
-import Proyecto_Limpieza.app.limpieza.domain.models.administrador.AdministradorRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntityRepository;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
-import Proyecto_Limpieza.app.limpieza.domain.models.user.UserRepository;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
+import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntityRepository;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthLoginDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthRegisterDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,7 +34,7 @@ import java.util.stream.Collectors;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserEntityRepository userRepository;
 
     @Autowired
     AdministradorService administradorService;
@@ -159,8 +156,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         Authentication authentication = this.authenticate(username, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        System.out.println("asdf login");
-        System.out.println(authentication.getName());
         String accessToken = jwtUtils.crearToken(authentication);
 
         AuthResponseDTO response = new AuthResponseDTO(username,
@@ -171,6 +166,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return response;
     }
 
+//    ACA AUTENTICAMOS CREANDO UN authenticate con asd guardado toda del loaduserbyusername
     public Authentication authenticate(String username, String password) {
 
         UserDetails userDetails = this.loadUserByUsername(username);
@@ -184,7 +180,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("Error, password incorrecto");
         }
 
-        return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
     }
 
 

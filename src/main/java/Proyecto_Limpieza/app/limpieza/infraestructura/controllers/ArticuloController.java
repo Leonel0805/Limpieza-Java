@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/articulos")
+@PreAuthorize("denyAll()")
 public class ArticuloController {
 
     @Autowired
@@ -31,6 +32,7 @@ public class ArticuloController {
 
 //    GET ALL
     @GetMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAll() {
 
         List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAll().stream()
@@ -42,6 +44,7 @@ public class ArticuloController {
 
 //  GET ID
     @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
@@ -58,6 +61,7 @@ public class ArticuloController {
 
     //    POST
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity guardarArticulo(@RequestBody @Valid ArticuloDTO articuloDTO) {
 
         try {
@@ -76,6 +80,7 @@ public class ArticuloController {
 
 //    PUT
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity actualizarArticulo(@PathVariable Long id, @RequestBody @Valid ArticuloDTO articuloDTO) {
 
         try {
@@ -93,6 +98,7 @@ public class ArticuloController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity eliminarArticulo(@PathVariable Long id) {
 
         try {

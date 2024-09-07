@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/administradores")
+@PreAuthorize("denyAll()")
 public class AdministradorController {
 
     @Autowired
@@ -25,6 +26,7 @@ public class AdministradorController {
 
 //    Get All
     @GetMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAll() {
 //        Convertimos a lista de DTO para mostrar los datos que queremos
         List<ListadoAdministradorDTO> list_administradores = administradorService.findAllIsEnabled().stream()
@@ -36,6 +38,7 @@ public class AdministradorController {
 
 //    Get
     @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
@@ -52,6 +55,7 @@ public class AdministradorController {
 
 //    POST falta verificar si existe el email
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity guardarAdmin(@RequestBody @Valid AdministradorDTO administradorDTO){
 
         try {
@@ -68,6 +72,7 @@ public class AdministradorController {
 
 //    PUT
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity actualizarAdmin(@PathVariable Long id, @RequestBody @Valid AdministradorDTO administradorDTO) {
 
         try {
@@ -86,6 +91,7 @@ public class AdministradorController {
 
 //    DELETE
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity deleteById(@PathVariable Long id) {
 
         try {

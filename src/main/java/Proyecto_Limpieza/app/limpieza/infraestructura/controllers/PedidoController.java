@@ -13,12 +13,14 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/pedidos")
+@PreAuthorize("denyAll()")
 public class PedidoController {
 
     @Autowired
@@ -28,6 +30,7 @@ public class PedidoController {
     private EncargadoService encargadoService;
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAll() {
 
         List<ListadoPedidoDTO> pedidosResponse = pedidoService.findAllNoDelete();
@@ -35,6 +38,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
@@ -52,6 +56,7 @@ public class PedidoController {
 
 //    POST
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'ENCARGADO')")
     public ResponseEntity<?> guardarPedido(@RequestBody @Valid PedidoDTO pedidoDTO) {
 
         try {
@@ -68,6 +73,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> actualizarPedidoEstado(@PathVariable Long id, @RequestBody @Valid EstadoPedidoDTO estadoPedidoDTO) {
 
         try {
@@ -86,6 +92,7 @@ public class PedidoController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
 
         try {

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@PreAuthorize("permitAll()")
 public class AuthenticationController {
 
 

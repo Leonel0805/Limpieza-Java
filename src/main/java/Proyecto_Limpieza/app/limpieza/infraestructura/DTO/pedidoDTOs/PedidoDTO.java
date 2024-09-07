@@ -8,13 +8,11 @@ import java.time.LocalDateTime;
 
 public record PedidoDTO(
 
-        @NotNull
+        @NotNull(message = "Estado no disponible")
         EstadoPedido estado,
 
         LocalDateTime fecha_creacion,
 
-        @NotNull
-        Long encargado_id
-
+        String nombre_encargado
 ) {
 }

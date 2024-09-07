@@ -63,6 +63,18 @@ public class AdministradorService {
         return admin;
     }
 
+    public Administrador findByEmailAndIsEnabled(String email) {
+
+        Optional<Administrador> adminOptional = persistencia.findByEmailAndIsEnabled(email);
+
+        if (adminOptional.isEmpty()) {
+            throw new RuntimeException("No se encontró ningún Administrador");
+        }
+
+        Administrador admin = adminOptional.get();
+        return admin;
+    }
+
 
     public Administrador crearAdmin(AdministradorDTO administradorDTO) {
 

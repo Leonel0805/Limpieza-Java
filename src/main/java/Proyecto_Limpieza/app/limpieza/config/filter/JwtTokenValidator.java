@@ -52,7 +52,7 @@ public class JwtTokenValidator extends OncePerRequestFilter { //esto hace que ca
                 System.out.println("Token valido. Authentication user: " + username);
 
             } else {
-                System.out.println("Token invalid.");
+                System.out.println("Token invalido.");
             }
         } else {
             System.out.println("No token or invalid token format.");
