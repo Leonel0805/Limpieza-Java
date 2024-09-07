@@ -1,6 +1,7 @@
 package Proyecto_Limpieza.app.limpieza.domain.models.pedido;
 
 
+import Proyecto_Limpieza.app.limpieza.domain.models.detallePedido.DetallePedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Pedidos")
@@ -31,6 +33,12 @@ public class Pedido {
 
     @ManyToOne
     private Encargado encargado;
+
+    @ManyToMany
+    @JoinTable(name = "pedido_detallesPedido",
+        joinColumns = @JoinColumn(name = "pedido_id"),
+        inverseJoinColumns = @JoinColumn(name = "detallePedido_id"))
+    private List<DetallePedido> detallePedidoList;
 
     public Pedido(PedidoDTO pedidoDTO, Encargado encargado) {
         this.estado = pedidoDTO.estado();
