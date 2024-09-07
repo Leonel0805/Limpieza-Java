@@ -7,15 +7,15 @@ import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.ListadoAdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResponseDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.ListadoEncargadoDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.perfilDTO.PerfilUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.services.PerfilService;
 import Proyecto_Limpieza.app.limpieza.services.UserDetailServiceImpl;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,27 +26,55 @@ public class PerfilController {
     @Autowired
     PerfilService perfilService;
 
+//    GET
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> mePerfil() {
 
         UserEntity user = perfilService.obtenerDatos();
 
-        if (user instanceof Administrador) {
+        if (user != null) {
+            if (user instanceof Administrador) {
 
-            Administrador admin = (Administrador) user;
-            ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
-            return ResponseEntity.status(HttpStatus.OK).body(adminResponse);
+                Administrador admin = (Administrador) user;
+                ListadoAdministradorDTO response = new ListadoAdministradorDTO(admin);
+                return ResponseEntity.status(HttpStatus.OK).body(response);
 
 
-        } else if (user instanceof Encargado) {
+            } else if (user instanceof Encargado) {
 
-            Encargado encargado = (Encargado) user;
-            ListadoEncargadoDTO encargadoResponse = new ListadoEncargadoDTO(encargado);
-            return ResponseEntity.status(HttpStatus.OK).body(encargadoResponse);
+                Encargado encargado = (Encargado) user;
+                ListadoEncargadoDTO response = new ListadoEncargadoDTO(encargado);
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+
+            }
 
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
+    }
+
+    //    PUT
+    @PutMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> actualizarPerfil(@RequestBody PerfilUpdateDTO perfilUpdateDTO) {
+
+        UserEntity user = perfilService.actualizarPerfil(perfilUpdateDTO);
+
+        if (user != null) {
+            if (user instanceof Administrador) {
+
+                Administrador admin = (Administrador) user;
+                ListadoAdministradorDTO response = new ListadoAdministradorDTO(admin);
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+
+            } else if (user instanceof Encargado) {
+
+                Encargado encargado = (Encargado) user;
+                ListadoEncargadoDTO response = new ListadoEncargadoDTO(encargado);
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+            }
+        }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }

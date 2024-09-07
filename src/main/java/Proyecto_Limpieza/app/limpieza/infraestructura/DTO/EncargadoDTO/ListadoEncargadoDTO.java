@@ -29,8 +29,7 @@ public record ListadoEncargadoDTO (
                 encargado.getPedidos() != null ?
                         encargado.getPedidos().stream()
                                 .map(pedido -> new ListadoPedidoDTO(pedido))
-                                .collect(Collectors.toList()) :
-                        Collections.emptyList()
+                                .collect(Collectors.toList()) : Collections.emptyList()
         );
     }
 }

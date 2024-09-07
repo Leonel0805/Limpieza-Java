@@ -64,13 +64,14 @@ public class PedidoService{
         persistencia.guardarPedido(pedido);
     }
 
+//    Un pedido solo puede estar relacionado con un Encargado
     public Pedido guardarPedido(PedidoDTO pedidoDTO) {
+
+        String stringEncargado;
 
         if (pedidoDTO.estado() == null) {
             throw new RuntimeException("El estado del pedido no puede ser nulo o vacío.");
         }
-
-        String stringEncargado;
 
         if (pedidoDTO.nombre_encargado() != null) {
             stringEncargado = pedidoDTO.nombre_encargado(); //exception

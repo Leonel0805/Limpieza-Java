@@ -96,7 +96,6 @@ public class SecurityConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
 //        el provider necesita estos 2 componentes
-
         provider.setUserDetailsService(userDetailService);
 //        provider.setUserDetailsService(null); //creamos user details service personalizado
         provider.setPasswordEncoder(passwordEncoder());

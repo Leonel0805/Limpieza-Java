@@ -56,7 +56,7 @@ public class EncargadoController {
 
 //    POST
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") //admin puede crear un encargado manualmente
     public ResponseEntity<?> guardarEncargado(@RequestBody @Valid EncargadoDTO encargadoDTO) {
 
         try {

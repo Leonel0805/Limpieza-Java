@@ -118,7 +118,9 @@ public class EncargadoService {
         encargado.setPassword(this.hashedPassword(encargadoDTO.password()));
         encargado.setDNI(encargadoDTO.DNI());
         encargado.setApellido(encargadoDTO.apellido());
-        encargado.setEdificio(new Edificio(encargadoDTO.edificio()));
+        encargado.setEdificio(
+                encargadoDTO.edificio() != null ? new Edificio(encargadoDTO.edificio()) : null
+        );
     }
 
     public String hashedPassword(String password) {

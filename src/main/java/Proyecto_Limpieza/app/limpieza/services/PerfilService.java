@@ -5,6 +5,7 @@ import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.perfilDTO.PerfilUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PerfilDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,30 @@ public class PerfilService {
             return encargado;
         }
 
+        return null;
+    }
 
+    public UserEntity actualizarPerfil(PerfilUpdateDTO perfilUpdateDTO) {
+
+        String username = userDetailService.obtenerUsuarioAutenticado();
+        UserEntity user = this.findByUsername(username);
+
+        if (user.getRoles().stream()
+                .anyMatch(role -> role.getRoleName().equals(RoleEnum.ADMIN))) {
+
+            Administrador admin = (Administrador) user;
+            administradorService.actualizarValores(perfilUpdateDTO.administradorDTO(), admin);
+            administradorService.guardarAdmin(admin);
+            return admin;
+
+        } else if (user.getRoles().stream()
+                .anyMatch(role -> role.getRoleName().equals(RoleEnum.ENCARGADO))) {
+
+            Encargado encargado = (Encargado) user;
+            encargadoService.actualizarValores(perfilUpdateDTO.encargadoDTO(), encargado);
+            encargadoService.save(encargado);
+            return encargado;
+        }
         return null;
     }
 }

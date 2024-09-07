@@ -72,6 +72,7 @@ public class PedidoController {
 
     }
 
+//    PUT
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> actualizarPedidoEstado(@PathVariable Long id, @RequestBody @Valid EstadoPedidoDTO estadoPedidoDTO) {
