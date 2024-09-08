@@ -44,7 +44,7 @@ public class JwtUtils {
                 .withSubject(username)
                 .withClaim("Authorities", authorities) //agregamos para ver authorities en el jwt
                 .withIssuedAt(new Date()) //agregamos fecha
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1800000)) // expira en 30 minutos
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000)) // expira en 30 minutos
                 .withJWTId(UUID.randomUUID().toString()) // asignar id
                 .withNotBefore(new Date(System.currentTimeMillis())) //valido a partir de ahora
                 .sign(algorithm);

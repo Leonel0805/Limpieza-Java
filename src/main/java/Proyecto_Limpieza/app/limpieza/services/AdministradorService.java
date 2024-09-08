@@ -101,7 +101,15 @@ public class AdministradorService {
         Administrador administrador = this.findByIdAndIsEnabled(id);
 
         this.actualizarValores(adminDTO, administrador);
-        guardarAdmin(administrador);
+        Set<RoleEntity> roles = this.obtenerRoles(adminDTO.roles());
+
+        roles.forEach(role -> System.out.println("Role in set: " + role.getRoleName()));
+        if (roles.stream().anyMatch(roleEntity -> roleEntity.getRoleName().equals(RoleEnum.ENCARGADO))) {
+            throw new RuntimeException("No se puede poner Rol Encargado a un Admin");
+        }
+//        denegar poder poner ENCARGADO como rol
+        administrador.asignarRoles(roles);
+        this.guardarAdmin(administrador);
 
         return administrador;
     }
@@ -135,7 +143,7 @@ public class AdministradorService {
 
         Set<RoleEntity> rolesList = roles.stream()
                 .map(roleEnum -> roleEntityRepository.findByRoleName(roleEnum))
-                .filter(Optional::isPresent) // Filtra los permisos que se encontraron
+                .filter(Optional::isPresent) // Filtra los roles que se encontraron
                 .map(Optional::get) // Obtiene el valor del Optional
                 .collect(Collectors.toSet()); // Recolecta en un Set;
 

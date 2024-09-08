@@ -5,6 +5,7 @@ import Proyecto_Limpieza.app.limpieza.domain.models.detallePedido.DetallePedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.detallePedidoDTO.DetallePedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
@@ -91,6 +92,7 @@ public class PedidoService{
         }
 
         Encargado encargado = encargadoService.findByUsernameAndIsEnabled(stringEncargado); //exception
+
         Pedido pedido = new Pedido(pedidoDTO, encargado);
 
         this.save(pedido);
@@ -121,10 +123,8 @@ public class PedidoService{
                 detallePedidoService.eliminarDetallePedido(detallePedido.getId());
             }
 
-            System.out.println("termine de recorrer el if");
         }
 
-        System.out.println("seteamos estado");
         pedido.setEstado(estadoPedido);
         this.save(pedido);
 

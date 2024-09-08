@@ -5,6 +5,7 @@ import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.edificioDTO.EdificioDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoEncargadoDTO;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +18,7 @@ public record ListadoEncargadoDTO (
         String name,
         String apellido,
         EdificioDTO edificio,
-        List<ListadoPedidoDTO> pedidos
+        List<PedidoEncargadoDTO> pedidos
 ){
     public ListadoEncargadoDTO(Encargado encargado) {
         this(
@@ -28,7 +29,7 @@ public record ListadoEncargadoDTO (
                 encargado.getEdificio() != null ? new EdificioDTO(encargado.getEdificio()) : null,
                 encargado.getPedidos() != null ?
                         encargado.getPedidos().stream()
-                                .map(pedido -> new ListadoPedidoDTO(pedido))
+                                .map(pedido -> new PedidoEncargadoDTO(pedido))
                                 .collect(Collectors.toList()) : Collections.emptyList()
         );
     }
