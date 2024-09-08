@@ -35,4 +35,8 @@ public class DetallePedidoService {
 
         return detallePedido;
     }
+
+    public void eliminarDetallePedido(Long id) {
+        persistencia.deleteById(id);
+    }
 }

@@ -16,4 +16,9 @@ public class DetallePedidoDAOImpl implements IDetallePedidoDAO {
     public void save(DetallePedido detallePedido) {
         detallePedidoRepository.save(detallePedido);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        detallePedidoRepository.deleteById(id);
+    }
 }

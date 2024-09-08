@@ -6,4 +6,6 @@ public interface IDetallePedidoDAO {
 
     void save(DetallePedido detallePedido);
 
+    void deleteById(Long id);
+
 }

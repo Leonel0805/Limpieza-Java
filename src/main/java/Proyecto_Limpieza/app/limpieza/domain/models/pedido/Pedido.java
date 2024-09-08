@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,7 +36,7 @@ public class Pedido {
     private Encargado encargado;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<DetallePedido> detallePedidos;
+    private List<DetallePedido> detallePedidos = new ArrayList<>();
 
     public Pedido(PedidoDTO pedidoDTO, Encargado encargado) {
 

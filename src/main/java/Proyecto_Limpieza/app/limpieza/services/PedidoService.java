@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,20 +105,28 @@ public class PedidoService{
 
         if (estadoPedido == EstadoPedido.CANCELADO) {
 
-            pedido.getDetallePedidos()
-                    .forEach(detallePedido -> {
-                        Articulo articulo = detallePedido.getArticulo();
-                        Integer cantidad = detallePedido.getCantidad();
+            List<DetallePedido> detallesAEliminar = new ArrayList<>(pedido.getDetallePedidos());
 
-                        articulo.setStock(articulo.getStock() + cantidad);
-                        articulo.setSin_stock(false);
-                        articuloService.guardarArticulo(articulo);
-                    });
+            for (DetallePedido detallePedido : detallesAEliminar) {
 
+                Articulo articulo = detallePedido.getArticulo();
+                Integer cantidad = detallePedido.getCantidad();
+
+                articulo.setStock(articulo.getStock() + cantidad);
+                articulo.setSin_stock(false);
+                articuloService.guardarArticulo(articulo);
+
+                // Eliminar el detallePedido de la lista original
+                pedido.getDetallePedidos().remove(detallePedido); //eliminamos de la lista
+                detallePedidoService.eliminarDetallePedido(detallePedido.getId());
+            }
+
+            System.out.println("termine de recorrer el if");
         }
 
+        System.out.println("seteamos estado");
         pedido.setEstado(estadoPedido);
-        persistencia.guardarPedido(pedido);
+        this.save(pedido);
 
         return pedido;
     }
@@ -141,7 +150,7 @@ public class PedidoService{
 
 //        seteamos la relacion en ambas entidades
         pedido.addDetallePedido(detallePedido);
-
+        pedido.setEstado(EstadoPedido.PENDIENTE);
 //        guardamos
         this.save(pedido);
 
