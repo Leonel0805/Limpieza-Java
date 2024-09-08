@@ -13,7 +13,7 @@ public interface IArticuloDAO {
 
     Optional<Articulo> findById(Long id);
 
-    Optional<Articulo> findByNombre(String nombre);
+    Optional<Articulo> findByNameAndStock(String name);
 
     Optional<Articulo> findByIdAndStock(Long id);
 

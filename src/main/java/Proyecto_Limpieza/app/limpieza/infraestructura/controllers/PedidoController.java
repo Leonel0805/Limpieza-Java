@@ -4,9 +4,11 @@ import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.detallePedidoDTO.DetallePedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
+import Proyecto_Limpieza.app.limpieza.services.DetallePedidoService;
 import Proyecto_Limpieza.app.limpieza.services.EncargadoService;
 import Proyecto_Limpieza.app.limpieza.services.PedidoService;
 import jakarta.validation.Valid;
@@ -28,6 +30,7 @@ public class PedidoController {
 
     @Autowired
     private EncargadoService encargadoService;
+
 
     @GetMapping
     @PreAuthorize("permitAll()")
@@ -57,10 +60,10 @@ public class PedidoController {
 //    POST
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'ENCARGADO')")
-    public ResponseEntity<?> guardarPedido(@RequestBody @Valid PedidoDTO pedidoDTO) {
+    public ResponseEntity<?> crearPedido(@RequestBody PedidoDTO pedidoDTO) {
 
         try {
-            Pedido pedido = pedidoService.guardarPedido(pedidoDTO);
+            Pedido pedido = pedidoService.crearPedido(pedidoDTO);
             ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
             APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido creado correctamente!");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -68,6 +71,26 @@ public class PedidoController {
         } catch (RuntimeException e) {
             APIResponseDTO response = new APIResponseDTO("Error - BadRequest", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+    }
+
+    //    POST agregar detalles al pedido
+    @PostMapping("/{id}/detalle")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ENCARGADO')")
+    public ResponseEntity<?> agregarDetallePedido(@PathVariable Long id, @RequestBody @Valid DetallePedidoDTO detallePedidoDTO) {
+
+        try {
+            Pedido pedido = pedidoService.agregarDetallePedido(id, detallePedidoDTO);
+            ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
+            APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Se agrego un detalle al pedido correctamente!");
+
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (RuntimeException e) {
+
+            APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
     }

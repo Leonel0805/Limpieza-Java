@@ -26,8 +26,8 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
-    public Optional<Articulo> findByNombre(String nombre) {
-        return articuloRepository.findByNombre(nombre);
+    public Optional<Articulo> findByNameAndStock(String name) {
+        return articuloRepository.findByNameAndStock(name);
     }
 
     @Override

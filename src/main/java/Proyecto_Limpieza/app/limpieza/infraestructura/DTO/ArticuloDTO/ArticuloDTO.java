@@ -10,7 +10,7 @@ public record ArticuloDTO(
         @NotBlank
         String descripcion,
         @NotNull
-        int stock,
+        Integer stock,
         @NotNull
         float precio
 ) {

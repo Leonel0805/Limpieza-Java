@@ -27,21 +27,19 @@ public class Pedido {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private EstadoPedido estado = EstadoPedido.PENDIENTE;
+    private EstadoPedido estado;
 
     private LocalDateTime fecha_creacion = LocalDateTime.now() ;
 
     @ManyToOne
     private Encargado encargado;
 
-    @ManyToMany
-    @JoinTable(name = "pedido_detallesPedido",
-        joinColumns = @JoinColumn(name = "pedido_id"),
-        inverseJoinColumns = @JoinColumn(name = "detallePedido_id"))
-    private List<DetallePedido> detallePedidoList;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<DetallePedido> detallePedidos;
 
     public Pedido(PedidoDTO pedidoDTO, Encargado encargado) {
-        this.estado = pedidoDTO.estado();
+
+        this.estado = pedidoDTO.estado() == null ? EstadoPedido.PENDIENTE : pedidoDTO.estado();
         this.encargado = encargado;
     }
 

@@ -42,6 +42,17 @@ public class ArticuloService {
         return articulo;
     }
 
+    public Articulo findByNameAndStock(String name) {
+
+        Optional<Articulo> articuloOptional = persistencia.findByNameAndStock(name);
+
+        if (articuloOptional.isEmpty()) {
+            throw new RuntimeException("Articulo no encontrado o está sin stock");
+        }
+
+        return articuloOptional.get();
+    }
+
 
     public void guardarArticulo(Articulo articulo) {
         persistencia.guardarArticulo(articulo);
@@ -49,7 +60,7 @@ public class ArticuloService {
 
     public Articulo crearArticulo(ArticuloDTO articuloDTO) {
 
-        Optional<Articulo> existingArticulo = persistencia.findByNombre(articuloDTO.nombre());
+        Optional<Articulo> existingArticulo = persistencia.findByNameAndStock(articuloDTO.nombre());
 
         if (existingArticulo.isPresent()) {
             throw new RuntimeException("El artículo con nombre " + articuloDTO.nombre() + " ya existe");

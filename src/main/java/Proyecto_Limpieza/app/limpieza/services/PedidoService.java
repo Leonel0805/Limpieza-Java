@@ -1,8 +1,10 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
+import Proyecto_Limpieza.app.limpieza.domain.models.detallePedido.DetallePedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.detallePedidoDTO.DetallePedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
@@ -24,6 +26,9 @@ public class PedidoService{
 
     @Autowired
     private EncargadoService encargadoService;
+
+    @Autowired
+    private DetallePedidoService detallePedidoService;
 
     @Autowired
     UserDetailServiceImpl userDetailService;
@@ -65,7 +70,7 @@ public class PedidoService{
     }
 
 //    Un pedido solo puede estar relacionado con un Encargado
-    public Pedido guardarPedido(PedidoDTO pedidoDTO) {
+    public Pedido crearPedido(PedidoDTO pedidoDTO) {
 
         String stringEncargado;
 
@@ -104,6 +109,21 @@ public class PedidoService{
         Pedido pedido =  this.findById(id);
 
         pedido.setEstado(EstadoPedido.ELIMINADO);
+        this.save(pedido);
+
+        return pedido;
+    }
+
+
+    public Pedido agregarDetallePedido(Long id, DetallePedidoDTO detallePedidoDTO) {
+
+        Pedido pedido = this.findById(id);
+
+        DetallePedido detallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
+
+        detallePedido.setPedido(pedido);
+        pedido.getDetallePedidos().add(detallePedido);
+
         this.save(pedido);
 
         return pedido;
