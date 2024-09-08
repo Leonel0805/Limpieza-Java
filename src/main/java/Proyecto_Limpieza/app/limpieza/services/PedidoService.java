@@ -1,5 +1,6 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
+import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
 import Proyecto_Limpieza.app.limpieza.domain.models.detallePedido.DetallePedido;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.estadoPedido.EstadoPedido;
@@ -29,6 +30,9 @@ public class PedidoService{
 
     @Autowired
     private DetallePedidoService detallePedidoService;
+
+    @Autowired
+    ArticuloService articuloService;
 
     @Autowired
     UserDetailServiceImpl userDetailService;
@@ -98,6 +102,20 @@ public class PedidoService{
         Pedido pedido = this.findById(id);
         EstadoPedido estadoPedido = estadoPedidoDTO.estado();
 
+        if (estadoPedido == EstadoPedido.CANCELADO) {
+
+            pedido.getDetallePedidos()
+                    .forEach(detallePedido -> {
+                        Articulo articulo = detallePedido.getArticulo();
+                        Integer cantidad = detallePedido.getCantidad();
+
+                        articulo.setStock(articulo.getStock() + cantidad);
+                        articulo.setSin_stock(false);
+                        articuloService.guardarArticulo(articulo);
+                    });
+
+        }
+
         pedido.setEstado(estadoPedido);
         persistencia.guardarPedido(pedido);
 
@@ -121,11 +139,14 @@ public class PedidoService{
 
         DetallePedido detallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
 
-        detallePedido.setPedido(pedido);
-        pedido.getDetallePedidos().add(detallePedido);
+//        seteamos la relacion en ambas entidades
+        pedido.addDetallePedido(detallePedido);
 
+//        guardamos
         this.save(pedido);
 
         return pedido;
     }
+
+
 }

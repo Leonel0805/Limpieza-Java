@@ -53,7 +53,6 @@ public class ArticuloService {
         return articuloOptional.get();
     }
 
-
     public void guardarArticulo(Articulo articulo) {
         persistencia.guardarArticulo(articulo);
     }
@@ -102,4 +101,23 @@ public class ArticuloService {
         articulo.setStock(articuloDTO.stock());
         articulo.setPrecio(articuloDTO.precio());
     }
+
+
+    public Articulo actualizarArticuloStock(Articulo articulo, Integer cantidad) {
+
+        Integer nuevoStock = articulo.getStock() - cantidad;
+
+        if (nuevoStock < 0) {
+            throw new RuntimeException("No hay cantidad disponible");
+
+        } else if (nuevoStock == 0) {
+            articulo.setSin_stock(true);
+        }
+
+        articulo.setStock(nuevoStock);
+        this.guardarArticulo(articulo);
+
+        return articulo;
+    }
+
 }

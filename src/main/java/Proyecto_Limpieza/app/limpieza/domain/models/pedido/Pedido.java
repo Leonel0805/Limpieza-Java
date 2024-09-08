@@ -43,4 +43,9 @@ public class Pedido {
         this.encargado = encargado;
     }
 
+    public void addDetallePedido(DetallePedido detallePedido) {
+        detallePedido.setPedido(this);
+        this.detallePedidos.add(detallePedido);
+    }
+
 }

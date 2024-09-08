@@ -27,7 +27,9 @@ public class DetallePedidoService {
         String strinArticulo = detallePedidoDTO.articulo_name();
         Articulo articulo = articuloService.findByNameAndStock(strinArticulo);
 
-        DetallePedido detallePedido = new DetallePedido(detallePedidoDTO.cantidad(), articulo);
+        Articulo articuloStockActualizado = articuloService.actualizarArticuloStock(articulo, detallePedidoDTO.cantidad());
+
+        DetallePedido detallePedido = new DetallePedido(detallePedidoDTO.cantidad(), articuloStockActualizado);
 
         persistencia.save(detallePedido);
 
