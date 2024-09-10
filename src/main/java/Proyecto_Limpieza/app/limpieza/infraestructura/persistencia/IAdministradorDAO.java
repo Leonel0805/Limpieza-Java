@@ -12,7 +12,7 @@ public interface IAdministradorDAO {
 
     Optional<Administrador> findByIdAndIsEnabled(Long id);
 
-    void guardarAdmin(Administrador admin);
+    Administrador guardarAdmin(Administrador admin);
 
     void deleteById(Long id);
 

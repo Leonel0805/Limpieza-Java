@@ -117,6 +117,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
 //        creamos el usuario
 //        un Administrador no puede ser Encargado y un Encargado no puede tener Rol Administrador
+        if (rolesList.contains("ADMIN") && rolesList.contains("ENCARGADO")) {
+            throw new RuntimeException("Error no puede tener Roles ADMIN y ENCARGADO juntos");
+        }
 
         if (rolesList.contains("ADMIN")) {
             Administrador admin = new Administrador(username, email, password);

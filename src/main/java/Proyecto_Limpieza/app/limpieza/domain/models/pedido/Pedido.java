@@ -49,4 +49,14 @@ public class Pedido {
         this.detallePedidos.add(detallePedido);
     }
 
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id=" + id +
+                ", estado=" + estado +
+                ", fecha_creacion=" + fecha_creacion +
+                ", encargado=" + encargado +
+                ", detallePedidos=" + detallePedidos +
+                '}';
+    }
 }

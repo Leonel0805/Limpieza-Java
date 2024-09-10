@@ -37,8 +37,9 @@ public class AdministradorService {
         return persistencia.findById(id);
     }
 
-    public void guardarAdmin(Administrador admin) {
-        persistencia.guardarAdmin(admin);
+    public Administrador guardarAdmin(Administrador admin) {
+        Administrador newAdmin =  persistencia.guardarAdmin(admin);
+        return newAdmin;
     }
 
     public void deleteById(Long id) {
@@ -103,7 +104,6 @@ public class AdministradorService {
         this.actualizarValores(adminDTO, administrador);
         Set<RoleEntity> roles = this.obtenerRoles(adminDTO.roles());
 
-        roles.forEach(role -> System.out.println("Role in set: " + role.getRoleName()));
         if (roles.stream().anyMatch(roleEntity -> roleEntity.getRoleName().equals(RoleEnum.ENCARGADO))) {
             throw new RuntimeException("No se puede poner Rol Encargado a un Admin");
         }

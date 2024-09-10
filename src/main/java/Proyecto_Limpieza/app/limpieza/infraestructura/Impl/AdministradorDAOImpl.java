@@ -31,8 +31,9 @@ public class AdministradorDAOImpl implements IAdministradorDAO {
     }
 
     @Override
-    public void guardarAdmin(Administrador admin) {
-        administradorRepository.save(admin);
+    public Administrador guardarAdmin(Administrador admin) {
+        Administrador administrador= administradorRepository.save(admin);
+        return administrador;
     }
 
 

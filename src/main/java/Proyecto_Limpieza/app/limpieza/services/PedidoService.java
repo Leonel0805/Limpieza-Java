@@ -106,22 +106,8 @@ public class PedidoService{
         EstadoPedido estadoPedido = estadoPedidoDTO.estado();
 
         if (estadoPedido == EstadoPedido.CANCELADO) {
-
-            List<DetallePedido> detallesAEliminar = new ArrayList<>(pedido.getDetallePedidos());
-
-            for (DetallePedido detallePedido : detallesAEliminar) {
-
-                Articulo articulo = detallePedido.getArticulo();
-                Integer cantidad = detallePedido.getCantidad();
-
-                articulo.setStock(articulo.getStock() + cantidad);
-                articulo.setSin_stock(false);
-                articuloService.guardarArticulo(articulo);
-
-                // Eliminar el detallePedido de la lista original
-                pedido.getDetallePedidos().remove(detallePedido); //eliminamos de la lista
-                detallePedidoService.eliminarDetallePedido(detallePedido.getId());
-            }
+//            devolvemos la cantidad de articulos a la abse de datos
+            detallePedidoService.eliminarDetallesDelPedido(pedido);
 
         }
 
@@ -131,11 +117,14 @@ public class PedidoService{
         return pedido;
     }
 
+//    PEDIDO ELIMINADO, significa descartar la operación, nunca tuvo que  entrar a PENDIENTE
     public Pedido deleteById(Long id) {
 
         Pedido pedido =  this.findById(id);
 
+//        si un pedido es eliminado
         pedido.setEstado(EstadoPedido.ELIMINADO);
+        detallePedidoService.eliminarDetallesDelPedido(pedido);
         this.save(pedido);
 
         return pedido;
@@ -156,6 +145,8 @@ public class PedidoService{
 
         return pedido;
     }
+
+
 
 
 }

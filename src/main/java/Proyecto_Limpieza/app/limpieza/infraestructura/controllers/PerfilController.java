@@ -6,6 +6,9 @@ import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.ListadoAdministradorDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ApiResponseDTO.APIResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthUpdateAdminResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.ListadoEncargadoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.perfilDTO.PerfilUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.services.PerfilService;
@@ -59,19 +62,22 @@ public class PerfilController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> actualizarPerfil(@RequestBody PerfilUpdateDTO perfilUpdateDTO) {
 
-        UserEntity user = perfilService.actualizarPerfil(perfilUpdateDTO);
+        AuthUpdateDTO responseDTO = perfilService.actualizarPerfil(perfilUpdateDTO);
 
-        if (user != null) {
-            if (user instanceof Administrador) {
+        if (responseDTO.user() != null) {
+            if (responseDTO.user() instanceof Administrador) {
 
-                Administrador admin = (Administrador) user;
-                ListadoAdministradorDTO response = new ListadoAdministradorDTO(admin);
+                Administrador admin = (Administrador) responseDTO.user();
+                ListadoAdministradorDTO adminResponse = new ListadoAdministradorDTO(admin);
+                AuthUpdateAdminResponseDTO response = new AuthUpdateAdminResponseDTO(adminResponse, responseDTO.jwt(), "Usuario actualizado correctamente");
                 return ResponseEntity.status(HttpStatus.OK).body(response);
 
-            } else if (user instanceof Encargado) {
+            } else if (responseDTO.user() instanceof Encargado) {
 
-                Encargado encargado = (Encargado) user;
-                ListadoEncargadoDTO response = new ListadoEncargadoDTO(encargado);
+                Encargado encargado = (Encargado) responseDTO.user();
+                ListadoEncargadoDTO encargadoResponse = new ListadoEncargadoDTO(encargado);
+                APIResponseDTO response = new APIResponseDTO(encargadoResponse, "Usuario actualizado correctamente");
+
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }

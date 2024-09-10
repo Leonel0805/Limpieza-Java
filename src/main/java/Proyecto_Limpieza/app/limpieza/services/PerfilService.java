@@ -5,9 +5,18 @@ import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.PerfilAdministradorDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.perfilDTO.PerfilUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PerfilDAOImpl;
+import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +25,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class PerfilService {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     PerfilDAOImpl persistencia;
@@ -28,6 +40,9 @@ public class PerfilService {
 
     @Autowired
     EncargadoService encargadoService;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     public UserEntity findByUsername(String username) {
 
@@ -65,7 +80,7 @@ public class PerfilService {
         return null;
     }
 
-    public UserEntity actualizarPerfil(PerfilUpdateDTO perfilUpdateDTO) {
+    public AuthUpdateDTO actualizarPerfil(PerfilUpdateDTO perfilUpdateDTO) {
 
         String username = userDetailService.obtenerUsuarioAutenticado();
         UserEntity user = this.findByUsername(username);
@@ -74,9 +89,21 @@ public class PerfilService {
                 .anyMatch(role -> role.getRoleName().equals(RoleEnum.ADMIN))) {
 
             Administrador admin = (Administrador) user;
-            administradorService.actualizarValores(perfilUpdateDTO.administradorDTO(), admin);
-            administradorService.guardarAdmin(admin);
-            return admin;
+            this.actualizarValores(perfilUpdateDTO.administrador(), admin);
+            Administrador newAdmin = administradorService.guardarAdmin(admin);
+
+            UserDetails userDetails = userDetailService.loadUserByUsername(newAdmin.getUsername());
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            String jwt = jwtUtils.crearToken(authentication);
+
+            AuthUpdateDTO response = new AuthUpdateDTO(
+                    jwt,
+                    newAdmin
+            );
+
+            return response;
 
         } else if (user.getRoles().stream()
                 .anyMatch(role -> role.getRoleName().equals(RoleEnum.ENCARGADO))) {
@@ -84,8 +111,22 @@ public class PerfilService {
             Encargado encargado = (Encargado) user;
             encargadoService.actualizarValores(perfilUpdateDTO.encargadoDTO(), encargado);
             encargadoService.save(encargado);
-            return encargado;
+            return null;
         }
         return null;
     }
+
+
+//ACTUALIZAR VALORES segun admin o
+    public void actualizarValores(PerfilAdministradorDTO perfilAdministradorDTO, Administrador administrador) {
+
+        administrador.setUsername(perfilAdministradorDTO.name());
+        administrador.setEmail(perfilAdministradorDTO.email());
+        administrador.setPassword(this.hashedPassword(perfilAdministradorDTO.password()));
+    }
+
+    public String hashedPassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
 }
