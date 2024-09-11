@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 public class JwtUtils {
 
     //    importamos lo de nuestro properties para la autenticidad de nuestro jwt
-    @Value("${security.jwt.private}")
+    @Value("${SPRING_JWT_PRIVATE}")
     private String privateKey;
 
-    @Value("${security.jwt.user}")
+    @Value("${SPRING_JWT_USER}")
     private String userGenerator;
 
     // Crear Token
