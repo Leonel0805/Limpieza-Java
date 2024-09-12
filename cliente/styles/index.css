@@ -7,6 +7,10 @@ li{
     list-style: none;
 }
 
+a{
+    text-decoration: none;
+}
+
 body{
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
@@ -192,6 +196,12 @@ main{
     font-size: 1.07rem;
     background-color: rgb(25, 201, 2);
     color: white;
+    transition: background-color 0.3s;
+}
+
+.articulo__button:hover{
+    cursor: pointer;
+    background-color: rgb(23, 173, 3);
 }
 
 /* SECTION TIPS */
@@ -235,11 +245,14 @@ main{
 
 footer{
     width: 100%;
+    background-color: rgb(247, 146, 146);
+
 }
 
 .footer__container{
     width: 90%;
+    height: 150px;
+    background-color: red;
     margin: 0 auto;
-    background-color: rgb(247, 146, 146);
     text-align: center;
 }
