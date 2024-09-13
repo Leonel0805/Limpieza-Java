@@ -68,7 +68,13 @@ public class ArticuloController {
                 .map(articulo -> new ListadoArticuloDTO(articulo))
                 .collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.OK).body(articuloDTOS);
+        if (articuloDTOS.isEmpty()) {
+            APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.NOT_FOUND, "No se encontró ningúna busqueda relacionada: " + query);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(articuloDTOS);
+        }
+
     }
 
     //    POST
