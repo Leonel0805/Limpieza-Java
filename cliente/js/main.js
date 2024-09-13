@@ -1,9 +1,8 @@
-
+import { crearCards } from './utils/crearCards.js';
 
 const apiURL = "https://miraculous-warmth-production.up.railway.app/api/articulos"
 let articuloContainer = document.querySelector(".articulos__container")
 
-console.log(articuloContainer)
 
 fetch(apiURL)
     .then(response => {
@@ -18,68 +17,28 @@ fetch(apiURL)
 
     })
     .then(json => {
-        crearCards(json)
+        crearCards(json, articuloContainer)
     })
 
-// Crear cards
-function crearCards(articulos){
+// search
 
-    for (let i=0; i < Math.min(6, articulos.length); i++){
+let inputSearch = document.querySelector('#inputSearch')
+console.log(inputSearch)
 
+let formSearch = document.querySelector('#formSearch')
+console.log(formSearch)
 
-        // // creamos container card
-        let articuloCard = document.createElement('div')
-        articuloCard.className = 'articulo__card'
+formSearch.addEventListener('submit', function(event){
 
-        // // creamos ahref
-        let articuloHref = document.createElement('a')
-        articuloHref.href = './templates/articulos/articulo_detail.html'
+    event.preventDefault();
+    console.log("Formulario al enviar")
+    let searchValue = inputSearch.value;
 
-        // // creamos container imange
-        let articuloImageContainer = document.createElement('div')
-        articuloImageContainer.className = 'articulo__image__container'
-
-
-        // // creamos image
-        let articuloImage = document.createElement('img')
-        articuloImage.className = 'articulo__image'
-        // articuloImage.src = "./re"
-
-        // // creamos Articulo Content
-        let articuloContent = document.createElement('div')
-        articuloContent.className = 'articulo__content'
-
-        // // Creamos articulo title
-        let articuloTitle = document.createElement('h3')
-        articuloTitle.className = 'articulo__title'
-        articuloTitle.innerText = articulos[i].nombre
-
-        // Creamos articulo precio
-        let articuloPrecio = document.createElement('p')
-        articuloPrecio.className = 'articulo__precio'
-        articuloPrecio.innerText = articulos[i].precio
-
-        // Creamos botton agregar
-        let articuloButton = document.createElement('button')
-        articuloButton.className = 'articulo__button'
-        articuloButton.innerText = 'Agregar'
-
-        // añadimos todo
-        articuloImageContainer.appendChild(articuloImage)
-
-        articuloContent.appendChild(articuloTitle)
-        articuloContent.appendChild(articuloPrecio)
-
-        articuloHref.appendChild(articuloImageContainer)
-        articuloHref.appendChild(articuloContent)
-
-        articuloCard.appendChild(articuloHref)
-      
-        articuloCard.appendChild(articuloButton)
-
-
-        // añadimos al articulos container la card
-        articuloContainer.appendChild(articuloCard)
-
+    if (searchValue){
+        window.location.href = `/cliente/templates/pages/search.html?query=${encodeURIComponent(searchValue)}`;
+    }else{
+        console.log("no se pudo redireccionar")
     }
-}
+
+
+});

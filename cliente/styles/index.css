@@ -50,6 +50,8 @@ header{
     display: flex;
     align-items: center;
     position: relative;
+    border: 1px solid rgb(146, 146, 146);
+    border-radius: 8px;
 }
 
 .header__input{
@@ -75,6 +77,10 @@ header{
     padding: 12px;
     font-size: 1.07rem;
     cursor: pointer;
+}
+
+.header__session:hover{
+    color: black;
 }
 
 
