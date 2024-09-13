@@ -11,6 +11,8 @@ public interface IArticuloDAO {
 
     List<Articulo> findAll();
 
+    List<Articulo> findByParam(String query);
+
     Optional<Articulo> findById(Long id);
 
     Optional<Articulo> findByNameAndStock(String name);

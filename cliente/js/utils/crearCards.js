@@ -1,5 +1,8 @@
+// Obtenemos el container
+let articuloContainer = document.querySelector(".articulos__container")
+
 // Crear cards
-export function crearCards(articulos, articuloContainer){
+export function crearCards(articulos){
 
     for (let i=0; i < Math.min(6, articulos.length); i++){
 

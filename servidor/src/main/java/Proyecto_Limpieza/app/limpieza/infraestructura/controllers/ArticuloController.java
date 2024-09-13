@@ -59,6 +59,18 @@ public class ArticuloController {
         }
     }
 
+
+    @GetMapping("/search")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> searchArticulos(@RequestParam(value = "query") String query) {
+
+        List<ListadoArticuloDTO> articuloDTOS = articuloService.findByParam(query).stream()
+                .map(articulo -> new ListadoArticuloDTO(articulo))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(articuloDTOS);
+    }
+
     //    POST
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")

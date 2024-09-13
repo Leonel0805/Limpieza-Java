@@ -26,7 +26,6 @@ public class ArticuloService {
         return persistencia.findAll();
     }
 
-
     public Articulo findByIdAndStock(Long id) {
 
         String username = userDetailService.obtenerUsuarioAutenticado();
@@ -52,6 +51,17 @@ public class ArticuloService {
 
         return articuloOptional.get();
     }
+
+    //    Buscar articulos por nombre enviado por parametro
+    public List<Articulo> findByParam(String query) {
+
+        String newQuery = query.toLowerCase();
+        List<Articulo> articulosSearch = persistencia.findByParam(query);
+
+        return articulosSearch;
+    }
+
+
 
     public void guardarArticulo(Articulo articulo) {
         persistencia.guardarArticulo(articulo);

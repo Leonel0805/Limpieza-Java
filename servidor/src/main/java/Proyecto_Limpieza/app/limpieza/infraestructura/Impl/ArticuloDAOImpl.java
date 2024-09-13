@@ -21,6 +21,11 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
+    public List<Articulo> findByParam(String query) {
+        return articuloRepository.findByParam(query);
+    }
+
+    @Override
     public Optional<Articulo> findById(Long id) {
         return articuloRepository.findById(id);
     }

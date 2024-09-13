@@ -1,7 +1,8 @@
 import { crearCards } from './utils/crearCards.js';
+import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
+
 
 const apiURL = "https://miraculous-warmth-production.up.railway.app/api/articulos"
-let articuloContainer = document.querySelector(".articulos__container")
 
 
 fetch(apiURL)
@@ -17,27 +18,9 @@ fetch(apiURL)
 
     })
     .then(json => {
-        crearCards(json, articuloContainer)
+        crearCards(json)
     })
 
-// search
-let inputSearch = document.querySelector('#inputSearch')
-console.log(inputSearch)
 
-let formSearch = document.querySelector('#formSearch')
-console.log(formSearch)
+    sendFormSearchParam()
 
-formSearch.addEventListener('submit', function(event){
-
-    event.preventDefault();
-    console.log("Formulario al enviar")
-    let searchValue = inputSearch.value;
-
-    if (searchValue){
-        window.location.href = `/cliente/templates/pages/search.html?query=${encodeURIComponent(searchValue)}`;
-    }else{
-        console.log("no se pudo redireccionar")
-    }
-
-
-});
