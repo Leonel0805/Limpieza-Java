@@ -21,7 +21,6 @@ fetch(apiURL)
     })
 
 // search
-
 let inputSearch = document.querySelector('#inputSearch')
 console.log(inputSearch)
 

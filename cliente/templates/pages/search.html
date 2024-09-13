@@ -4,8 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
+
+    <link rel="stylesheet" href="../../styles/main.css">
 </head>
 <body>
     
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+
+        
+    <header>
+
+        <div class="header__container">
+            <div class="header__search">
+                <img class="header__logo" src="asdf" alt="Logo-pagina">
+                <form id="formSearch" class="header__form">
+                    <input id="inputSearch" class="header__input" type="search" placeholder="Buscar por articulo, categoría.">
+                    <!-- cambiar a un icon -->
+                    <button class="header__button" type="submit">Buscar</button>
+                </form>
+                
+                <a class="header__session" href="./templates/auth/login.html">
+                    Ingresar
+                </a>
+                
+            </div>
+            <nav class="navbar">
+                <ul class="navbar__list">
+                    <li class="navbar__item">
+                        <a href="">
+                            Categorias
+                        </a></li>
+                    <li class="navbar__item">
+                        <a href="">
+                            Productos
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="">
+                            Contacto
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <section class="articulos">
+
+        <div class="articulos__container">
+            
+            <div class="articulo__card">
+                <a href="./templates/articulos/articulo_detail.html">
+                    <div class="articulo__image__container">
+                        <img class="articulo__image" src="./resources/articulos/articulo_limpieza.jpg" alt="imagen">
+                    </div>
+                    <div class="articulo__content">
+                        <h3 class="articulo__title">Nombre articulo</h3>
+                        <p class="articulo__precio">43434</p>
+                    </div>
+                </a>
+       
+                <button class="articulo__button" type="button">Agregar</button>
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+</main>
+
+<footer>
+    <div class="footer__container">
+        <p>Leonel Rodriguez</p>
+    </div>
+</footer>
+        
+    </body>
+    </html>
 </body>
 </html>
