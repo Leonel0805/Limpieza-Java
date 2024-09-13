@@ -25,7 +25,7 @@ fetch(apiURL)
 
 function crearCards(articulos){
 
-    for (let i=0; i < Math.min(2, articulos.length); i++){
+    for (let i=0; i < Math.min(6, articulos.length); i++){
 
 
         // // creamos container card
@@ -58,6 +58,11 @@ function crearCards(articulos){
         articuloPrecio.className = 'articulo__precio'
         articuloPrecio.innerText = articulos[i].precio
 
+        // Creamos botton agregar
+        let articuloButton = document.createElement('button')
+        articuloButton.className = 'articulo__button'
+        articuloButton.innerText = 'Agregar'
+
         // añadimos todo
         articuloImageContainer.appendChild(articuloImage)
 
@@ -66,6 +71,8 @@ function crearCards(articulos){
 
         articuloCard.appendChild(articuloImageContainer)
         articuloCard.appendChild(articuloContent)
+        articuloCard.appendChild(articuloButton)
+
 
         // añadimos al articulos container la card
         articuloContainer.appendChild(articuloCard)

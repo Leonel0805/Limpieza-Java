@@ -153,14 +153,15 @@ main{
     width: 20%;
     background-color: rgb(243, 172, 66);
     text-align: center;
-    padding-bottom: 8px;
+    padding-bottom: 24px;
 }
 
 .articulo__image__container{
     background-color: black;
     width: 100%;
-    height: 70%;
+    height: 250px;
     margin: 0 auto;
+
 
 }
 
