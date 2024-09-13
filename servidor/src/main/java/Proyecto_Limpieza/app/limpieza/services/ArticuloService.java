@@ -60,7 +60,7 @@ public class ArticuloService {
 
         return articulosSearch;
     }
-    
+
     public void guardarArticulo(Articulo articulo) {
         persistencia.guardarArticulo(articulo);
     }

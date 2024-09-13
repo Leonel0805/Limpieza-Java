@@ -9,7 +9,7 @@ async function generarCards() {
     if (response.status === 200) {
 
         let json = await response.json();
-        await crearCards(json); 
+        crearCards(json); 
     }
 }
 
