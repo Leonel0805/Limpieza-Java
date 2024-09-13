@@ -8,7 +8,7 @@ export function crearCard(articulo){
 
         // // creamos ahref
         let articuloHref = document.createElement('a')
-        articuloHref.href = './templates/articulos/articulo_detail.html' + '?id=' + articulo.id
+        articuloHref.href = './cliente/templates/articulos/articulo_detail.html' + '?id=' + articulo.id
         articuloHref.className = 'articulo__href'
 
         // // creamos container imange
