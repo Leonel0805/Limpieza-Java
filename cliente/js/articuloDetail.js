@@ -9,7 +9,7 @@ let articuloContainer = document.querySelector(".articulos__container")
 // Obtenemos nuestro param Query
 let id = urlParams.get('id');
 
-const APIUrl = 'https://miraculous-warmth-production.up.railway.app/api/articulos'
+const APIUrl = 'http://localhost:8080/api/articulos'
 console.log(id)
 
 function obtenerArticuloById(id){
