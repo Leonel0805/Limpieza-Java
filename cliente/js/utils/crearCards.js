@@ -7,13 +7,16 @@ export function crearCards(articulos){
     for (let i=0; i < Math.min(6, articulos.length); i++){
 
 
+
         // // creamos container card
         let articuloCard = document.createElement('div')
         articuloCard.className = 'articulo__card'
+        articuloCard.setAttribute('data-id', articulos[i].id);
 
         // // creamos ahref
         let articuloHref = document.createElement('a')
-        articuloHref.href = './templates/articulos/articulo_detail.html'
+        articuloHref.href = './templates/articulos/articulo_detail.html' + '?query=' + articulos[i].id
+        articuloHref.className = 'articulo__href'
 
         // // creamos container imange
         let articuloImageContainer = document.createElement('div')

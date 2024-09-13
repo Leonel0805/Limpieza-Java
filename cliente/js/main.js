@@ -1,26 +1,31 @@
 import { crearCards } from './utils/crearCards.js';
 import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
 
-
 const apiURL = "https://miraculous-warmth-production.up.railway.app/api/articulos"
 
+async function generarCards() {
+    let response = await fetch(apiURL);
 
-fetch(apiURL)
-    .then(response => {
+    if (response.status === 200) {
 
-        let status = response.status
+        let json = await response.json();
+        await crearCards(json); 
+    }
+}
 
-        console.log(status)
 
-        if(status == 200){
-            return response.json()
-        }
-
-    })
-    .then(json => {
-        crearCards(json)
-    })
-
+async function init(){
 
     sendFormSearchParam()
+
+    // generamos las cards con su debitas rutas
+    await generarCards()
+
+}
+
+init()
+
+
+
+
 

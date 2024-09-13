@@ -56,13 +56,11 @@ public class ArticuloService {
     public List<Articulo> findByParam(String query) {
 
         String newQuery = query.toLowerCase();
-        List<Articulo> articulosSearch = persistencia.findByParam(query);
+        List<Articulo> articulosSearch = persistencia.findByParam(newQuery);
 
         return articulosSearch;
     }
-
-
-
+    
     public void guardarArticulo(Articulo articulo) {
         persistencia.guardarArticulo(articulo);
     }

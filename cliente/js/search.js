@@ -28,7 +28,6 @@ fetch(apiURL + '?query=' + query)
                 console.log(json['message'])
                 sendNotFound(json['message'])
 
-                
             })
         }
     });
