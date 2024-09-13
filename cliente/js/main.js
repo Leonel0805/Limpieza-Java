@@ -18,11 +18,10 @@ fetch(apiURL)
 
     })
     .then(json => {
-
         crearCards(json)
     })
 
-
+// Crear cards
 function crearCards(articulos){
 
     for (let i=0; i < Math.min(6, articulos.length); i++){
@@ -33,6 +32,8 @@ function crearCards(articulos){
         articuloCard.className = 'articulo__card'
 
         // // creamos ahref
+        let articuloHref = document.createElement('a')
+        articuloHref.href = './templates/articulo_detail.html'
 
         // // creamos container imange
         let articuloImageContainer = document.createElement('div')
@@ -69,8 +70,11 @@ function crearCards(articulos){
         articuloContent.appendChild(articuloTitle)
         articuloContent.appendChild(articuloPrecio)
 
-        articuloCard.appendChild(articuloImageContainer)
-        articuloCard.appendChild(articuloContent)
+        articuloHref.appendChild(articuloImageContainer)
+        articuloHref.appendChild(articuloContent)
+
+        articuloCard.appendChild(articuloHref)
+      
         articuloCard.appendChild(articuloButton)
 
 
