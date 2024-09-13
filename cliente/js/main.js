@@ -33,7 +33,7 @@ function crearCards(articulos){
 
         // // creamos ahref
         let articuloHref = document.createElement('a')
-        articuloHref.href = './templates/articulo_detail.html'
+        articuloHref.href = './templates/articulos/articulo_detail.html'
 
         // // creamos container imange
         let articuloImageContainer = document.createElement('div')
