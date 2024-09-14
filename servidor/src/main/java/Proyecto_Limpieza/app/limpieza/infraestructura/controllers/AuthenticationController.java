@@ -32,7 +32,7 @@ public class AuthenticationController {
         try {
             AuthResponseDTO userResponse = this.userDetailService.registerUser(authRegisterDTO);
 
-            return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
 
         } catch (RuntimeException e) {
             APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.BAD_REQUEST, e.getMessage());

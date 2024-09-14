@@ -49,9 +49,9 @@ function authenticate(username, password){
         let username = json.username
 
         console.log(jwt)
-        localStorage.setItem('token', jwt)
+        localStorage.setItem('jwt', jwt)
         localStorage.setItem('username', username)
-        
+
         let baseURL = window.location.origin
         window.location.href = baseURL + '/index.html';
     })
