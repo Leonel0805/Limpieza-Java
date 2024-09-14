@@ -21,6 +21,12 @@ async function init(){
     // generamos las cards con su debitas rutas
     await generarCards()
 
+    let token = localStorage.getItem('token')
+    console.log(token)
+
+    // el local storage mantiene ahi hasta que le digamos
+    let username = localStorage.getItem('username')
+    console.log(username)
 }
 
 init()

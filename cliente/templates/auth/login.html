@@ -4,9 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
+    <link rel="stylesheet" href="../../styles/auth/login.css">
 </head>
 <body>
     
-    <h1>Este es mi login</h1>
+    <main>
+        <section class="login">
+
+            <div class="login__container">
+
+                <h2 class="login__title">Login</h2>
+
+                <form class="login__form">
+    
+                    <label class="login__label" for="username">Username</label>
+                    <input class="login__input" type="text" id="username" placeholder="username">
+                    
+                    <label class="login__label" for="password">Contraseña</label>
+                    <input class="login__input" type="password" id="password" placeholder="contraseña">
+    
+                    <button class="login__button" type="submit">Iniciar Sesión</button>
+    
+                    <p>Ya tenes cuenta? 
+                        <a href="./register.html">
+                            Registrate
+                        </a>
+                    </p>
+                </form>
+            </div>
+         
+        </section>
+    </main>
+
+    <script src="../../js/login.js"></script>
 </body>
 </html>

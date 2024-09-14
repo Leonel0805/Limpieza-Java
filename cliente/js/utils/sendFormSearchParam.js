@@ -14,7 +14,9 @@ export function sendFormSearchParam(){
         let searchValue = inputSearch.value;
 
         if (searchValue){
-            window.location.href = `./cliente/templates/pages/search.html?query=${encodeURIComponent(searchValue)}`;
+    
+            let baseUrl = `${window.location.origin}/cliente/templates/pages/search.html`;
+            window.location.href = `${baseUrl}?query=${encodeURIComponent(searchValue)}`;
         }else{
             console.log("no se pudo redireccionar")
         }

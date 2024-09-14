@@ -1,5 +1,5 @@
 import { crearCard } from "./utils/crearCard.js"
-
+import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
 // obtener el id enviado por queryparams
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -32,6 +32,7 @@ function obtenerArticuloById(id){
 }
 
 obtenerArticuloById(id);
+sendFormSearchParam()
 
 
 

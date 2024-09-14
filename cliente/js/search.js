@@ -33,7 +33,6 @@ fetch(apiURL + '?query=' + query)
     });
 
 
-sendFormSearchParam()
 
 function sendNotFound(message){
 
@@ -45,3 +44,6 @@ function sendNotFound(message){
     articuloContainer.appendChild(error)
 
 }
+
+
+sendFormSearchParam()
