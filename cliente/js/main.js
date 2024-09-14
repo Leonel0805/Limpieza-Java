@@ -1,7 +1,9 @@
 import { crearCards } from './utils/crearCards.js';
 import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
 
-const apiURL = "https://miraculous-warmth-production.up.railway.app/api/articulos"
+const apiURL = "https://miraculous-warmth-production.up.railway.app/api/articulos";
+
+const baseURL = window.location.origin;
 
 async function generarCards() {
     let response = await fetch(apiURL);
@@ -13,8 +15,22 @@ async function generarCards() {
     }
 }
 
+function isLogin(){
+
+    let username = localStorage.getItem('username');
+    if(username){
+        
+        // manipulamos el DOM
+        let headerLogin = document.querySelector('.header__session');    
+        headerLogin.textContent = username;
+        headerLogin.href = baseURL + '/cliente/templates/user/user_me.html';
+    }
+}
+
 
 async function init(){
+
+    // isLogin()
 
     sendFormSearchParam()
 
@@ -24,9 +40,6 @@ async function init(){
     let token = localStorage.getItem('token')
     console.log(token)
 
-    // el local storage mantiene ahi hasta que le digamos
-    let username = localStorage.getItem('username')
-    console.log(username)
 }
 
 init()

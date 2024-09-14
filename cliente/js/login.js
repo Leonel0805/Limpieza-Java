@@ -29,7 +29,6 @@ function authenticate(username, password){
         password: password
     };
 
- 
 
     fetch(APIUrl, {
         method: 'POST',
@@ -47,7 +46,13 @@ function authenticate(username, password){
     .then(json => {
 
         let jwt = json.jwt
+        let username = json.username
+
         console.log(jwt)
         localStorage.setItem('token', jwt)
+        localStorage.setItem('username', username)
+        
+        let baseURL = window.location.origin
+        window.location.href = baseURL + '/index.html';
     })
 }
