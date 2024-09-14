@@ -4,13 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin o Encargado</title>
+
+    <link rel="stylesheet" href="../../styles/pages/admin_encargado.css">
 </head>
 <body>
 
-    <h1>Sos admin o encargado</h1>
+    <main>
+        <div class="options__container">
 
-    <button id="buttonAdmin">Admin</button>
-    <button id="buttonEncargado">Encargado</button>
+            <h1 class="options__title">Vas a ser Administrador o Encargado?</h1>
+
+            <div class="options__containerCards">
+                    
+                <div class="options__card">
+                    <div class="options__imageContainer">
+                        <img class="options__image" src="" alt="">
+                        <p>asdf</p>
+                    </div>
+                    <button id="buttonAdmin" class="options__button">Admin</button>
+                </div>
+
+                <div class="options__card">
+
+                    <button id="buttonEncargado" class="options__button">Encargado</button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
     
     <script type="module" src="../../js/utils/selectAdminEncargado.js"></script>
 </body>

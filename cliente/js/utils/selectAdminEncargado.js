@@ -26,6 +26,19 @@ buttonEncargado.addEventListener('click', function(event){
     event.preventDefault()
     console.log('se presiono button Encargado')
 
+
+    // obtener el objeto auth del localStorage
+    let authLocal = localStorage.getItem('authLogin');
+    if (authLocal) {
+        // parseamos y obtenemos el objeto
+        let authObject = JSON.parse(authLocal);
+
+        authObject.roles = ['ENCARGADO'];
+        
+        register(authObject)
+        console.log('registro completado')
+    }
+
 })
 
 
