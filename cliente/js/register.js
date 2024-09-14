@@ -13,7 +13,6 @@ registerForm.addEventListener('submit', function(event) {
 
     event.preventDefault();
 
-    console.log('asdfasdf')
     let usernameValue = inputUsername.value;
     let emailValue = inputEmail.value;
     let passwordValue = password.value;
@@ -25,8 +24,7 @@ registerForm.addEventListener('submit', function(event) {
         password: passwordValue
     }
 
-    localStorage.setItem('authLogin', JSON.stringify(auth));
-    console.log(auth, + 'enviado')
+    localStorage.setItem('authRegister', JSON.stringify(auth));
 
     const baseURL = window.location.origin;
     window.location.href = baseURL + '/cliente/templates/pages/admin_encargado.html';

@@ -9,7 +9,7 @@ buttonAdmin.addEventListener('click', function(event){
     console.log('se presiono button admin')
 
     // obtener el objeto auth del localStorage
-    let authLocal = localStorage.getItem('authLogin');
+    let authLocal = localStorage.getItem('authRegister');
     if (authLocal) {
         // parseamos y obtenemos el objeto
         let authObject = JSON.parse(authLocal);
@@ -28,7 +28,7 @@ buttonEncargado.addEventListener('click', function(event){
 
 
     // obtener el objeto auth del localStorage
-    let authLocal = localStorage.getItem('authLogin');
+    let authLocal = localStorage.getItem('authRegister');
     if (authLocal) {
         // parseamos y obtenemos el objeto
         let authObject = JSON.parse(authLocal);
