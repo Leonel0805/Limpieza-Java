@@ -1,0 +1,57 @@
+body{
+    height: 100vh;
+}
+
+main{
+    background-color: green;
+    height: 100%;
+}
+
+.section__detalles{
+    background-color: rgb(123, 216, 216);
+    height: 90%;
+}
+
+.detalles__container{
+    margin-top: 32px;
+    height: 100%;
+    background-color: aqua;
+    display: flex;
+    justify-content: space-around;
+}
+
+.detalles__main{
+    background-color: rgb(240, 238, 238);
+    width: 30%;
+    height: 50%;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detalles__main__top{
+}
+
+.detalles__main__image {
+    border-radius: 20%;
+    width: 250px;
+    object-fit: f;
+}
+
+.detalles__card{
+    background-color: rgb(240, 240, 240);
+    width: 60%;
+    height: 50%;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.detalles__title{
+
+}
+
+.detalles__content{
+    margin-top: 16px;
+}
