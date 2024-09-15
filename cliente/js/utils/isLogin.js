@@ -20,9 +20,20 @@ export async function isLogin(){
         })
         .then(json =>{
             // manipulamos el DOM
-            let headerLogin = document.querySelector('.header__session');   
+            let headerLogin = document.querySelector('.header__session');  
             headerLogin.textContent = json.username;
-            headerLogin.href = baseURL + '/cliente/templates/user/user_me.html';
+
+            headerLogin.addEventListener('click', function(event){
+            // anulamos el href
+                event.preventDefault()
+
+                // mostramos el menu
+                let menu = document.querySelector('.header__menu')
+
+                // condicionamos
+                menu.style.display == 'none' ? menu.style.display = 'block' : menu.style.display = 'none'
+
+            })
         })
        
  

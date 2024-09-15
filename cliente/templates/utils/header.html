@@ -9,11 +9,20 @@
             <button class="header__button" type="submit">Buscar</button>
         </form>
         
-        <a class="header__session" href="./cliente/templates/auth/login.html">
-            Ingresar
-        </a>
-        
+        <div class="header__perfil">
+       
+            <a class="header__session" href="./cliente/templates/auth/login.html">
+                Ingresar
+            </a>
+
+            <div class="header__menu">
+                <a class="header__button-menu" href="../../../cliente/templates/user/user_me.html">Ver perfil</a>
+                <button id="button-logout" class="header__button-menu header__button-menu--logout">Cerrar sesión</button>
+            </div>
+        </div>
+    
     </div>
+
     <nav class="navbar">
         <ul class="navbar__list">
             <li class="navbar__item">

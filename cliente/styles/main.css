@@ -86,12 +86,36 @@ header{
     cursor: pointer;
 }
 
-.header__session:hover{
-    color: black;
+.header__perfil{
+    background-color: green;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.header__menu{
+    position: absolute;
+    width: 120px;
+    background-color: rgb(212, 174, 248);
+    display: none;
+}
+
+.header__button-menu{
+    font-size: 1rem;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.header__button-menu--logout{
+    font-size: 0.9rem;
+
 }
 
 
-
+.header__session:hover{
+    color: rgb(236, 91, 91);
+}
 
 /* NAVBAR */
 .navbar{

@@ -17,5 +17,4 @@ export async function cargarHeader(){
     let headerHtml = document.querySelector('#header');
     headerHtml.innerHTML = doc.documentElement.innerHTML;
 
-
 }

@@ -17,25 +17,40 @@ async function generarCards() {
     }
 }
 
+function logout(){
+    
+    let buttonLogout = document.querySelector('#button-logout')
+
+    buttonLogout.addEventListener('click', function(){
+        localStorage.clear();
+
+        window.location.href = window.location.origin
+        console.log('cerraste sesion')
+    })
+}
+
 
 
 async function init(){
 
     await cargarHeader()
     
-    await isLogin()
 
     sendFormSearchParam()
 
     // generamos las cards con su debitas rutas
     await generarCards()
 
-    let token = localStorage.getItem('token')
-    console.log(token)
+    isLogin()
 
+    logout()
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', function(){
+    init()
+    
+
+});
 
 
 
