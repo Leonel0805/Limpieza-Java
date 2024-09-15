@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record PerfilAdministradorDTO (
 
         @NotBlank
-        String name,
+        String username,
 
         @NotBlank(message = "Debe haber un mail")
         String email,

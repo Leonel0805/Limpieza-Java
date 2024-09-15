@@ -10,7 +10,7 @@ import java.util.List;
 public record EncargadoDTO(
 
         @NotBlank
-        String name,
+        String username,
         @NotBlank(message = "Debe haber un mail")
         String email,
         @NotBlank(message = "Password no puede estar vació") //no lanza el mensaje

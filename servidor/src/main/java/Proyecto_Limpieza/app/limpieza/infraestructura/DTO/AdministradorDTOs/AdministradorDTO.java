@@ -8,7 +8,7 @@ import java.util.Set;
 public record AdministradorDTO(
 
         @NotBlank
-        String name,
+        String username,
 
         @NotBlank(message = "Debe haber un mail")
         String email,

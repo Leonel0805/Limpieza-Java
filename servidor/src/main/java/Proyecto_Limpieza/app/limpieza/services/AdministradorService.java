@@ -130,7 +130,7 @@ public class AdministradorService {
 
     public void actualizarValores(AdministradorDTO administradorDTO, Administrador administrador) {
 
-        administrador.setUsername(administradorDTO.name());
+        administrador.setUsername(administradorDTO.username());
         administrador.setEmail(administradorDTO.email());
         administrador.setPassword(this.hashedPassword(administradorDTO.password()));
     }

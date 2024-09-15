@@ -113,7 +113,7 @@ public class EncargadoService {
     //    Metodos
     public void actualizarValores(EncargadoDTO encargadoDTO, Encargado encargado) {
 
-        encargado.setUsername(encargadoDTO.name());
+        encargado.setUsername(encargadoDTO.username());
         encargado.setEmail(encargadoDTO.email());
         encargado.setPassword(this.hashedPassword(encargadoDTO.password()));
         encargado.setDNI(encargadoDTO.DNI());

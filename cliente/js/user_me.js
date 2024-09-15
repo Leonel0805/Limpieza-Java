@@ -33,10 +33,12 @@ function cargarDatos(datos){
     let usernameUser = document.querySelector('#usernameUser')
     let rolUser = document.querySelector('#rolUser')
 
-    rolUser.innerHTML = datos.roles[0].rol_name
-    usernameUser.innerHTML = datos.name
+    console.log(datos.roles)
 
-    usernameHTML.innerHTML = datos.name
+    rolUser.innerHTML = datos.roles[0].rol_name
+    usernameUser.innerHTML = datos.username
+
+    usernameHTML.innerHTML = datos.username
     emailHTML.innerHTML = datos.email
 }
 

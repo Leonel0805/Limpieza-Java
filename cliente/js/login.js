@@ -45,12 +45,10 @@ function authenticate(username, password){
     })
     .then(json => {
 
+        // guardamos el jwt en localStorage
         let jwt = json.jwt
-        let username = json.username
 
-        console.log(jwt)
         localStorage.setItem('jwt', jwt)
-        localStorage.setItem('username', username)
 
         let baseURL = window.location.origin
         window.location.href = baseURL + '/index.html';

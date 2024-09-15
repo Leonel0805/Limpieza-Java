@@ -38,7 +38,7 @@ public class Encargado extends UserEntity {
 
 
     public Encargado(EncargadoDTO encargadoDTO, String hassPassword) {
-        super(encargadoDTO.name(), encargadoDTO.email(), hassPassword);
+        super(encargadoDTO.username(), encargadoDTO.email(), hassPassword);
         this.DNI = encargadoDTO.DNI();
         this.apellido = encargadoDTO.apellido();
         this.edificio = new Edificio(encargadoDTO.edificio());

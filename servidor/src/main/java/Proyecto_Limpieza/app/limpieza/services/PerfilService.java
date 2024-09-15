@@ -120,7 +120,7 @@ public class PerfilService {
 //ACTUALIZAR VALORES segun admin o
     public void actualizarValores(PerfilAdministradorDTO perfilAdministradorDTO, Administrador administrador) {
 
-        administrador.setUsername(perfilAdministradorDTO.name());
+        administrador.setUsername(perfilAdministradorDTO.username());
         administrador.setEmail(perfilAdministradorDTO.email());
         administrador.setPassword(this.hashedPassword(perfilAdministradorDTO.password()));
     }

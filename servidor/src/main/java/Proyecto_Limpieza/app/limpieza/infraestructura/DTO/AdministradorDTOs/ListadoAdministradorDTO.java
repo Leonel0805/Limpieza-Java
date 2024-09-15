@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public record ListadoAdministradorDTO(
 
         Long id,
-        String name,
+        String username,
         String email,
         String password,
         Set<RoleNameDTO> roles

@@ -22,7 +22,7 @@ public class Administrador extends UserEntity {
 //    private Long id;
 
     public Administrador(AdministradorDTO datosadministrador, String hashPassword) {
-        super(datosadministrador.name(), datosadministrador.email(), hashPassword);
+        super(datosadministrador.username(), datosadministrador.email(), hashPassword);
 
     }
 

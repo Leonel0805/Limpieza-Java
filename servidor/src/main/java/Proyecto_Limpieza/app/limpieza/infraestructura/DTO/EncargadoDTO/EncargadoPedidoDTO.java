@@ -6,7 +6,7 @@ public record EncargadoPedidoDTO(
 
         Long id,
         String DNI,
-        String name,
+        String username,
         String apellido
 ) {
     public EncargadoPedidoDTO(Encargado encargado) {

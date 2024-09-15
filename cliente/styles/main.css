@@ -23,6 +23,9 @@ header{
     background-color: red;
     width: 100%;
     height: 20vh;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 /* HEADER */
@@ -35,6 +38,7 @@ header{
     display: flex; 
     flex-direction: column; 
     justify-content: space-between; 
+
 }
 
 
