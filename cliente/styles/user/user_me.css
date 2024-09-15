@@ -31,8 +31,8 @@ main{
     justify-content: center;
 }
 
-.detalles__main__top{
-}
+/* .detalles__main__top{
+} */
 
 .detalles__main__image {
     border-radius: 20%;
@@ -48,9 +48,9 @@ main{
     box-sizing: border-box;
 }
 
-.detalles__title{
+/* .detalles__title{
 
-}
+} */
 
 .detalles__content{
     margin-top: 16px;
