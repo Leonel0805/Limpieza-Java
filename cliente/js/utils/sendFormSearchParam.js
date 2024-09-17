@@ -17,6 +17,7 @@ export function sendFormSearchParam(){
     
             let baseUrl = `${window.location.origin}/cliente/templates/pages/search.html`;
             window.location.href = `${baseUrl}?query=${encodeURIComponent(searchValue)}`;
+            console.log('se usa el sendfgorm')
         }else{
             console.log("no se pudo redireccionar")
         }

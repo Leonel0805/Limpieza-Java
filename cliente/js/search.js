@@ -46,5 +46,8 @@ function sendNotFound(message){
 
 }
 
-cargarHeader()
-sendFormSearchParam()
+document.addEventListener('DOMContentLoaded', async function(){
+    
+
+
+});
