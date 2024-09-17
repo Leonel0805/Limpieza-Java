@@ -48,6 +48,20 @@ main{
     box-sizing: border-box;
 }
 
+.detalles__card-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detalles__card__button{
+    padding: 8px 16px;
+    border: none;
+    background-color: rgb(67, 236, 89);
+    color: rgb(238, 238, 238);
+    border-radius: 8px;
+}
+
 /* .detalles__title{
 
 } */

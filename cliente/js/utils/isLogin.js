@@ -22,7 +22,7 @@ export async function isLogin(){
             // manipulamos el DOM
             let headerLogin = document.querySelector('.header__session');  
             headerLogin.textContent = json.username;
-
+      
             headerLogin.addEventListener('click', function(event){
             // anulamos el href
                 event.preventDefault()
@@ -30,9 +30,12 @@ export async function isLogin(){
                 // mostramos el menu
                 let menu = document.querySelector('.header__menu')
 
-                // condicionamos
-                menu.style.display == 'none' ? menu.style.display = 'block' : menu.style.display = 'none'
-
+                // condicionamos si esta vacio o es none, entonces se vuelve block
+                if (menu.style.display === '' || menu.style.display === 'none') {
+                    menu.style.display = 'block';
+                } else {
+                    menu.style.display = 'none';
+                }
             })
         })
        

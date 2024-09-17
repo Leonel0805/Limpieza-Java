@@ -34,8 +34,14 @@ function logout(){
 async function init(){
 
     await cargarHeader()
-    
 
+    let header = document.querySelector('.header__session')
+    console.log(header)
+    header.addEventListener('click', function(){
+        console.log('hice click')
+    })
+
+    
     sendFormSearchParam()
 
     // generamos las cards con su debitas rutas
@@ -48,9 +54,11 @@ async function init(){
 
 document.addEventListener('DOMContentLoaded', function(){
     init()
+
     
 
 });
+
 
 
 
