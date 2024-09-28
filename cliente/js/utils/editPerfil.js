@@ -5,12 +5,21 @@ const APIUrl = 'http://localhost:8080/api/me'
 editButton.addEventListener('click', async function(){
 
     await cargarEdit()
-
     sendForm()
     
-
 });
 
+// modificamos para poder salir de actualizar los datos
+let body = document.querySelector('body')
+
+body.addEventListener('click', function(){
+
+    let edit = document.querySelector('.edit')
+
+    if (edit.style.display == 'block'){
+        edit.style.display = 'none'
+    }
+})
 
 async function cargarEdit(){
     let baseURL = window.location.origin
@@ -25,6 +34,7 @@ async function cargarEdit(){
 
     let edit = document.querySelector('.edit')
     edit.innerHTML = doc.documentElement.innerHTML
+    edit.style.display = 'block'
     
 }
 
@@ -60,14 +70,13 @@ function sendForm(){
     }
 }
 
-
 function actualizarDatos(datos){
     
     const jwt = localStorage.getItem('jwt')
     
-    let 
-
-    request = {administrador:datos}
+    let request = {
+        administrador:datos
+    }
 
     fetch(APIUrl,{
         method: 'PUT',
