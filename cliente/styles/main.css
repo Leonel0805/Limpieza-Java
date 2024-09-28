@@ -165,7 +165,7 @@ main{
 
 .pagos{
     width: 100%;
-    background-color: rgb(59, 241, 241);
+    background-color: rgb(181, 202, 202);
 }
 
 .pagos__container{
@@ -197,9 +197,9 @@ main{
 /* SECTION ARTICULOS */
 
 .articulos{
-    margin: 32px 0;
     width: 100%;
     background-color: rgb(125, 233, 75);
+    padding: 32px 0px;
 }
 
 .articulos__container{

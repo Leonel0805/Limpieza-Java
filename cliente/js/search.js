@@ -1,6 +1,5 @@
 import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
 import { crearCards } from './utils/crearCards.js';
-import { cargarHeader } from './utils/generarHeader.js';
 
 let articuloContainer = document.querySelector(".articulos__container")
 

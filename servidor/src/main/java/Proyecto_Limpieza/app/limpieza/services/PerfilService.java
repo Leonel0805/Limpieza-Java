@@ -89,9 +89,11 @@ public class PerfilService {
                 .anyMatch(role -> role.getRoleName().equals(RoleEnum.ADMIN))) {
 
             Administrador admin = (Administrador) user;
+            System.out.println(admin);
             this.actualizarValores(perfilUpdateDTO.administrador(), admin);
             Administrador newAdmin = administradorService.guardarAdmin(admin);
 
+            System.out.println(newAdmin.getUsername());
             UserDetails userDetails = userDetailService.loadUserByUsername(newAdmin.getUsername());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -122,7 +124,7 @@ public class PerfilService {
 
         administrador.setUsername(perfilAdministradorDTO.username());
         administrador.setEmail(perfilAdministradorDTO.email());
-        administrador.setPassword(this.hashedPassword(perfilAdministradorDTO.password()));
+//        administrador.setPassword(this.hashedPassword(perfilAdministradorDTO.password()));
     }
 
     public String hashedPassword(String password) {
