@@ -1,12 +1,11 @@
 package Proyecto_Limpieza.app.limpieza.infraestructura.DTO.perfilDTO;
 
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.PerfilAdministradorDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorUpdateDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoUpdateDTO;
 
 public record PerfilUpdateDTO(
 
-        PerfilAdministradorDTO administrador,
-        EncargadoDTO encargadoDTO
+        AdministradorUpdateDTO administrador,
+        EncargadoUpdateDTO encargado
 ) {
 }

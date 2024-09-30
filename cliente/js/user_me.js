@@ -3,14 +3,14 @@ import { isLogin } from './utils/isLogin.js';
 import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
 
 const apiURL = 'http://localhost:8080/api/me'
-const jwt = localStorage.getItem('jwt')
+let jwt = localStorage.getItem('jwt')
 
-function obtenerDatos(){
+export function obtenerDatos(token){
 
-    fetch(apiURL, {
+    return fetch(apiURL, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + jwt
+            'Authorization': 'Bearer ' + token
         }
     })
     .then(response => {
@@ -19,14 +19,12 @@ function obtenerDatos(){
             return response.json()
         }
     })
-    .then(json => {
-
-        cargarDatos(json)
-    })
     
 }
 
-function cargarDatos(datos){
+async function cargarDatos(){
+
+    let datos = await obtenerDatos(jwt)
 
     let usernameHTML = document.querySelector('#usernameValue')
     let emailHTML = document.querySelector('#emailValue')
@@ -47,7 +45,7 @@ function cargarDatos(datos){
 async function init() {
     await cargarHeader();
     isLogin();
-    obtenerDatos()
+    cargarDatos(); // Cargar datos en la interfaz
     sendFormSearchParam();
 }
 

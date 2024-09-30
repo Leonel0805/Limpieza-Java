@@ -2,13 +2,11 @@ package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.administrador.Administrador;
 import Proyecto_Limpieza.app.limpieza.domain.models.encargado.Encargado;
-import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEntity;
 import Proyecto_Limpieza.app.limpieza.domain.models.role.RoleEnum;
 import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.PerfilAdministradorDTO;
-import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthResponseDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AdministradorDTOs.AdministradorUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.AuthDTO.AuthUpdateDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.EncargadoDTO.EncargadoUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.perfilDTO.PerfilUpdateDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PerfilDAOImpl;
 import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
@@ -19,9 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PerfilService {
@@ -64,9 +60,6 @@ public class PerfilService {
         if (user.getRoles().stream()
                 .anyMatch(role -> role.getRoleName().equals(RoleEnum.ADMIN))) {
 
-//            Administrador admin = new Administrador(user.getUsername(),
-//                    user.getEmail(),
-//                    user.getPassword());
             Administrador admin = administradorService.findByEmailAndIsEnabled(user.getEmail());
             return admin;
 
@@ -89,7 +82,6 @@ public class PerfilService {
                 .anyMatch(role -> role.getRoleName().equals(RoleEnum.ADMIN))) {
 
             Administrador admin = (Administrador) user;
-            System.out.println(admin);
             this.actualizarValores(perfilUpdateDTO.administrador(), admin);
             Administrador newAdmin = administradorService.guardarAdmin(admin);
 
@@ -111,20 +103,37 @@ public class PerfilService {
                 .anyMatch(role -> role.getRoleName().equals(RoleEnum.ENCARGADO))) {
 
             Encargado encargado = (Encargado) user;
-            encargadoService.actualizarValores(perfilUpdateDTO.encargadoDTO(), encargado);
-            encargadoService.save(encargado);
-            return null;
+            this.actualizarValoresEncargado(perfilUpdateDTO.encargado(), encargado);
+            Encargado newEncargado = encargadoService.guardarEncargado(encargado);
+
+            UserDetails userDetails = userDetailService.loadUserByUsername(newEncargado.getUsername());
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            String jwt = jwtUtils.crearToken(authentication);
+
+            AuthUpdateDTO response = new AuthUpdateDTO(
+                    jwt,
+                    newEncargado
+            );
+
+            return response;
         }
         return null;
     }
 
 
 //ACTUALIZAR VALORES segun admin o
-    public void actualizarValores(PerfilAdministradorDTO perfilAdministradorDTO, Administrador administrador) {
+    public void actualizarValores(AdministradorUpdateDTO perfilAdministradorDTO, Administrador administrador) {
 
         administrador.setUsername(perfilAdministradorDTO.username());
         administrador.setEmail(perfilAdministradorDTO.email());
-//        administrador.setPassword(this.hashedPassword(perfilAdministradorDTO.password()));
+    }
+
+    public void actualizarValoresEncargado(EncargadoUpdateDTO perfilEncargadoDTO, Encargado encargado) {
+
+        encargado.setUsername(perfilEncargadoDTO.username());
+        encargado.setEmail(perfilEncargadoDTO.email());
     }
 
     public String hashedPassword(String password) {

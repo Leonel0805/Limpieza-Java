@@ -18,6 +18,7 @@ public record ListadoEncargadoDTO (
         Long id,
         String DNI,
         String username,
+        String email,
         String apellido,
         EdificioDTO edificio,
         Set<RoleNameDTO> roles,
@@ -28,6 +29,7 @@ public record ListadoEncargadoDTO (
                 encargado.getId(),
                 encargado.getDNI(),
                 encargado.getUsername(),
+                encargado.getEmail(),
                 encargado.getApellido(),
                 encargado.getEdificio() != null ? new EdificioDTO(encargado.getEdificio()) : null,
                 encargado.getRoles().stream()

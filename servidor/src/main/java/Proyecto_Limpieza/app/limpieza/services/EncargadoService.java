@@ -49,8 +49,9 @@ public class EncargadoService {
     }
 
 
-    public void save(Encargado encargado) {
-        persistencia.guardarEncargado(encargado);
+    public Encargado guardarEncargado(Encargado encargado) {
+        Encargado encargadoResponse = persistencia.guardarEncargado(encargado);
+        return encargadoResponse;
     }
 
     public Encargado findByUsernameAndIsEnabled(String username) {

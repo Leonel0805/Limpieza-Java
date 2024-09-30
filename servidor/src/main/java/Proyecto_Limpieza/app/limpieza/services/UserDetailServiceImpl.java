@@ -133,7 +133,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             Encargado encargado = new Encargado(username, email, password);
             encargado.asignarRoles(this.obtenerRoles(authRegisterDTO.roles()));
 
-            encargadoService.save(encargado);
+            encargadoService.guardarEncargado(encargado);
         }
 
 //        Creamos un UserDetails para spring security

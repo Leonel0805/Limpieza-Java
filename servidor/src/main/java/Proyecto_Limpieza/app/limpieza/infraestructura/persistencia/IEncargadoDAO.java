@@ -16,7 +16,7 @@ public interface IEncargadoDAO {
     Optional<Encargado> findByEmailAndIsEnabled(String email);
     Optional<Encargado> findByUsernameAndIsEnabled(String username);
 
-    void guardarEncargado(Encargado encargado);
+    Encargado guardarEncargado(Encargado encargado);
 
 
 //    void deleteById(Long id);

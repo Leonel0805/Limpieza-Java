@@ -36,8 +36,9 @@ public class EncargadoDAOImpl implements IEncargadoDAO {
     }
 
     @Override
-    public void guardarEncargado(Encargado encargado) {
-        encargadoRepository.save(encargado);
+    public Encargado guardarEncargado(Encargado encargado) {
+        Encargado encargadoResponse = encargadoRepository.save(encargado);
+        return encargadoResponse;
     }
 //
 //    @Override
