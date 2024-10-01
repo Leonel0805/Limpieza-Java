@@ -22,24 +22,56 @@ export function obtenerDatos(token){
     
 }
 
+export function obtenerDatosForm(jwt){
+
+    return fetch('http://localhost:8080/api/me/update', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + jwt
+        }
+    })
+    .then(response => {
+
+        if (response.status == 200){
+            return response.json()
+        }
+    })
+
+}
+    
+
+
 async function cargarDatos(){
 
-    let datos = await obtenerDatos(jwt)
+    let datos = await obtenerDatosForm(jwt)
 
-    let usernameHTML = document.querySelector('#usernameValue')
-    let emailHTML = document.querySelector('#emailValue')
-    let usernameUser = document.querySelector('#usernameUser')
-    let rolUser = document.querySelector('#rolUser')
+    console.log("asdas" +datos)
 
-    console.log(datos.roles)
+    Object.entries(datos).forEach(([key, value]) =>{
 
-    rolUser.innerHTML = datos.roles[0].rol_name
-    usernameUser.innerHTML = datos.username
-
-    usernameHTML.innerHTML = datos.username
-    emailHTML.innerHTML = datos.email
+        console.log(key, value)
+        crearParrafoDato(key, value)
+    })
 }
 
+
+function crearParrafoDato(key, value){
+
+    let divDetalles = document.querySelector('.detalles__content')
+    let parrafoHTML = document.createElement('p')
+
+    parrafoHTML.className = key
+    parrafoHTML.textContent = key + ': '
+    
+
+    let spanHTML = document.createElement('span')
+    spanHTML.id = key + 'Value'
+    spanHTML.innerHTML = value
+
+
+    parrafoHTML.appendChild(spanHTML)
+    divDetalles.appendChild(parrafoHTML)
+}
 
 
 async function init() {

@@ -1,4 +1,6 @@
 import { obtenerDatos } from '../user_me.js';
+import { obtenerDatosForm } from '../user_me.js';
+
 
 let editButton = document.querySelector('.detalles__card__button')
 const APIUrl = 'http://localhost:8080/api/me' 
@@ -167,22 +169,5 @@ async function actualizarDatos(datos){
 }
 
 
-function obtenerDatosForm(jwt){
-
-    return fetch('http://localhost:8080/api/me/update', {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + jwt
-        }
-    })
-    .then(response => {
-
-        if (response.status == 200){
-            return response.json()
-        }
-    })
-
-}
-    
 
 

@@ -4,7 +4,7 @@ import Proyecto_Limpieza.app.limpieza.domain.models.user.UserEntity;
 public record ResponseUpdateUserGenericDTO(
 
         Long id,
-        String useranme,
+        String username,
         String email
 ) {
     public ResponseUpdateUserGenericDTO(UserEntity user) {
