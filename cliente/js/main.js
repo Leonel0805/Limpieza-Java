@@ -4,9 +4,12 @@ import { isLogin } from './utils/isLogin.js';
 
 function logout(){
     
+    console.log("cargamos logout")
     let buttonLogout = document.querySelector('#button-logout')
 
     buttonLogout.addEventListener('click', function(){
+        // 
+        console.log('se hizo click')
         localStorage.clear();
 
         window.location.href = window.location.origin

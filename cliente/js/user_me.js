@@ -45,7 +45,6 @@ async function cargarDatos(){
 
     let datos = await obtenerDatosForm(jwt)
 
-    console.log("asdas" +datos)
 
     Object.entries(datos).forEach(([key, value]) =>{
 
@@ -76,10 +75,9 @@ function crearParrafoDato(key, value){
 
 async function init() {
 
+    // En caso de no tener un
     if (await obtenerDatos(jwt)){
-        await cargarHeader();
-        isLogin();
-        cargarDatos(); // Cargar datos en la interfaz
+        cargarDatos(); 
         sendFormSearchParam(); 
 
     } else{
@@ -89,4 +87,4 @@ async function init() {
 
 }
 
-document.addEventListener('DOMContentLoaded', init);
+init()
