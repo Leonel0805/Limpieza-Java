@@ -43,10 +43,18 @@ async function cargarDatos(){
 
 
 async function init() {
-    await cargarHeader();
-    isLogin();
-    cargarDatos(); // Cargar datos en la interfaz
-    sendFormSearchParam();
+
+    if (await obtenerDatos(jwt)){
+        await cargarHeader();
+        isLogin();
+        cargarDatos(); // Cargar datos en la interfaz
+        sendFormSearchParam(); 
+
+    } else{
+        let baseURL = window.location.origin
+        window.location.href = baseURL + '/index.html';
+    }
+
 }
 
 document.addEventListener('DOMContentLoaded', init);

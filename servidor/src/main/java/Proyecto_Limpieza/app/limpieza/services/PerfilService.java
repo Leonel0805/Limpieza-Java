@@ -13,10 +13,13 @@ import Proyecto_Limpieza.app.limpieza.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -123,21 +126,62 @@ public class PerfilService {
     }
 
 
+    public void actualizarValor(String key, Object value, UserEntity user) {
+
+        try {
+            // Capitalizar la primera letra del campo 
+            String methodName = "set" + key.substring(0, 1).toUpperCase() + key.substring(1);
+
+            // Obtener el tipo del valor que se está pasando
+            Method method = user.getClass().getMethod(methodName, value.getClass());
+
+            // Invocar el método de forma dinámica
+            method.invoke(user, value);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Error al actualizar el campo: " + key);
+        }
+    }
+
 //ACTUALIZAR VALORES segun admin o
     public void actualizarValores(AdministradorUpdateDTO perfilAdministradorDTO, Administrador administrador) {
 
-        administrador.setUsername(perfilAdministradorDTO.username());
-        administrador.setEmail(perfilAdministradorDTO.email());
+//        si lo enviado por el dto.username es null
+        if (perfilAdministradorDTO.username() != null && !perfilAdministradorDTO.username().trim().isEmpty()) {
+            administrador.setUsername(perfilAdministradorDTO.username());
+        }
+
+        if (perfilAdministradorDTO.email() != null && !perfilAdministradorDTO.email().trim().isEmpty()) {
+            administrador.setEmail(perfilAdministradorDTO.email());
+        }
+
     }
 
     public void actualizarValoresEncargado(EncargadoUpdateDTO perfilEncargadoDTO, Encargado encargado) {
 
-        encargado.setUsername(perfilEncargadoDTO.username());
-        encargado.setEmail(perfilEncargadoDTO.email());
+        if (perfilEncargadoDTO.username() != null && !perfilEncargadoDTO.username().trim().isEmpty()) {
+            encargado.setUsername(perfilEncargadoDTO.username());
+        }
+
+        if (perfilEncargadoDTO.email() != null && !perfilEncargadoDTO.email().trim().isEmpty()) {
+            encargado.setEmail(perfilEncargadoDTO.email());
+        }
+
+        if (perfilEncargadoDTO.DNI() != null && !perfilEncargadoDTO.DNI().trim().isEmpty()) {
+            encargado.setDNI(perfilEncargadoDTO.DNI());
+        }
+
+        if (perfilEncargadoDTO.apellido() != null && !perfilEncargadoDTO.apellido().trim().isEmpty()) {
+            encargado.setApellido(perfilEncargadoDTO.apellido());
+        }
+
+
     }
 
     public String hashedPassword(String password) {
         return passwordEncoder.encode(password);
     }
+
 
 }

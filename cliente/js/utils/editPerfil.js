@@ -118,15 +118,14 @@ function sendForm(){
     }
 }
 
+// necesito actualizar los datos enviando un PATCH
 async function actualizarDatos(datos){
     
     let request = {}
 
-    // obtenemos los datos
+    // Condicionamos el rol el rol 
 
-
-
-    if (userDatos.roles[0].rol_name == 'ADMINISTRADOR'){
+    if (userDatos.roles[0].rol_name == 'ADMIN'){
         request = {
             administrador:datos
         }
@@ -137,10 +136,11 @@ async function actualizarDatos(datos){
         }
     }
 
+    console.log(request)
 
     if (request){
         fetch(APIUrl,{
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + jwt
