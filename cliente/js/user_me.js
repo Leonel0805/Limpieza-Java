@@ -1,7 +1,3 @@
-import { cargarHeader } from './utils/generarHeader.js';
-import { isLogin } from './utils/isLogin.js';
-import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
-
 const apiURL = 'http://localhost:8080/api/me'
 let jwt = localStorage.getItem('jwt')
 
@@ -22,34 +18,27 @@ export function obtenerDatos(token){
     
 }
 
-export function obtenerDatosForm(jwt){
 
-    return fetch('http://localhost:8080/api/me/update', {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + jwt
-        }
-    })
-    .then(response => {
-
-        if (response.status == 200){
-            return response.json()
-        }
-    })
-
-}
-    
-
-
+// cargar datos personales form
 async function cargarDatos(){
 
-    let datos = await obtenerDatosForm(jwt)
+    const keysIgnore = ['id', 'roles', 'pedidos']
 
+    let datos = await obtenerDatos(jwt)
+
+    let rolUser = document.querySelector('#rolUser')
+    let usernameUser = document.querySelector('#usernameUser')
+
+    rolUser.innerHTML = datos.roles[0].rol_name
+    usernameUser.innerHTML = datos.username
 
     Object.entries(datos).forEach(([key, value]) =>{
 
-        console.log(key, value)
-        crearParrafoDato(key, value)
+        // si no esta incluido dentro de keysIgnore creamos el parrafo
+        if (!keysIgnore.includes(key)){
+            crearParrafoDato(key, value)
+        }
+   
     })
 }
 
@@ -78,7 +67,6 @@ async function init() {
     // En caso de no tener un
     if (await obtenerDatos(jwt)){
         cargarDatos(); 
-        sendFormSearchParam(); 
 
     } else{
         let baseURL = window.location.origin

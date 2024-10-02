@@ -1,12 +1,9 @@
 import { obtenerDatos } from '../user_me.js';
-import { obtenerDatosForm } from '../user_me.js';
-
 
 let editButton = document.querySelector('.detalles__card__button')
 const APIUrl = 'http://localhost:8080/api/me' 
 const jwt = localStorage.getItem('jwt')
 
-let userFormCampos = await obtenerDatosForm(jwt)
 let userDatos = await obtenerDatos(jwt)
 
 editButton.addEventListener('click', async function(){
@@ -53,8 +50,6 @@ async function cargarEdit(){
     crearInput(doc)
 
     // Lo agregamos al formulario
-
-
     let edit = document.querySelector('.edit')
     edit.innerHTML = doc.documentElement.innerHTML
     edit.style.display = 'block'
@@ -64,28 +59,32 @@ async function cargarEdit(){
 
 function crearInput(doc){
       
+    const keysIgnore = ['id', 'roles', 'edificio', 'pedidos']
     let form = doc.querySelector('.edit__form')
     let submitButton = doc.querySelector('.button__principal');
 
     console.log('buton' + submitButton)
-    Object.keys(userFormCampos).forEach(key => {
+    Object.keys(userDatos).forEach(key => {
 
 
-        let newLabel = document.createElement('label');
-        newLabel.setAttribute('for', key)
-        newLabel.textContent = key+ ':'
-
-        let newInput = document.createElement('input');
-        newInput.type = 'text';
-        newInput.className = 'edit__input'
-        newInput.id = key;
-
-        newInput.classList.add('nuevo-input');
-
-
-        form.insertBefore(newLabel, submitButton)
-        form.insertBefore(newInput, submitButton)
-
+        if(!keysIgnore.includes(key)){
+            let newLabel = document.createElement('label');
+            newLabel.setAttribute('for', key)
+            newLabel.textContent = key+ ':'
+    
+            let newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.className = 'edit__input'
+            newInput.id = key;
+    
+            newInput.classList.add('nuevo-input');
+    
+    
+            form.insertBefore(newLabel, submitButton)
+            form.insertBefore(newInput, submitButton)
+    
+        }
+    
     })
 
    // Agregamos una clase para estilo si es necesario

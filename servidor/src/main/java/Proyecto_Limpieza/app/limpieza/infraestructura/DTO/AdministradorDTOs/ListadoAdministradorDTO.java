@@ -13,13 +13,12 @@ public record ListadoAdministradorDTO(
         Long id,
         String username,
         String email,
-        String password,
         Set<RoleNameDTO> roles
 
 ) {
 
     public ListadoAdministradorDTO(Administrador admin) {
-        this(admin.getId(), admin.getUsername(), admin.getEmail(), admin.getPassword(),
+        this(admin.getId(), admin.getUsername(), admin.getEmail(),
                 admin.getRoles() != null ?
                         admin.getRoles().stream()
                                 .map(roleEntity -> new RoleNameDTO(roleEntity))
