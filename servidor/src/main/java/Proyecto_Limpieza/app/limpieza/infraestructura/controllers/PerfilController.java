@@ -58,36 +58,7 @@ public class PerfilController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
-
-
-//  GET me-update
-    @GetMapping("/update")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> obtenerDatosForm() {
-
-        UserEntity user = perfilService.obtenerDatos();
-
-        if (user != null) {
-            if (user instanceof Administrador) {
-
-                Administrador admin = (Administrador) user;
-                AdministradorUpdateDTO response = new AdministradorUpdateDTO(admin);
-                return ResponseEntity.status(HttpStatus.OK).body(response);
-
-
-            } else if (user instanceof Encargado) {
-
-                Encargado encargado = (Encargado) user;
-                EncargadoUpdateDTO response = new EncargadoUpdateDTO(encargado);
-                return ResponseEntity.status(HttpStatus.OK).body(response);
-
-            }
-
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-    }
-
+    
 
     //    PATCH
     @PatchMapping

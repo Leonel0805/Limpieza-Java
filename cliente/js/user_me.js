@@ -49,7 +49,7 @@ function crearParrafoDato(key, value){
     let parrafoHTML = document.createElement('p')
 
     parrafoHTML.className = key
-    parrafoHTML.textContent = key + ': '
+    parrafoHTML.textContent = capitalizeFistLetter(key) + ': '
     
 
     let spanHTML = document.createElement('span')
@@ -74,5 +74,15 @@ async function init() {
     }
 
 }
+
+
+// convertir primera letra
+export function capitalizeFistLetter(text){
+
+    if (text != null && text != ''){
+        return text[0].toUpperCase() + text.slice(1)
+    }
+}
+
 
 init()

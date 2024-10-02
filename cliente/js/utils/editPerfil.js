@@ -1,4 +1,5 @@
 import { obtenerDatos } from '../user_me.js';
+import { capitalizeFistLetter } from '../user_me.js';
 
 let editButton = document.querySelector('.detalles__card__button')
 const APIUrl = 'http://localhost:8080/api/me' 
@@ -70,7 +71,7 @@ function crearInput(doc){
         if(!keysIgnore.includes(key)){
             let newLabel = document.createElement('label');
             newLabel.setAttribute('for', key)
-            newLabel.textContent = key+ ':'
+            newLabel.textContent = capitalizeFistLetter(key) + ':'
     
             let newInput = document.createElement('input');
             newInput.type = 'text';

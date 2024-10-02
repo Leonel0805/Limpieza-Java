@@ -165,44 +165,64 @@ main{
 
 .pagos{
     width: 100%;
-    background-color: rgb(181, 202, 202);
+    background-color: #f1f2fa;
 }
 
 .pagos__container{
     
-    background-color: red;
+    /* background-color: red; */
     width: 90%;
     height: 100px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 16px 0px;
 }
 
 .pagos__title{
 
-    background-color: blue;
+    /* background-color: blue; */
     text-align: center;
     flex: 1;
 }
 
-.pagos__imgs{
+.pagos__containerIMG{
 
     width: 70%;
-    background-color: green;
+    height: 100%;
+    /* background-color: green; */
     display: flex;
     justify-content: space-around;
+}
+.pagos__img-container{
+
+    width: 250px;
+    height: 90px;
+    border: 2px solid grey;
+    border-radius: 8px;
+    background-color: white;
+}
+
+
+.pagos__img{
+
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
 }
 
 /* SECTION ARTICULOS */
 
 .articulos{
     width: 100%;
-    background-color: rgb(125, 233, 75);
+    background-color: rgb(255, 255, 255);
     padding: 32px 0px;
 }
 
 .articulos__container{
+    padding: 16px;
     background-color: rgb(40, 121, 24);
     width: 90%;
     margin: 0 auto;
@@ -210,6 +230,7 @@ main{
     gap: 16px;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    box-shadow: 0px 0px 20px 3px rgb(95, 95, 95);
 }
 
 .articulo__card{
