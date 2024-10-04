@@ -197,11 +197,12 @@ main{
 }
 .pagos__img-container{
 
+    background-color: white;
+    padding: 8px;
     width: 250px;
     height: 90px;
     border: 2px solid grey;
     border-radius: 8px;
-    background-color: white;
 }
 
 
@@ -218,41 +219,52 @@ main{
 .articulos{
     width: 100%;
     background-color: rgb(255, 255, 255);
-    padding: 32px 0px;
+}
+
+.articulos__title{
+    font-size: 2.1rem;
+    text-align: center;
+    padding: 16px 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #00ff00
 }
 
 .articulos__container{
-    padding: 16px;
-    background-color: rgb(40, 121, 24);
+    padding: 32px 0px;
+    background-color: #ccf2e0;
     width: 90%;
     margin: 0 auto;
     display: flex;
     gap: 16px;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    border-radius: 10px;
     box-shadow: 0px 0px 20px 3px rgb(95, 95, 95);
 }
 
 .articulo__card{
     width: 20%;
-    background-color: rgb(243, 172, 66);
+    background-color: rgb(238, 238, 238);
     text-align: center;
     padding-bottom: 24px;
+    border-radius: 16px;
+    box-shadow: 2px 2px 10px 1px rgba(139, 139, 139, 0.671);
 }
 
 .articulo__image__container{
-    background-color: black;
     width: 100%;
     height: 250px;
     margin: 0 auto;
-
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 
 }
 
 .articulo__image{
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    border: transparent;
+    object-fit: contain;
     
 }
 
@@ -260,16 +272,15 @@ main{
     width: 90%;
     margin: 0 auto;
     margin-top: 8px;
-    background-color: rgb(162, 162, 235);
 
 }
 
 .articulo__title{
-    color: grey;
+    color: #1825aa;
 }
 
 .articulo__precio{
-    color: blue;
+    color: #252525;
 }
 
 .articulo__button{
@@ -293,13 +304,22 @@ main{
 /* SECTION TIPS */
 
 .tips{
-    background-color: aqua;
+    background-color: #f1f2fa;
     width: 100%;
     margin-bottom: 32px;
 }
 
+.tips__title{
+    font-size: 2.1rem;
+    text-align: center;
+    padding: 16px 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #00ff00
+}
+
 .tips__container{
-    background-color: red;
+    box-sizing: border-box;
+
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -309,8 +329,10 @@ main{
 
 .tip__card{
     width: 50%;
-    background-color: rgb(186, 68, 255);
+    background-color: #ccf2e0;
     display: flex;
+    border-radius: 8px;
+    box-shadow: 2px 4px 10px 1px rgba(82, 82, 82, 0.74);
 }
 
 .tip__image__container{
@@ -320,6 +342,9 @@ main{
 .tip__image{
     width: 100%;
     height: 100%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+
 }
 
 .tip__content{

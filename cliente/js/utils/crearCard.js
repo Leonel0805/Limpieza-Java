@@ -19,7 +19,7 @@ export function crearCard(articulo){
         // // creamos image
         let articuloImage = document.createElement('img')
         articuloImage.className = 'articulo__image'
-        // articuloImage.src = "./re"
+        articuloImage.setAttribute('alt','Imagen')
 
         // // creamos Articulo Content
         let articuloContent = document.createElement('div')
