@@ -24,13 +24,14 @@ header{
     width: 100%;
     height: 20vh;
     position: sticky;
-    top: 0;
+    top: 0px;
     z-index: 10;
-    box-shadow: 2px 2px 50px 2px black;
+    box-shadow: 2px 2px 50px 2px rgba(92, 92, 92, 0.911);
 }
 
 /* HEADER */
 .header__container{
+
 
     width: 100%;
     height: 100%;
@@ -137,7 +138,7 @@ header{
 }
 
 main{
-    background-color: blue;
+    background-color: rgb(255, 255, 255);
     width: 100%;
     height: auto;
 }
@@ -172,7 +173,6 @@ main{
     
     /* background-color: red; */
     width: 90%;
-    height: 100px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -218,7 +218,6 @@ main{
 
 .articulos{
     width: 100%;
-    background-color: rgb(255, 255, 255);
 }
 
 .articulos__title{
@@ -304,7 +303,6 @@ main{
 /* SECTION TIPS */
 
 .tips{
-    background-color: #f1f2fa;
     width: 100%;
     margin-bottom: 32px;
 }
@@ -318,17 +316,18 @@ main{
 }
 
 .tips__container{
+    background-color: #f1f2fa;
+    padding: 32px;
     box-sizing: border-box;
-
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
-    gap: 32px;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    border-radius: 8px;
 }
 
 .tip__card{
-    width: 50%;
+    width: 45%;
     background-color: #ccf2e0;
     display: flex;
     border-radius: 8px;
@@ -349,9 +348,16 @@ main{
 
 .tip__content{
     width: 50%;
-    padding: 16px;    
+    padding: 16px;   
+    display: flex;
+    align-items: center;
 }
 
+.tip__parrafo{
+    text-align: left;
+    text-wrap: balance;
+
+}
 /* FOOTER */
 
 footer{
