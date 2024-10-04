@@ -229,6 +229,8 @@ main{
 
 .articulos{
     width: 100%;
+    margin: 16px 0px;
+
 }
 
 .articulos__title{
@@ -240,7 +242,7 @@ main{
 }
 
 .articulos__container{
-    padding: 32px 0px;
+    padding: 64px 0px;
     background-color: #ccf2e0;
     width: 90%;
     margin: 0 auto;
@@ -315,7 +317,8 @@ main{
 
 .tips{
     width: 100%;
-    margin-bottom: 32px;
+    margin: 16px 0px;
+    margin-bottom: 64px;
 }
 
 .tips__title{
@@ -373,15 +376,39 @@ main{
 
 footer{
     width: 100%;
-    background-color: rgb(247, 146, 146);
+    background-color: rgb(255, 255, 255);
     margin-top: auto;
-
+    position: relative;
+    color: greys;
 }
 
 .footer__container{
-    width: 90%;
+    background: linear-gradient(to bottom, #f1f2fa, #ffffff);
+    position: relative;
+    width: 100%;
     height: 150px;
-    background-color: red;
     margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.footer__title{
+    text-align: left;
+}
+
+.footer__list{
+    text-align: left;
+}
+
+.footer__listRedes{
+    display: flex;
+    gap: 8px;
+}
+
+
+.footer__parrafo{
+    font-size: 1rem;
     text-align: center;
 }
