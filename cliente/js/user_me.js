@@ -48,16 +48,18 @@ function crearParrafoDato(key, value){
     let divDetalles = document.querySelector('.detalles__content')
     let parrafoHTML = document.createElement('p')
 
-    parrafoHTML.className = key
-    parrafoHTML.textContent = capitalizeFistLetter(key) + ': '
-    
+    parrafoHTML.className = 'detalles__parrafo'
 
     let spanHTML = document.createElement('span')
-    spanHTML.id = key + 'Value'
-    spanHTML.innerHTML = value
+    spanHTML.className = 'detalles__bold'
+    spanHTML.innerHTML = key 
 
+
+    const textValue = document.createTextNode(`: ${value}`);
 
     parrafoHTML.appendChild(spanHTML)
+    parrafoHTML.appendChild(textValue)
+
     divDetalles.appendChild(parrafoHTML)
 }
 

@@ -12,7 +12,7 @@
 .edit__container{
   
     width: 30%;
-    padding: 16px;
+    padding: 32px;
     background-color: rgb(230, 230, 230);
     margin: 0 auto;
     border-radius: 8px;
@@ -24,7 +24,6 @@
 }
 
 .edit__form{
-    background-color: blue;
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -33,12 +32,11 @@
 }
 
 .edit__form label{
-    background-color: red;
     margin-left: 0px;
 }
 
 .edit__form input{
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     border: none;
     outline: none;
     border-radius: 8px;
