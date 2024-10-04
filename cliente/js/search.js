@@ -1,4 +1,3 @@
-import { sendFormSearchParam } from './utils/sendFormSearchParam.js';
 import { crearCards } from './utils/crearCards.js';
 
 let articuloContainer = document.querySelector(".articulos__container")
@@ -44,9 +43,3 @@ function sendNotFound(message){
     articuloContainer.appendChild(error)
 
 }
-
-document.addEventListener('DOMContentLoaded', async function(){
-    
-
-
-});

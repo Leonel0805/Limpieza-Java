@@ -94,18 +94,35 @@ header{
 }
 
 .header__menu{
+    margin-top: 16px;
     position: absolute;
-    width: 120px;
-    background-color: rgb(212, 174, 248);
+    width: 210px;
+    background-color: rgb(206, 206, 206);
     display: none;
+    right: 5px;
+    border-radius: 8px;
 }
 
-.header__button-menu{
+.header__list{
+    width: 100%;
+
+}
+
+.header__item{
     font-size: 1rem;
+    text-align: center;
+    margin: 8px 0px;
+    padding: 8px;
+    background-color: red;
+}
+
+
+
+.header__button-menu{
     width: 100%;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    background-color: transparent;
 }
 
 .header__button-menu--logout{
