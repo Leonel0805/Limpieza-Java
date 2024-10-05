@@ -13,10 +13,11 @@ a{
 
 body{
     font-family: 'Courier New', Courier, monospace;
+    min-height: 100vh;
     font-size: 20px;
     display: flex;
     flex-direction: column;
-    height: auto;
+    justify-content: space-between;
 }
 
 header{

@@ -97,6 +97,9 @@ function mostrarCarrito(){
 
     if (carrito.length == 0){
         console.log('carritovacio')
+        let carritoButton = document.querySelector('.carrito__button')
+        carritoButton.innerHTML = 'Agrega articulos!'
+        carritoButton.className = 'carritoButton--vacio'
 
     } else{
 
@@ -114,10 +117,6 @@ function vaciarCarrito(){
     let carritoContent = document.querySelector('.carrito__content')
     carritoContent.innerHTML = ''
 
-    
-    let carritoButton = document.querySelector('.carrito__button')
-    carritoButton.innerHTML = 'Agrega articulos!'
-    carritoButton.className = 'carritoButton--vacio'
 }
 
 
