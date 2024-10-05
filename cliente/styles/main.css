@@ -151,6 +151,9 @@ header{
     border-radius: 8px;
     display: none;
 
+    /* cuando usamos flex agregando un articulo */
+    flex-direction: column;
+    justify-content: space-between;
 
 }
 
@@ -172,7 +175,7 @@ header{
     align-items: center;
     box-sizing: border-box;
     font-size: 1.1rem;
-
+    border-radius: 8px;
 }
 
 .carrito__img{
@@ -206,7 +209,6 @@ header{
     border-radius: 8px;
     font-size: 1.07rem;
     color: white;
-    margin: 0 auto;
     cursor: pointer;
     background-color: rgb(238, 73, 8);
 }

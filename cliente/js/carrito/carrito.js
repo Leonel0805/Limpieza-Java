@@ -74,6 +74,10 @@ function agregarCarrito(articuloObjeto){
         carritoButton.className = 'carrito__button'
     }
 
+    let carritoContainer = document.querySelector('.carrito__container')
+    carritoContainer.style.display = 'flex'
+
+
     mostrarCarrito()
 
 }
@@ -90,7 +94,7 @@ function obtenerCarrito(){
 }
 
 function mostrarCarrito(){
-    
+
     let carrito  = obtenerCarrito()
 
     console.log(carrito)
@@ -105,6 +109,7 @@ function mostrarCarrito(){
 
         generarCarritoCards(carrito)
 
+
     }
 
 }
@@ -118,7 +123,6 @@ function vaciarCarrito(){
     carritoContent.innerHTML = ''
 
 }
-
 
 function generarCarritoCards(carrito){
 
@@ -174,7 +178,7 @@ document.addEventListener('headerFooterCargados', function() {
 
         console.log('sehizo click en containericon')
         if (carritoContainer.style.display == 'none' || carritoContainer.style.display == ''){
-            carritoContainer.style.display = 'block'
+            carritoContainer.style.display = 'flex'
         } else{
             carritoContainer.style.display = 'none'
         }
