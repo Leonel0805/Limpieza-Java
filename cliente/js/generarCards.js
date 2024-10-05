@@ -20,4 +20,5 @@ document.addEventListener('DOMContentLoaded', async function(){
 
     // vamos a ponerle interaccion
     agregar()
+
 });

@@ -49,8 +49,9 @@ header{
     min-height: 70%;
     margin: 0 auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+    position: relative;
 
 }
 
@@ -89,9 +90,11 @@ header{
 }
 
 .header__perfil{
+    width: 20;
     position: relative;
     box-sizing: border-box;
 }
+
 
 .header__menu{
     margin-top: 16px;
@@ -132,6 +135,83 @@ header{
 
 }
 
+.carrito__icon{
+    cursor: pointer;
+}
+
+.carrito__container{
+    margin-top: 16px;
+    padding: 16px 0;
+    position: absolute;
+    width: 300px;
+    min-height: 250px;
+    background-color: rgb(255, 255, 255);
+    right: -50px;
+    border-radius: 8px;
+    display: none;
+
+
+}
+
+.carrito__content{
+    margin-bottom: 16px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.carrito__card{
+    display: flex;
+    width: 90%;
+    background-color: rgba(85, 233, 85, 0.842);
+    margin: 0 auto;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+
+}
+
+.carrito__img{
+    width: 30%;
+    height: 60px;
+    object-fit: contain;
+}
+
+/* .carrito__title{
+} */
+.carrito__cantidad{
+    width: 20%;
+    text-align: center;
+    border: none;
+    outline: none;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgb(0, 0, 0)
+
+}
+
+.carrito__buttonContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.carrito__button{
+
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.07rem;
+    color: white;
+    margin: 0 auto;
+    cursor: pointer;
+    background-color: rgb(238, 73, 8);
+}
+
+.principal--red{
+}
 
 .header__session{
     color: rgb(77, 77, 77);
@@ -140,6 +220,8 @@ header{
 .header__session:hover{
     color: rgb(0, 0, 0);
 }
+
+
 
 /* NAVBAR */
 .navbar{

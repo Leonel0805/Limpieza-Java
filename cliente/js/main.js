@@ -26,6 +26,8 @@ async function init(){
     await cargarHeader()
     await cargarFooter()
 
+    document.dispatchEvent(new Event('headerFooterCargados'));
+
     sendFormSearchParam()
 
     isLogin()
@@ -33,7 +35,7 @@ async function init(){
 }
 
 document.addEventListener('DOMContentLoaded', async function(){
-    init()
+    await init()
     console.log('termianamos de cargar el main ')
 
 });
