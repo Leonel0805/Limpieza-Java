@@ -68,6 +68,12 @@ function agregarCarrito(articuloObjeto){
     let carritoString = JSON.stringify(carrito)
     localStorage.setItem('carrito', carritoString)
 
+    let carritoButton = document.querySelector('.carritoButton--vacio')
+    if(carritoButton){
+        carritoButton.innerHTML = 'Vaciar carrito'
+        carritoButton.className = 'carrito__button'
+    }
+
     mostrarCarrito()
 
 }
@@ -89,8 +95,14 @@ function mostrarCarrito(){
 
     console.log(carrito)
 
+    if (carrito.length == 0){
+        console.log('carritovacio')
 
-    generarCarritoCards(carrito)
+    } else{
+
+        generarCarritoCards(carrito)
+
+    }
 
 }
 
@@ -98,6 +110,14 @@ function vaciarCarrito(){
 
     let carrito = []
     localStorage.setItem('carrito', JSON.stringify(carrito))
+    
+    let carritoContent = document.querySelector('.carrito__content')
+    carritoContent.innerHTML = ''
+
+    
+    let carritoButton = document.querySelector('.carrito__button')
+    carritoButton.innerHTML = 'Agrega articulos!'
+    carritoButton.className = 'carritoButton--vacio'
 }
 
 

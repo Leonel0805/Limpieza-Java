@@ -210,6 +210,18 @@ header{
     background-color: rgb(238, 73, 8);
 }
 
+.carritoButton--vacio{
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.07rem;
+    color: white;
+    margin: 0 auto;
+    cursor: default;
+    background-color: rgb(8, 238, 27);
+
+}
+
 .principal--red{
 }
 
