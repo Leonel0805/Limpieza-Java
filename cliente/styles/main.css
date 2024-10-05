@@ -97,7 +97,7 @@ header{
     margin-top: 16px;
     position: absolute;
     width: 210px;
-    background-color: rgb(206, 206, 206);
+    background-color: rgb(255, 255, 255);
     display: none;
     right: 5px;
     border-radius: 8px;
@@ -113,7 +113,10 @@ header{
     text-align: center;
     margin: 8px 0px;
     padding: 8px;
-    background-color: red;
+}
+
+.header__item:hover{
+    background-color: #f1f2fa;
 }
 
 
@@ -123,12 +126,12 @@ header{
     border: none;
     cursor: pointer;
     background-color: transparent;
+    font-family: inherit; 
+    font-size: 1rem;
+
+
 }
 
-.header__button-menu--logout{
-    font-size: 0.9rem;
-
-}
 
 .header__session{
     color: rgb(77, 77, 77);
