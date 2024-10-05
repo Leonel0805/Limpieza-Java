@@ -33,8 +33,8 @@ async function init(){
 }
 
 document.addEventListener('DOMContentLoaded', async function(){
-    console.log('cargamos el main ')
     init()
+    console.log('termianamos de cargar el main ')
 
 });
 
