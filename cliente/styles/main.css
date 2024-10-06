@@ -215,6 +215,7 @@ header{
     color: white;
     cursor: pointer;
     width: 60%;
+    text-align: center;
 }
 
 .button--red{
@@ -232,9 +233,9 @@ header{
 }
 
 
-
+/* 
 .principal--red{
-}
+} */
 
 .header__session{
     color: rgb(77, 77, 77);

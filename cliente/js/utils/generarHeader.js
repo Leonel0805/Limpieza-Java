@@ -1,8 +1,14 @@
 export async function cargarHeader(){
 
+    let nombreApp = '/Limpieza-Java'
     let baseURL = window.location.origin
 
     console.log('base url' + baseURL)
+
+    // si estamos en produccion
+    if(baseURL.includes('github.io')){
+        baseURL += nombreApp
+    }
 
     const response = await fetch(baseURL + '/cliente/templates/utils/header.html');
     const data = await response.text();
