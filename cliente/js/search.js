@@ -1,6 +1,5 @@
 import { crearCards } from './utils/crearCards.js';
-import { agregar } from './carrito/carrito.js';
-import { crearCard } from './utils/crearCard.js';
+import { buttonAgregar } from './carrito/carrito.js';
 
 
 let articuloContainer = document.querySelector(".articulos__container")
@@ -50,7 +49,7 @@ function sendNotFound(message){
 async function init(){
 
     await cargarBusquedas()
-    agregar()
+    buttonAgregar()
 }
 
 

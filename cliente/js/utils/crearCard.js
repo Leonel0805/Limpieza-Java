@@ -1,6 +1,7 @@
 
 export function crearCard(articulo){
     
+        let baseURL = localStorage.getItem('baseURL')
         // // creamos container card
         let articuloCard = document.createElement('div')
         articuloCard.className = 'articulo__card'
@@ -8,7 +9,7 @@ export function crearCard(articulo){
 
         // // creamos ahref
         let articuloHref = document.createElement('a')
-        articuloHref.href = '/cliente/templates/articulos/articulo_detail.html' + '?id=' + articulo.id
+        articuloHref.href = baseURL+'/cliente/templates/articulos/articulo_detail.html' + '?id=' + articulo.id
         articuloHref.className = 'articulo__href'
 
         // // creamos container imange

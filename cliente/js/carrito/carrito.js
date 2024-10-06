@@ -1,6 +1,6 @@
 
 // Agregar funcion click agregar y obtener la card
-function buttonAgregar(){
+export function buttonAgregar(){
 
     // obtenemos todos los botones
     let articuloButton = document.querySelectorAll('.articulo__button')

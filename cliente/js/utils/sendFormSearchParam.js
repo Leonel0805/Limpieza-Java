@@ -1,6 +1,9 @@
 // search
 export function sendFormSearchParam(){
     
+    let baseUrl = localStorage.getItem('baseURL')
+    
+
     let inputSearch = document.querySelector('#inputSearch')
     console.log(inputSearch)
 
@@ -15,8 +18,8 @@ export function sendFormSearchParam(){
 
         if (searchValue){
     
-            let baseUrl = `${window.location.origin}/cliente/templates/pages/search.html`;
-            window.location.href = `${baseUrl}?query=${encodeURIComponent(searchValue)}`;
+            let pathUrl = `${baseUrl}/cliente/templates/pages/search.html`;
+            window.location.href = `${pathUrl}?query=${encodeURIComponent(searchValue)}`;
             console.log('se usa el sendfgorm')
         }else{
             console.log("no se pudo redireccionar")

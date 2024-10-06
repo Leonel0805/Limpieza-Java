@@ -24,7 +24,7 @@ export async function isLogin(){
             headerLogin.textContent = json.username;
       
             headerLogin.addEventListener('click', function(event){
-            // anulamos el href
+                // anulamos el href
                 event.preventDefault()
 
                 // mostramos el menu

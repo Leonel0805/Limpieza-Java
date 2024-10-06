@@ -19,9 +19,25 @@ function logout(){
     })
 }
 
+function setBaseURL(){
+
+    let nombreApp = '/Limpieza-Java'
+    let baseURL = window.location.origin
+
+    console.log('base url' + baseURL)
+    // si estamos en produccion
+    if(baseURL.includes('github.io')){
+        baseURL += nombreApp
+    }
+
+    localStorage.setItem('baseURL', baseURL)
+}
+
 
 
 async function init(){
+
+    setBaseURL()
 
     await cargarHeader()
     await cargarFooter()
