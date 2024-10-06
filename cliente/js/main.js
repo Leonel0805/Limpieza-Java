@@ -3,21 +3,9 @@ import { cargarHeader } from './utils/generarHeader.js';
 import { cargarFooter } from './utils/generarFooter.js';
 
 import { isLogin } from './utils/isLogin.js';
+import { logout } from './logout.js';
 
-function logout(){
-    
-    console.log("cargamos logout")
-    let buttonLogout = document.querySelector('#button-logout')
 
-    buttonLogout.addEventListener('click', function(){
-        // 
-        console.log('se hizo click')
-        localStorage.clear();
-
-        window.location.href = window.location.origin
-        console.log('cerraste sesion')
-    })
-}
 
 function setBaseURL(){
 
