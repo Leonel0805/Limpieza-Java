@@ -525,6 +525,11 @@ footer{
 
 
 .footer__parrafo{
+    width: 90%;
+    margin: 0 auto;
+    border-top: 2px solid black;
     font-size: 1rem;
     text-align: center;
+    padding-top: 16px;
+
 }

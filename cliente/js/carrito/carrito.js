@@ -100,7 +100,7 @@ function mostrarCarrito(){
 
     console.log(carrito)
 
-    if (carrito.length == 0){
+    if (carrito.length === 0){
         console.log('carritovacio')
         let carritoButton = document.querySelector('.carrito__button')
         carritoButton.innerHTML = 'Agrega articulos!'
@@ -171,10 +171,12 @@ function generarCarritoCards(carrito){
 // mostramos y vaciamos despues de cargar el header
 document.addEventListener('headerFooterCargados', function() {
 
+
     let carritoIcon = document.querySelector('.carrito__icon')
     let carritoContainer = document.querySelector('.carrito__container')
 
 
+    // Habilitamos el contenido del carrito
     carritoIcon.addEventListener('click', function (){
 
         console.log('sehizo click en containericon')
@@ -185,19 +187,19 @@ document.addEventListener('headerFooterCargados', function() {
         }
     })
 
-
-    mostrarCarrito()
-
+    // vaciamos el carrito haciendo click en el button
     let vaciarButton = document.querySelector('.carrito__button');
 
     if (vaciarButton) {
         vaciarButton.addEventListener('click', function(event){
             event.preventDefault();
-            console.log('Se hizo click en vaciar');
             vaciarCarrito(); 
-            mostrarCarrito()
+            mostrarCarrito();
         });
     }
+
+    mostrarCarrito()
+
 });
 
 
