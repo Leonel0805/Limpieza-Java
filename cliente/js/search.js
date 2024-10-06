@@ -1,4 +1,7 @@
 import { crearCards } from './utils/crearCards.js';
+import { agregar } from './carrito/carrito.js';
+import { crearCard } from './utils/crearCard.js';
+
 
 let articuloContainer = document.querySelector(".articulos__container")
 
@@ -12,27 +15,26 @@ const urlParams = new URLSearchParams(window.location.search);
 const query = urlParams.get('query');
 
 // Hacemos peticion a la api
-fetch(apiURL + '?query=' + query)
-    .then(response => {
+async function cargarBusquedas(){
 
-        if (response.status == 200){
-            return response.json()
-            .then(json => {
-                crearCards(json)
-            })
+    let response = await fetch(apiURL + '?query=' + query)
+   
+    if (response.status == 200){
+        let json = await response.json()
+        crearCards(json)
+    
+    } else if (response.status == 404){
+
+        let json = await response.json()
+        sendNotFound(json['message'])
+        console.log(asdf)
+    }
+
         
-        } else if(response.status == 404){
-            return response.json()
-            .then(json => {
-                console.log(json['message'])
-                sendNotFound(json['message'])
 
-            })
-        }
-    });
+}
 
-
-
+// Enviar mensaje de error
 function sendNotFound(message){
 
     let errorMessage = message;
@@ -43,3 +45,14 @@ function sendNotFound(message){
     articuloContainer.appendChild(error)
 
 }
+
+
+async function init(){
+
+    await cargarBusquedas()
+    agregar()
+}
+
+
+await init()
+

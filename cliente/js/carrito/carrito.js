@@ -2,16 +2,17 @@
 // articulo tiene que ser objeto
 export function agregar(){
 
-    let articulosIDs = document.querySelectorAll('.articulo__card')
+    console.log('funcion agregar')
+    // obtenemos todos los botones
     let articuloButton = document.querySelectorAll('.articulo__button')
 
-    console.log(articulosIDs)
     console.log(articuloButton)
-
     articuloButton.forEach(button => {
 
         button.addEventListener('click', async function(event){
     
+            // obtenemos el articuloHTML de ese button
+            console.log('se hizo clic')
             const articuloCard = event.target.parentElement;
 
             crearArticulo(articuloCard)
@@ -20,13 +21,13 @@ export function agregar(){
 
 }
 
-// creamos el objeto obteniendo de la database
+// creamos el objeto obteniendo de la database por id
 function crearArticulo(articuloCard){
 
     let apiURL = 'http://localhost:8080/api/articulos'
     let id = articuloCard.getAttribute('data-id')
     
-    // obtenemos de la database
+    // realizamos fetch a la data base
     fetch(apiURL + `/${id}`)
     .then(response => {
 
