@@ -3,6 +3,7 @@ let buttonAdmin = document.querySelector('#buttonAdmin');
 let buttonEncargado = document.querySelector('#buttonEncargado');
 
 const apiURL = 'http://localhost:8080/auth/register';
+const baseURL = localStorage.getItem('baseURL')
 
 buttonAdmin.addEventListener('click', function(event){
     event.preventDefault()
@@ -63,7 +64,6 @@ function register(auth){
         console.log(json.jwt)
         
         localStorage.removeItem('authRegister')
-        let baseURL = window.location.origin
         window.location.href = baseURL + '/cliente/templates/auth/login.html';
     })
 }

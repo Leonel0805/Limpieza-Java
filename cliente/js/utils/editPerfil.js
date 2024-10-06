@@ -4,6 +4,8 @@ import { capitalizeFistLetter } from '../user_me.js';
 let editButton = document.querySelector('.detalles__card__button')
 const APIUrl = 'http://localhost:8080/api/me' 
 const jwt = localStorage.getItem('jwt')
+const baseURL = localStorage.getItem('baseURL')
+
 
 let userDatos = await obtenerDatos(jwt)
 
@@ -34,9 +36,6 @@ editButton.addEventListener('click', async function(){
 
 async function cargarEdit(){
 
-
-    let baseURL = window.location.origin
-
     let response = await fetch(baseURL + '/cliente/templates/user/edit_me.html')
     
     let data = await response.text();
@@ -47,7 +46,6 @@ async function cargarEdit(){
 
     // manipulamos el doc obtenido
 
-  
     crearInput(doc)
 
     // Lo agregamos al formulario
@@ -161,8 +159,6 @@ async function actualizarDatos(datos){
             let jwt = json.jwt
     
             localStorage.setItem('jwt', jwt)
-    
-            let baseURL = window.location.origin
             window.location.href = baseURL + '/cliente/templates/user/user_me.html';
         })
     }

@@ -1,5 +1,4 @@
 export async function isLogin(){
-    const baseURL = window.location.origin;
 
     let apiURL = 'http://localhost:8080/api/me'
     let jwtToken = localStorage.getItem('jwt');

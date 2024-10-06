@@ -1,5 +1,6 @@
 const apiURL = 'http://localhost:8080/api/me'
 let jwt = localStorage.getItem('jwt')
+const baseURL = localStorage.getItem('baseURL')
 
 export function obtenerDatos(token){
 
@@ -71,7 +72,6 @@ async function init() {
         cargarDatos(); 
 
     } else{
-        let baseURL = window.location.origin
         window.location.href = baseURL + '/index.html';
     }
 

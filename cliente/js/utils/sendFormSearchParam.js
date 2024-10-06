@@ -3,7 +3,6 @@ export function sendFormSearchParam(){
     
     let baseUrl = localStorage.getItem('baseURL')
     
-
     let inputSearch = document.querySelector('#inputSearch')
     console.log(inputSearch)
 

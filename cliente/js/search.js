@@ -1,7 +1,6 @@
 import { crearCards } from './utils/crearCards.js';
 import { buttonAgregar } from './carrito/carrito.js';
 
-
 let articuloContainer = document.querySelector(".articulos__container")
 
 // aca tengo que hacer fetch a la ruta de la api Search
@@ -42,7 +41,6 @@ function sendNotFound(message){
     error.innerText = errorMessage;
 
     articuloContainer.appendChild(error)
-
 }
 
 

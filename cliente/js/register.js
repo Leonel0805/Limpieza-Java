@@ -5,6 +5,7 @@ let inputEmail = document.querySelector('#email');
 let inputPassword = document.querySelector('#password');
 
 let registerForm = document.querySelector('.login__form')
+const baseURL = localStorage.getItem('baseURL');
 
 
 // enviamos el formulario y accedemos a los valores
@@ -26,7 +27,6 @@ registerForm.addEventListener('submit', function(event) {
 
     localStorage.setItem('authRegister', JSON.stringify(auth));
 
-    const baseURL = window.location.origin;
     window.location.href = baseURL + '/cliente/templates/pages/admin_encargado.html';
 
 })
