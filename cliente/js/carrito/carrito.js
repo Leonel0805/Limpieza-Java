@@ -1,21 +1,21 @@
 
-// articulo tiene que ser objeto
-export function agregar(){
+// Agregar funcion click agregar y obtener la card
+function buttonAgregar(){
 
-    console.log('funcion agregar')
     // obtenemos todos los botones
     let articuloButton = document.querySelectorAll('.articulo__button')
 
-    console.log(articuloButton)
     articuloButton.forEach(button => {
 
         button.addEventListener('click', async function(event){
     
             // obtenemos el articuloHTML de ese button
-            console.log('se hizo clic')
             const articuloCard = event.target.parentElement;
+            console.log(articuloCard)
 
-            crearArticulo(articuloCard)
+            let articuloCreado = await crearArticulo(articuloCard)
+
+            agregarCarrito(articuloCreado)
         })
     })
 
@@ -28,7 +28,7 @@ function crearArticulo(articuloCard){
     let id = articuloCard.getAttribute('data-id')
     
     // realizamos fetch a la data base
-    fetch(apiURL + `/${id}`)
+    return fetch(apiURL + `/${id}`)
     .then(response => {
 
         if (response.status == 200){
@@ -44,13 +44,19 @@ function crearArticulo(articuloCard){
             cantidad : 1
         }
         
-        agregarCarrito(articuloObjeto)
-        
+        console.log('mi articuloObjeto', articuloObjeto)
+        return articuloObjeto        
     })
-
 
 }
 
+// guardar Carrito en Local Storage
+function guardarCarrito(carrito){
+    let carritoString = JSON.stringify(carrito)
+    localStorage.setItem('carrito', carritoString)
+}
+
+// Agregar articulo al carrito guardarlo y mostrar el carrito actualizado
 function agregarCarrito(articuloObjeto){
 
     let carrito = obtenerCarrito()
@@ -65,28 +71,12 @@ function agregarCarrito(articuloObjeto){
         carrito.push(articuloObjeto)
     }
 
-    // convertimos nuestro carrito para poder guardarlo en json en el localstorage
-    let carritoString = JSON.stringify(carrito)
-    localStorage.setItem('carrito', carritoString)
-
-    let carritoButton = document.querySelector('#carritoVaciarAgregar')
-    if(carritoButton){
-        carritoButton.innerHTML = 'Vaciar carrito'
-        carritoButton.classList.remove('button--green', 'button--vacio')
-        carritoButton.classList.add('button--red')
-    }
-
-    let  carritoComprar = document.querySelector('#carritoComprar')
-    carritoComprar.style.display = 'block'
-
-    let carritoContainer = document.querySelector('.carrito__container')
-    carritoContainer.style.display = 'flex'
-
+    guardarCarrito(carrito)
 
     mostrarCarrito()
-
 }
 
+// Obtener carrito
 function obtenerCarrito(){
 
     let carrito = localStorage.getItem('carrito')
@@ -98,31 +88,19 @@ function obtenerCarrito(){
     }
 }
 
+// Mostrar carrito, generar cards y manipular input
 function mostrarCarrito(){
 
-    let carrito  = obtenerCarrito()
+    let carrito = obtenerCarrito()
 
-    console.log(carrito)
-
-    if (carrito.length === 0){
-        console.log('carritovacio')
-        let carritoButton = document.querySelector('.carrito__button')
-        let carritoComprar = document.querySelector('#carritoComprar')
-
-        carritoButton.innerHTML = 'Agrega articulos!'
-        carritoButton.classList.remove('button--red')
-        carritoButton.classList.add('button--vacio', 'button--green')
-
-        carritoComprar.style.display ='none'
-    } else{
-
+    if (!verificarButtons()){
+        console.log('carrito no vacio ajsdfkasdjf')
         generarCarritoCards(carrito)
-
-
+        manipularInput()
     }
-
 }
 
+// Vaciar carrito y no mostrar contenido
 function vaciarCarrito(){
 
     let carrito = []
@@ -133,6 +111,39 @@ function vaciarCarrito(){
 
 }
 
+// Verificar que botones aparecen en el contenido del carrito
+function verificarButtons(){
+
+    let carrito = obtenerCarrito()
+    let carritoButton = document.querySelector('#carritoVaciarAgregar')
+    let carritoComprar = document.querySelector('#carritoComprar')
+    let carritoContainer = document.querySelector('.carrito__container')
+
+    if (carrito.length === 0){
+
+        carritoButton.innerHTML = 'Agregá articulos!'
+        carritoButton.classList.remove('button--red')
+        carritoButton.classList.add('button--vacio', 'button--green')
+
+        carritoComprar.style.display ='none'
+
+        return true
+
+    } else{
+
+        carritoButton.innerHTML = 'Vaciar carrito'
+        carritoButton.classList.remove('button--green', 'button--vacio')
+        carritoButton.classList.add('button--red')
+
+        carritoContainer.style.display = 'flex'
+        carritoComprar.style.display = 'block'
+        
+        return false
+    }
+
+}
+
+// generamos las cards para poner en el contenido del carrito
 function generarCarritoCards(carrito){
 
     let carritoContent = document.querySelector('.carrito__content')
@@ -145,6 +156,7 @@ function generarCarritoCards(carrito){
         // creamos nuestros elementos para mostrarlos en el carrito
         let carritoCard = document.createElement('div')
         carritoCard.className = 'carrito__card'
+        carritoCard.setAttribute('data-id', articulo.id) 
     
         // creamos img
         let carritoImg = document.createElement('img')
@@ -161,6 +173,8 @@ function generarCarritoCards(carrito){
         carritoCantidad.className = 'carrito__cantidad'
         carritoCantidad.type ='number'
         carritoCantidad.value = articulo.cantidad
+        carritoCantidad.min = 1
+        carritoCantidad.max = 99
 
 
         // agregamos todo al  card y al container
@@ -172,8 +186,50 @@ function generarCarritoCards(carrito){
 
     })
 
-    
+}
 
+// manipular el input de la card del carrito para actualizar el carrito del localStorage
+function manipularInput(){
+
+    let carrito = obtenerCarrito() 
+    let inputNumbers = document.querySelectorAll('.carrito__cantidad')
+
+    // manipulamos cada input
+    inputNumbers.forEach(input => {
+
+        input.addEventListener('input', function(event) {
+
+            // obtenemos el nuevo valor actualizado por input
+            console.log('evento actualizado: ', event.target.value)
+            // obtenemos la card del que se actualizo valor por input
+            let carritoCard = event.target.parentElement
+            const articuloTitle = carritoCard.querySelector('.carrito__title');
+
+            console.log(articuloTitle.textContent)
+            // obtenemos new cantidad
+            let newCantidad = event.target.value
+
+            // obtenmos id del articulo actualizado
+            let carritoArticuloID = carritoCard.getAttribute('data-id')
+
+
+            let existObject = carrito.find(articulo => articulo.id == carritoArticuloID)
+
+            // si existe reemplazamos la cantidad 
+            if (existObject){
+                console.log('actualizamoscnatidad')
+                existObject.cantidad = newCantidad;
+        
+            } 
+
+            // guardamos el carrito
+            guardarCarrito(carrito)
+        
+            
+        })
+    })
+
+    
 }
 
 // mostramos y vaciamos despues de cargar el header
@@ -211,9 +267,16 @@ document.addEventListener('headerFooterCargados', function() {
 });
 
 
-document.addEventListener('DOMContentLoaded', function(){
+// escuchamso una vez que estan cargadas las cards
+document.addEventListener('cardsCargadas', async function(){
 
-    console.log('cargamoscarritojs')
+    let articuloObjeto = buttonAgregar()
+
+    if (articuloObjeto){
+        agregarCarrito(articuloObjeto)
+    }
+
+
 })
 
 
