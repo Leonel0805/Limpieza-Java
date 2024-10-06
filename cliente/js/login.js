@@ -4,6 +4,7 @@ let inputUsername = document.querySelector('#username');
 let inputPassword = document.querySelector('#password');
 
 const APIUrl = 'http://localhost:8080/auth/login'
+const baseURL = localStorage.getItem('baseURL')
 
 // Obtenemos el form
 let loginForm = document.querySelector('.login__form')
@@ -49,8 +50,6 @@ function authenticate(username, password){
         let jwt = json.jwt
 
         localStorage.setItem('jwt', jwt)
-
-        let baseURL = window.location.origin
         window.location.href = baseURL + '/index.html';
     })
 }
