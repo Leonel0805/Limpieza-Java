@@ -172,6 +172,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 //    ACA AUTENTICAMOS CREANDO UN authenticate con asd guardado toda del loaduserbyusername
     public Authentication authenticate(String username, String password) {
 
+//        Aca usamos el login para pasarle al loaduserByusername
         UserDetails userDetails = this.loadUserByUsername(username);
 
         if (userDetails == null) {

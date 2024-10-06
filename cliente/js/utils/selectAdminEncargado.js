@@ -35,6 +35,7 @@ buttonEncargado.addEventListener('click', function(event){
 
         authObject.roles = ['ENCARGADO'];
         
+        console.log(authObject)
         register(authObject)
         console.log('registro completado')
     }
@@ -60,11 +61,10 @@ function register(auth){
     .then(json => {
 
         console.log(json.jwt)
-        localStorage.setItem('jwt', json.jwt)
-        localStorage.setItem('username', username)
         
+        localStorage.removeItem('authRegister')
         let baseURL = window.location.origin
-        window.location.href = baseURL + '/index.html';
+        window.location.href = baseURL + '/cliente/templates/auth/login.html';
     })
 }
 
