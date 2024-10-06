@@ -200,6 +200,10 @@ header{
 .carrito__buttonContainer{
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .carrito__button{
@@ -210,20 +214,24 @@ header{
     font-size: 1.07rem;
     color: white;
     cursor: pointer;
+    width: 60%;
+}
+
+.button--red{
     background-color: rgb(238, 73, 8);
+    cursor: pointer;
+
 }
 
-.carritoButton--vacio{
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.07rem;
-    color: white;
-    margin: 0 auto;
+.button--green{
+    background-color: rgb(48, 218, 48);
+}
+
+.button--vacio{
     cursor: default;
-    background-color: rgb(8, 238, 27);
-
 }
+
+
 
 .principal--red{
 }

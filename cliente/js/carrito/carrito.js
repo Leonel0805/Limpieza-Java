@@ -69,11 +69,15 @@ function agregarCarrito(articuloObjeto){
     let carritoString = JSON.stringify(carrito)
     localStorage.setItem('carrito', carritoString)
 
-    let carritoButton = document.querySelector('.carritoButton--vacio')
+    let carritoButton = document.querySelector('#carritoVaciarAgregar')
     if(carritoButton){
         carritoButton.innerHTML = 'Vaciar carrito'
-        carritoButton.className = 'carrito__button'
+        carritoButton.classList.remove('button--green', 'button--vacio')
+        carritoButton.classList.add('button--red')
     }
+
+    let  carritoComprar = document.querySelector('#carritoComprar')
+    carritoComprar.style.display = 'block'
 
     let carritoContainer = document.querySelector('.carrito__container')
     carritoContainer.style.display = 'flex'
@@ -103,9 +107,13 @@ function mostrarCarrito(){
     if (carrito.length === 0){
         console.log('carritovacio')
         let carritoButton = document.querySelector('.carrito__button')
-        carritoButton.innerHTML = 'Agrega articulos!'
-        carritoButton.className = 'carritoButton--vacio'
+        let carritoComprar = document.querySelector('#carritoComprar')
 
+        carritoButton.innerHTML = 'Agrega articulos!'
+        carritoButton.classList.remove('button--red')
+        carritoButton.classList.add('button--vacio', 'button--green')
+
+        carritoComprar.style.display ='none'
     } else{
 
         generarCarritoCards(carrito)
