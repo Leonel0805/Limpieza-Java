@@ -3,14 +3,14 @@
 export function buttonAgregar(){
 
     // obtenemos todos los botones
-    let articuloButton = document.querySelectorAll('.articulo__button')
+    let articuloButtons = document.querySelectorAll('.articulo__button')
 
-    articuloButton.forEach(button => {
+    articuloButtons.forEach(button => {
 
         button.addEventListener('click', async function(event){
     
-            // obtenemos el articuloHTML de ese button
-            const articuloCard = event.target.parentElement;
+            // obtenemos el articuloCard de ese button
+            const articuloCard = event.target.closest('.articulo__card');
             console.log(articuloCard)
 
             let articuloCreado = await crearArticulo(articuloCard)

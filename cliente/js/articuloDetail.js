@@ -1,3 +1,5 @@
+import  { buttonAgregar } from '../js/carrito/carrito.js';
+
 // obtener el id enviado por queryparams
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -10,9 +12,9 @@ let id = urlParams.get('id');
 const APIUrl = 'http://localhost:8080/api/articulos'
 console.log(id)
 
-function obtenerArticuloById(id){
+async function obtenerArticuloById(id){
 
-    fetch(APIUrl + `/${id}`)
+    return fetch(APIUrl + `/${id}`)
     .then(response => {
         
         if(response.status == 200){
@@ -21,15 +23,12 @@ function obtenerArticuloById(id){
     })
     .then(articulo => {
 
-        console.log(articulo.descripcion)
         let articuloCard = crearCard(articulo)
 
         articuloContainer.appendChild(articuloCard)
     })
 
 }
-
-obtenerArticuloById(id);
 
 
 export function crearCard(articulo){
@@ -63,11 +62,15 @@ export function crearCard(articulo){
     articuloPrecio.className = 'articulo__precio'
     articuloPrecio.innerText = articulo.precio
 
+    
+    // creamos la descrpcion
+    let articuloDescripcion = document.createElement('p')
+    articuloDescripcion.className ='articulo__descripcion'
+    articuloDescripcion.innerHTML = articulo.descripcion
 
     // creamos el div para poner los 2 buttons
     let articuloDivButtons = document.createElement('div')
     articuloDivButtons.className = 'articulo__buttons'
-
 
     // creamos el primer boton de cantidad
     let inputCantidad = document.createElement('input')
@@ -80,7 +83,7 @@ export function crearCard(articulo){
 
     // Creamos botton agregar
     let articuloButton = document.createElement('button')
-    articuloButton.className = 'articulo__button--agregar'
+    articuloButton.classList.add('articulo__button')
     articuloButton.innerText = 'Agregar'
 
     // añadimos todo
@@ -93,6 +96,8 @@ export function crearCard(articulo){
     articuloDivButtons.appendChild(articuloButton)
     articuloContent.appendChild(articuloDivButtons)
 
+    articuloContent.appendChild(articuloDescripcion)
+
   
     articuloCard.appendChild(articuloImageContainer)
     articuloCard.appendChild(articuloContent)
@@ -101,6 +106,15 @@ export function crearCard(articulo){
     return articuloCard;
 
 }
+
+
+async function init(){
+
+    await obtenerArticuloById(id);
+    buttonAgregar()
+}
+
+init()
 
 
 

@@ -66,6 +66,7 @@
     margin: 0 auto;
     padding: 16px 0;
     border-bottom: 2px solid rgb(133, 133, 133);
+    text-transform: lowercase;
 }
 
 .articulo__precio{
@@ -73,12 +74,36 @@
     color: #252525;
 }
 
+.articulo__descripcion::first-letter, .articulo__title::first-letter{
+    text-transform: uppercase;
+}
+
+
 .articulo__buttons{
     display: flex;
     justify-content: space-between;
     gap: 8px;
 
 }
+
+.articulo__button{
+
+    width: 50%;
+    height: auto;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.07rem;
+    background-color: rgb(25, 201, 2);
+    color: white;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+}
+
+.articulo__button:hover{
+    background-color: rgb(23, 173, 3);
+}
+
 
 .articulo__button--cantidad{
     text-align: center;
@@ -90,24 +115,6 @@
     border: 1px solid rgb(0, 0, 0)
 }
 
-
-.articulo__button--agregar{
-    margin-right: auto;
-    width: 50%;
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.07rem;
-    background-color: #55e955;
-    color: white;
-    transition: background-color 0.3s;
-    cursor: pointer;
-
-}
-
-.articulo__button--agregar:hover{
-    background-color: #0ec50e;
-}
 
 .articulo__descripcion{
     text-wrap: pretty;
