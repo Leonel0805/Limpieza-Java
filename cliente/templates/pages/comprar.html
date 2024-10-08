@@ -5,29 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprar</title>
 
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../styles/pages/comprar.css">
+
 </head>
 <body>
 
     <header id="header">
+        <!-- cargamos header -->
     </header>
 
     <main>
 
-        <section class="">
+        <section class="comprar">
 
+            <div class="comprar__container">
+                <h2 class="comprar__title">Mi carrito</h2>
+                
+                <table class="comprar__table">
+
+                 
+                    <thead>
+                        <tr class="comprar__listHead">
+                            <!-- iamgen -->
+                            <th class="comprar__itemHead">Producto</th> 
+                            <th class="comprar__itemHead"></th> 
+
+                            <th class="comprar__itemHead">Precio</th>
+                            <th class="comprar__itemHead">Cantidad</th>
+                            <th class="comprar__itemHead">Subtotal</th>
+                        </tr>
+    
+
+                    </thead>
+                    <tbody id="tbody">
+                        <!-- <tr class="comprar__card">
+                            <td class="comprar__cardImg__Container">
+                                <img src="" alt="Imagen">
+                            </td>
+                            <td class="comprar__item">Nombre</td>
+                            <td class="comprar__item">precio </td>
+                            <td class="comprar__item">
+                                <input class="comprar__cantidad" type="number" value="1" min="1" max="99">
+                            </td>
+                            <td class="comprar__item">subTotalasdfasdfasdf asdf asdfasdf asdf  asdfa sd</td>
+                        </tr> -->
+
+    
+                    </tbody>
+              
+                </table>
+            </div>
+          
+
+            <div class="comprar__resumen">
+                <h3 class="comprar__resumenTitle">Resumen de compra</h3>
+
+            </div>
         </section>
 
     </main>
 
     <footer id="footer">
+        <!-- cargamos footer -->
     </footer>
 
     <script type="module" src="../../js/main.js"></script>
     <script type="module" src="../../js/search.js"></script>
     <script type="module" src="../../js/carrito/carrito.js"></script>
-
+    <script src="../../js/comprar.js"></script>
     
 </body>
 </html>

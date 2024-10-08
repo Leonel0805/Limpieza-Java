@@ -60,7 +60,7 @@ export function crearCard(articulo){
     // Creamos articulo precio
     let articuloPrecio = document.createElement('p')
     articuloPrecio.className = 'articulo__precio'
-    articuloPrecio.innerText = articulo.precio
+    articuloPrecio.innerText = '$' + articulo.precio
 
     
     // creamos la descrpcion

@@ -137,6 +137,7 @@ function verificarButtons(){
 
         carritoContainer.style.display = 'flex'
         carritoComprar.style.display = 'block'
+
         
         return false
     }
@@ -200,14 +201,12 @@ function manipularInput(){
         input.addEventListener('input', function(event) {
 
             // obtenemos el nuevo valor actualizado por input
-            console.log('evento actualizado: ', event.target.value)
+            console.log('evento actualizado: ', event.target.value, 'type', typeof(event.target.value))
             // obtenemos la card del que se actualizo valor por input
             let carritoCard = event.target.parentElement
-            const articuloTitle = carritoCard.querySelector('.carrito__title');
 
-            console.log(articuloTitle.textContent)
-            // obtenemos new cantidad
-            let newCantidad = event.target.value
+            // obtenemos new cantidad y paseamos a int
+            let newCantidad = parseInt(event.target.value, 10)
 
             // obtenmos id del articulo actualizado
             let carritoArticuloID = carritoCard.getAttribute('data-id')
@@ -262,7 +261,15 @@ document.addEventListener('headerFooterCargados', function() {
         });
     }
 
+    document.addEventListener('DOMContentLoaded', function(){
+
+        console.log('cargamoooooooooooooooooooo')
+        let carritoContainer = document.querySelector('.carrito__container')
+        carritoContainer.style.display = 'none'
+    })
+
     mostrarCarrito()
+
 
 });
 
@@ -278,5 +285,6 @@ document.addEventListener('cardsCargadas', async function(){
 
 
 })
+
 
 
