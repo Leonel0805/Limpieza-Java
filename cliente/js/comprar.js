@@ -75,7 +75,7 @@ function crearCard(articulo){
     // creamos nuestro precio 
     let cardPrecio = document.createElement('td')
     cardPrecio.className = 'comprar__item'
-    cardPrecio.innerHTML = '$' + articulo.precio
+    cardPrecio.innerHTML = '$ ' + articulo.precio
 
 
     // creamos nuestro cantidad
@@ -92,11 +92,11 @@ function crearCard(articulo){
 
     let cardSubTotal = document.createElement('td')
     cardSubTotal.classList.add('comprar__item', 'subtotal')
-    cardSubTotal.innerHTML ='$' + articulo.precio * inputCantidad.value
+    cardSubTotal.innerHTML ='$ ' + articulo.precio * inputCantidad.value
 
     // recalculamos subtotal
     inputCantidad.addEventListener('input', function() {
-        cardSubTotal.innerHTML = '$' + (articulo.precio * inputCantidad.value);
+        cardSubTotal.innerHTML = '$ ' + (articulo.precio * inputCantidad.value);
     });
 
     // ahora añadimos todo
@@ -122,7 +122,7 @@ function obtenerSubtotalesDOM(){
 
     for (let subtotal of subtotales){
 
-        let numberSubtotal = subtotal.textContent.split('$')[1]
+        let numberSubtotal = subtotal.textContent.split('$ ')[1]
         arraySubtotales.push(parseInt(numberSubtotal))
     }
 
@@ -132,8 +132,11 @@ function obtenerSubtotalesDOM(){
 function resumen(){
     
     let resumenSubtotal = document.querySelector('.comprar__resumen__subtotal')
+    let resumenEnvio = document.querySelector('.comprar__resumen__envioValue')
+    let resumenTotal = document.querySelector('.comprar__resumen__totalValue')
 
     let arraySubtotales =  obtenerSubtotalesDOM()
+    
 
     let subTotal = 0
 
@@ -142,7 +145,9 @@ function resumen(){
         subTotal += subtotal;
     }
 
-    resumenSubtotal.innerHTML = subTotal
+    resumenSubtotal.innerHTML = '$' + subTotal
+    // sumar total + envio
+    resumenTotal.innerHTML = '$ '+ (subTotal + parseInt(resumenEnvio.innerHTML.split('$ ')[1]))
 }
 
 
@@ -151,7 +156,6 @@ function manipularInputComprar(){
     let carrito = obtenerCarrito() 
     let inputNumbers = document.querySelectorAll('.comprar__cantidad')
 
-    console.log('asdfasdfdasfasd ', inputNumbers)
     // manipulamos cada input
     inputNumbers.forEach(input => {
 

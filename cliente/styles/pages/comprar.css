@@ -107,13 +107,14 @@ th:first-child{
 
 /* comprar resumen */
 .comprar__resumen{
-    background-color: rgb(144, 253, 171);
+    background-color: rgb(255, 255, 255);
     border-radius: 8px;
     padding: 32px 16px;
     position: relative;
     top: 70px;
     width: 25%;
     min-height: 300px;
+    box-shadow: 2px 2px 10px rgb(136, 136, 136);
 }
 
 .comprar__resumenTitle{
@@ -121,31 +122,32 @@ th:first-child{
 }
 
 .comprar__resumen__Content{
-    background-color: rgb(255, 197, 197);
     margin-top: 32px;
 }
 
 .comprar__resumen__subContent{
-    background-color: rgb(252, 67, 67);
+    padding: 8px 0;
     display: flex;
     justify-content: space-between;
-    margin: 16px 0
+    margin: 16px 0;
+    color: rgb(94, 94, 94);
+    border-bottom: 2px solid rgb(161, 161, 161);
 }
 
 .comprar__resumen__total{
-    background-color: rgb(252, 67, 67);
+    /* background-color: rgb(252, 67, 67); */
     display: flex;
     justify-content: space-between;
     margin: 32px 0;
-    color: white;
     font-size: 1.7rem;
+    font-weight: bold;
 }
 
 
 
 .comprar__resumen__button{
     width: 90%;
-    background-color: green;
+    background-color: rgb(94, 231, 94);
     border: none;
     outline: none;
     padding: 8px;
@@ -154,6 +156,7 @@ th:first-child{
     display: block;
     color: white;
     margin: 0 auto;
+    font-size: 1.2rem;
 }
 
 
