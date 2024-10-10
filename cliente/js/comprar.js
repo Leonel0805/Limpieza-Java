@@ -67,7 +67,7 @@ function crearCard(articulo){
 
     // creamos nuestro nombre de Card
     let cardTitle = document.createElement('td')
-    cardTitle.className = 'comprar__cardTtitle'
+    cardTitle.classList.add('comprar__cardTtitle', 'comprarNombre')
     cardTitle.innerHTML = articulo.nombre
 
     // creamos nuestro precio 
@@ -90,7 +90,7 @@ function crearCard(articulo){
 
     let cardSubTotal = document.createElement('td')
     cardSubTotal.className = 'comprar__item'
-    cardSubTotal.innerHTML = articulo.precio * inputCantidad.value
+    cardSubTotal.innerHTML ='$' + articulo.precio * inputCantidad.value
 
     // ahora añadimos todo
 

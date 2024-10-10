@@ -74,7 +74,7 @@ th:first-child{
     background-color: rgb(239, 239, 245);
     margin: 16px 0;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 32px 16px;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
@@ -82,15 +82,17 @@ th:first-child{
 }
 
 .comprar__card td {
-    background-color: rgb(125, 236, 125);
     text-align: center;
-    border: 2px solid black;
 }
 
 .comprar__cardImg__Container{
     background-color: red;
     padding: 8px;
 
+}
+
+.comprarNombre::first-letter{
+    text-transform: uppercase;
 }
 
 
@@ -111,10 +113,47 @@ th:first-child{
     position: relative;
     top: 70px;
     width: 25%;
+    min-height: 300px;
 }
 
 .comprar__resumenTitle{
     
+}
+
+.comprar__resumen__Content{
+    background-color: rgb(255, 197, 197);
+    margin-top: 32px;
+}
+
+.comprar__resumen__subContent{
+    background-color: rgb(252, 67, 67);
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0
+}
+
+.comprar__resumen__total{
+    background-color: rgb(252, 67, 67);
+    display: flex;
+    justify-content: space-between;
+    margin: 32px 0;
+    color: white;
+    font-size: 1.7rem;
+}
+
+
+
+.comprar__resumen__button{
+    width: 90%;
+    background-color: green;
+    border: none;
+    outline: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    color: white;
+    margin: 0 auto;
 }
 
 

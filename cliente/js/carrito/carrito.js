@@ -73,7 +73,10 @@ function agregarCarrito(articuloObjeto){
 
     guardarCarrito(carrito)
 
+    let carritoContainer = document.querySelector('.carrito__container')
+    carritoContainer.style.display = 'flex'
     mostrarCarrito()
+
 }
 
 // Obtener carrito
@@ -95,6 +98,7 @@ function mostrarCarrito(){
 
     if (!verificarButtons()){
         console.log('carrito no vacio ajsdfkasdjf')
+
         generarCarritoCards(carrito)
         manipularInput()
     }
@@ -117,7 +121,7 @@ function verificarButtons(){
     let carrito = obtenerCarrito()
     let carritoButton = document.querySelector('#carritoVaciarAgregar')
     let carritoComprar = document.querySelector('#carritoComprar')
-    let carritoContainer = document.querySelector('.carrito__container')
+    let carritoContent = document.querySelector('.carrito__content')
 
     if (carrito.length === 0){
 
@@ -135,7 +139,7 @@ function verificarButtons(){
         carritoButton.classList.remove('button--green', 'button--vacio')
         carritoButton.classList.add('button--red')
 
-        carritoContainer.style.display = 'flex'
+        carritoContent.style.display = 'flex'
         carritoComprar.style.display = 'block'
 
         
@@ -261,15 +265,7 @@ document.addEventListener('headerFooterCargados', function() {
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function(){
-
-        console.log('cargamoooooooooooooooooooo')
-        let carritoContainer = document.querySelector('.carrito__container')
-        carritoContainer.style.display = 'none'
-    })
-
     mostrarCarrito()
-
 
 });
 
