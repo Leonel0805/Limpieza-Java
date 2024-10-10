@@ -46,8 +46,14 @@ function sendNotFound(message){
 
 async function init(){
 
-    await cargarBusquedas()
-    buttonAgregar()
+    // si enviamos una query en la url ejecutamos cargar busqueda, sino no
+    if (query){
+        await cargarBusquedas()
+        buttonAgregar()
+    }else{
+        console.log('asdfasdfas no se ejecuto search')
+    }
+
 }
 
 

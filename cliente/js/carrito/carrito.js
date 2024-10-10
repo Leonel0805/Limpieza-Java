@@ -51,7 +51,7 @@ function crearArticulo(articuloCard){
 }
 
 // guardar Carrito en Local Storage
-function guardarCarrito(carrito){
+export function guardarCarrito(carrito){
     let carritoString = JSON.stringify(carrito)
     localStorage.setItem('carrito', carritoString)
 }
@@ -80,7 +80,7 @@ function agregarCarrito(articuloObjeto){
 }
 
 // Obtener carrito
-function obtenerCarrito(){
+export function obtenerCarrito(){
 
     let carrito = localStorage.getItem('carrito')
 
