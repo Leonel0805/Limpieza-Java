@@ -61,9 +61,6 @@ export function showPassword(){
     let icon = document.querySelector('.login__icon')
     let inputPassword = document.querySelector('#inputPassword')
 
-    console.log(icon)
-    console.log(inputPassword)
-
     icon.addEventListener('click', function(){
 
         if(inputPassword.type == 'password'){
@@ -78,6 +75,5 @@ export function showPassword(){
 
     })
 }
-
 
 showPassword()
