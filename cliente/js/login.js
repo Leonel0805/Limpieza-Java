@@ -53,3 +53,31 @@ function authenticate(username, password){
         window.location.href = baseURL + '/index.html';
     })
 }
+
+
+export function showPassword(){
+
+    // obtenemos el icon y nuestro input
+    let icon = document.querySelector('.login__icon')
+    let inputPassword = document.querySelector('#inputPassword')
+
+    console.log(icon)
+    console.log(inputPassword)
+
+    icon.addEventListener('click', function(){
+
+        if(inputPassword.type == 'password'){
+            inputPassword.type = 'text';
+            icon.classList.remove('fa-eye')
+            icon.classList.add('fa-eye-slash')
+        } else {
+            inputPassword.type = 'password';
+            icon.classList.remove('fa-eye-slash')
+            icon.classList.add('fa-eye')
+        }
+
+    })
+}
+
+
+showPassword()

@@ -63,19 +63,29 @@ main{
 
 }
 
+.login__passwordContainer{
+    position: relative;
+}
+
 .login__label{
     display: none;
 }
 
 .login__input{
     font-size: 1.4rem;
-
+    width: 100%;
     border: none;
     outline: none;
     background-color: transparent;
     padding: 4px 0;
     border-bottom: 1px solid rgb(212, 212, 212);
     margin-bottom: 16px;
+}
+
+.login__icon{
+    position: absolute;
+    top: 20%;
+    right: 0;
 }
 
 .login__button{

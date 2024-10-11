@@ -1,3 +1,4 @@
+import { showPassword } from './login.js'
 
 // Obtener username, email, password
 let inputUsername = document.querySelector('#username');
