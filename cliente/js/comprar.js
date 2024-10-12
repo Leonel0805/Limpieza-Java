@@ -2,13 +2,11 @@ import { obtenerCarrito } from '../js/carrito/carrito.js';
 import { guardarCarrito } from '../js/carrito/carrito.js';
 
 
-console.log('hola desde comprar')
-
 let carrito = localStorage.getItem('carrito')
 const apiURL = 'http://localhost:8080/api/articulos'
 
 
-function obtenerArticulosCarrito(carrito){
+export function obtenerArticulosCarrito(carrito){
 
     let articulosCarrito = JSON.parse(carrito)
 
@@ -33,7 +31,6 @@ async function obtenerDatosById(articulos) {
 }
 
 function generarCards(articulosList){
-
 
     if (articulosList && articulosList.length > 0) {
         articulosList.forEach(articulo => {
@@ -137,11 +134,9 @@ function resumen(){
 
     let arraySubtotales =  obtenerSubtotalesDOM()
     
-
     let subTotal = 0
 
     for (let subtotal of arraySubtotales){
-
         subTotal += subtotal;
     }
 
@@ -172,7 +167,6 @@ function manipularInputComprar(){
             // obtenmos id del articulo actualizado
             let carritoArticuloID = carritoCard.getAttribute('data-id')
 
-
             let existObject = carrito.find(articulo => articulo.id == carritoArticuloID)
 
             // si existe reemplazamos la cantidad 
@@ -187,11 +181,6 @@ function manipularInputComprar(){
         
         })
     })
-
-
-
-
-    
 }
 
 
