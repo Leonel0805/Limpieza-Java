@@ -79,10 +79,11 @@ public class PedidoService{
     public Pedido crearPedido(PedidoDTO pedidoDTO) {
 
         String stringEncargado;
+//        Un pedido siempre al crear va a tener estado PENDIENTE
 
-        if (pedidoDTO.estado() == null) {
-            throw new RuntimeException("El estado del pedido no puede ser nulo o vacío.");
-        }
+//        if (pedidoDTO.estado() == null) {
+//            throw new RuntimeException("El estado del pedido no puede ser nulo o vacío.");
+//        }
 
         if (pedidoDTO.nombre_encargado() != null) {
             stringEncargado = pedidoDTO.nombre_encargado(); //exception
@@ -93,7 +94,9 @@ public class PedidoService{
 
         Encargado encargado = encargadoService.findByUsernameAndIsEnabled(stringEncargado); //exception
 
+//        creamos pedido y seteamos estado
         Pedido pedido = new Pedido(pedidoDTO, encargado);
+        pedido.setEstado(EstadoPedido.PENDIENTE);
 
         this.save(pedido);
 
@@ -139,7 +142,6 @@ public class PedidoService{
 
 //        seteamos la relacion en ambas entidades
         pedido.addDetallePedido(detallePedido);
-        pedido.setEstado(EstadoPedido.PENDIENTE);
 //        guardamos
         this.save(pedido);
 

@@ -530,7 +530,7 @@ footer{
 .footer__listRedes{
     display: flex;
     gap: 8px;
-    font-size: 2.2rem;
+    font-size: 2rem;
 }
 
 .footer__item a:visited{

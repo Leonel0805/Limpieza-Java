@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public record PedidoDTO(
 
-        EstadoPedido estado, //si a hay un estado asignarlo, sino poner default
+        EstadoPedido estado, //si hay un estado asignarlo, sino poner default
 
         LocalDateTime fecha_creacion,
 

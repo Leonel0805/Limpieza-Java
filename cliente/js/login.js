@@ -1,7 +1,7 @@
 
 // Obtenemos el username y el password
 let inputUsername = document.querySelector('#username');
-let inputPassword = document.querySelector('#password');
+let inputPassword = document.querySelector('#inputPassword');
 
 const APIUrl = 'http://localhost:8080/auth/login'
 const baseURL = localStorage.getItem('baseURL')
@@ -59,7 +59,6 @@ export function showPassword(){
 
     // obtenemos el icon y nuestro input
     let icon = document.querySelector('.login__icon')
-    let inputPassword = document.querySelector('#inputPassword')
 
     icon.addEventListener('click', function(){
 

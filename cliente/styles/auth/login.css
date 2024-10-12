@@ -84,8 +84,8 @@ main{
 
 .login__icon{
     position: absolute;
-    top: 20%;
-    right: 0;
+    top: 15%;
+    right: 10px;
 }
 
 .login__button{
