@@ -1,4 +1,5 @@
-import { obtenerArticulosCarrito } from "../comprar.js";
+import { obtenerArticulosCarrito } from '../comprar.js';
+import { vaciarCarrito } from '../carrito/carrito.js';
 
 // jwt local
 const jwt = localStorage.getItem('jwt');
@@ -99,10 +100,17 @@ function agregarDetallesPedido(id, articulos){
 // si hacemos click
 buttonComprar.addEventListener('click', async function(){
 
-    // creamos el pedido y obtenemos el id
-    let id = await crearPedido()
-    // agregamos
-    agregarDetallesPedido(id, articulosCarrito)
+    // creamos el pedido y obtenemos el id solo si el carrito tiene items
+    if (articulosCarrito.length != 0){
+        let id = await crearPedido()
+        // agregamos
+        agregarDetallesPedido(id, articulosCarrito)
+        vaciarCarrito()
+
+    } else{
+        console.log('carrito vacio pa')
+    }
+
 
 })
 

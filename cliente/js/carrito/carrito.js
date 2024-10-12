@@ -105,7 +105,7 @@ function mostrarCarrito(){
 }
 
 // Vaciar carrito y no mostrar contenido
-function vaciarCarrito(){
+export function vaciarCarrito(){
 
     let carrito = []
     localStorage.setItem('carrito', JSON.stringify(carrito))
