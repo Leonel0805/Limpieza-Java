@@ -72,6 +72,7 @@ function crearCard(articulo){
     // creamos nuestro href
     let cardHref = document.createElement('a')
     cardHref.href = baseURl + '/cliente/templates/articulos/articulo_detail.html?id=' + articulo.id
+    cardHref.className = 'comprar__cardHref'
     cardHref.innerHTML = articulo.nombre
 
     // creamos nuestro precio 
