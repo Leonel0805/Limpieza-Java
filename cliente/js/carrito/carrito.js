@@ -99,10 +99,11 @@ function mostrarCarrito(){
 
     if (!verificarButtons()){
         console.log('carrito no vacio ajsdfkasdjf')
-
         generarCarritoCards(carrito)
         manipularInput()
-    }
+    } 
+
+    contarCarrito(carrito)
 }
 
 // Vaciar carrito y no mostrar contenido
@@ -115,7 +116,6 @@ export function vaciarCarrito(){
     carritoContent.innerHTML = ''
     let carritoContainer = document.querySelector('.carrito__container')
     carritoContainer.classList.remove('container--minheight')
-
 
 }
 
@@ -134,7 +134,6 @@ function verificarButtons(){
         carritoButton.classList.add('button--vacio', 'button--green')
 
         carritoComprar.style.display ='none'
-
         return true
 
     } else{
@@ -197,6 +196,29 @@ function generarCarritoCards(carrito){
 
 }
 
+
+// contar cuantos articulos hay en carrito
+function contarCarrito(carrito){
+
+    let count = carrito.length
+    let span = document.querySelector('.carrito__icon__count')
+
+    console.log(count)
+    if(count === 0){
+        console.log('carrito vacio')
+        span.style.display = 'none'
+
+    } else{
+        span.innerHTML = count
+        span.style.display = 'block'
+    
+    }
+
+
+
+}
+
+
 // manipular el input de la card del carrito para actualizar el carrito del localStorage
 function manipularInput(){
 
@@ -245,7 +267,6 @@ document.addEventListener('headerFooterCargados', function() {
 
     let carritoIcon = document.querySelector('.carrito__icon')
     let carritoContainer = document.querySelector('.carrito__container')
-
 
     // Habilitamos el contenido del carrito
     carritoIcon.addEventListener('click', function (){
