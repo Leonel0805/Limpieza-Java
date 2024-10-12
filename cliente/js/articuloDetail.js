@@ -72,14 +72,6 @@ export function crearCard(articulo){
     let articuloDivButtons = document.createElement('div')
     articuloDivButtons.className = 'articulo__buttons'
 
-    // creamos el primer boton de cantidad
-    let inputCantidad = document.createElement('input')
-    inputCantidad.className = 'articulo__button--cantidad'
-    inputCantidad.setAttribute('type', 'number')
-    inputCantidad.setAttribute('min', '1')
-    inputCantidad.setAttribute('max', '99')
-    inputCantidad.value = 1
-
 
     // Creamos botton agregar
     let articuloButton = document.createElement('button')
@@ -92,7 +84,6 @@ export function crearCard(articulo){
     articuloContent.appendChild(articuloTitle)
     articuloContent.appendChild(articuloPrecio)
 
-    articuloDivButtons.appendChild(inputCantidad)
     articuloDivButtons.appendChild(articuloButton)
     articuloContent.appendChild(articuloDivButtons)
 

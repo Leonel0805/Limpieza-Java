@@ -11,6 +11,10 @@ a{
     text-decoration: none;
 }
 
+a:visited{
+    color: black;
+}
+
 body{
     font-family: 'Courier New', Courier, monospace;
     min-height: 100vh;
@@ -145,7 +149,7 @@ header{
     padding: 16px 0;
     position: absolute;
     width: 300px;
-    min-height: 250px;
+    min-height: 40px;
     background-color: rgb(255, 255, 255);
     right: -50px;
     border-radius: 8px;
@@ -154,7 +158,10 @@ header{
     /* cuando usamos flex agregando un articulo */
     flex-direction: column;
     justify-content: space-between;
+}
 
+.container--minheight{
+    min-height: 250px;
 }
 
 .carrito__content{

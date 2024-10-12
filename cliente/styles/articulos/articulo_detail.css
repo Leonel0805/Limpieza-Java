@@ -80,16 +80,13 @@
 
 
 .articulo__buttons{
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-
+    height: 15%;
 }
 
 .articulo__button{
 
     width: 50%;
-    height: auto;
+    height: 70%;
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;

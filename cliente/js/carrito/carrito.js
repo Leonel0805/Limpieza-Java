@@ -75,6 +75,7 @@ function agregarCarrito(articuloObjeto){
 
     let carritoContainer = document.querySelector('.carrito__container')
     carritoContainer.style.display = 'flex'
+    carritoContainer.classList.add('container--minheight')
     mostrarCarrito()
 
 }
@@ -112,6 +113,9 @@ export function vaciarCarrito(){
     
     let carritoContent = document.querySelector('.carrito__content')
     carritoContent.innerHTML = ''
+    let carritoContainer = document.querySelector('.carrito__container')
+    carritoContainer.classList.remove('container--minheight')
+
 
 }
 

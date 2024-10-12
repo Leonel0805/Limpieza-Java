@@ -4,6 +4,7 @@ import { guardarCarrito } from '../js/carrito/carrito.js';
 
 let carrito = localStorage.getItem('carrito')
 const apiURL = 'http://localhost:8080/api/articulos'
+const baseURl = localStorage.getItem('baseURL')
 
 
 export function obtenerArticulosCarrito(carrito){
@@ -67,7 +68,11 @@ function crearCard(articulo){
     // creamos nuestro nombre de Card
     let cardTitle = document.createElement('td')
     cardTitle.classList.add('comprar__cardTtitle', 'comprarNombre')
-    cardTitle.innerHTML = articulo.nombre
+
+    // creamos nuestro href
+    let cardHref = document.createElement('a')
+    cardHref.href = baseURl + '/cliente/templates/articulos/articulo_detail.html?id=' + articulo.id
+    cardHref.innerHTML = articulo.nombre
 
     // creamos nuestro precio 
     let cardPrecio = document.createElement('td')
@@ -100,6 +105,7 @@ function crearCard(articulo){
 
     cardImgContainer.appendChild(cardImage)
     cardCantidad.appendChild(inputCantidad)
+    cardTitle.appendChild(cardHref)
 
     comprarCard.appendChild(cardImgContainer)
     comprarCard.appendChild(cardTitle)
