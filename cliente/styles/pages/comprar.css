@@ -2,6 +2,46 @@ main{
     min-height: 80vh ;
 }
 
+
+
+.overlay{
+    width: 100%;
+    height: 100vh;
+    position: fixed;    
+    top: 0;
+    width: 100%;
+    background-color: rgba(41, 41, 41, 0.61);
+    z-index: 20;
+    align-items: center;
+    /* display: none; */
+    display: none;
+}
+
+.overlay__container{
+
+    background-color: rgb(97, 253, 118);
+    width: 25%;
+    height: 25%;
+    margin: auto;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay__parrafo{
+
+}
+
+.overlay__button{
+    margin-top: 16px;    
+    background-color: rgb(82, 82, 82);
+}
+
+
 .comprar{
     width: 90%;
     height: 100%;

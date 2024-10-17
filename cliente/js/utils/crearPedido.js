@@ -92,16 +92,33 @@ function agregarDetallesPedido(id, articulos){
             if (response.status == 200){
                 console.log('agrgamos detalle')
                 return response.json()
+            
+            } else {
+
+                return response.json()
             }
         })
         .then(json => {
-            console.log(json.data)
+            console.log(json.message)
+
+            let overlay = document.querySelector('.overlay')
+            overlay.style.display = 'flex'
+
         })
 
     }
 
 
 }
+
+let buttonFinish = document.querySelector('.overlay__button')
+
+buttonFinish.addEventListener('click', function(){
+
+    let overlay = document.querySelector('.overlay')
+    overlay.style.display = 'none'
+
+})
 
 // si hacemos click
 buttonComprar.addEventListener('click', async function(){
