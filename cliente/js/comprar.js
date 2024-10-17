@@ -163,8 +163,6 @@ function manipularInputComprar(){
 
         input.addEventListener('input', async function(event) {
 
-            // obtenemos el nuevo valor actualizado por input
-            console.log('evento actualizado: ', event.target.value, 'type', typeof(event.target.value))
             // obtenemos la card del que se actualizo valor por input
             let carritoCard = event.target.closest('.comprar__card')
 
@@ -189,7 +187,6 @@ function manipularInputComprar(){
         })
     })
 }
-
 
 // INIT
 async function init(){

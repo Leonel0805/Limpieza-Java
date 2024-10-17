@@ -11,9 +11,6 @@ a{
     text-decoration: none;
 }
 
-a:visited{
-    color: black;
-}
 
 body{
     font-family: 'Courier New', Courier, monospace;
@@ -232,10 +229,10 @@ header{
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    color: white;
     cursor: pointer;
     width: 60%;
     text-align: center;
+    color: white;
 }
 
 .button--red{

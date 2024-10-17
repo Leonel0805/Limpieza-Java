@@ -48,7 +48,8 @@ public class ArticuloController {
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
-            Articulo articulo = articuloService.findByIdAndStock(id);
+//            arreglar el sin stock
+            Articulo articulo = articuloService.findById(id);
             ListadoArticuloDTO articuloDTO = new ListadoArticuloDTO(articulo);
             return ResponseEntity.status(HttpStatus.OK).body(articuloDTO);
 

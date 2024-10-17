@@ -35,6 +35,7 @@ async function crearPedido(){
     })
     .then(json => {
 
+        // retornamos el id del response
         console.log(json.data.id)
         return json.data.id
 
@@ -42,7 +43,7 @@ async function crearPedido(){
 }
 
 
-// creamos los articulos para pasar por body del request
+// creamos los articulos para pasar por body del request, medio en vano
 function crearDetalles(articulos){
 
     let articulosArray = []
@@ -56,9 +57,10 @@ function crearDetalles(articulos){
         articulosArray.push(articuloBody)
     }
 
-    console.log(articulosArray)
+    console.log('mis articulos', articulosArray)
     return articulosArray
 }
+
 
 // agregamos todo del carrito al pedido creado
 function agregarDetallesPedido(id, articulos){
@@ -66,9 +68,11 @@ function agregarDetallesPedido(id, articulos){
     
     let articulosBody = crearDetalles(articulos)
 
-    // AGREGAMOS cada articulo
+    // AGREGAMOS cada articulo al pedido
     for (let articulo of articulosBody){
 
+        console.log('mi articulo',articulo)
+        console.log('mi articulobody', JSON.stringify(articulo))
         fetch(apiURL + `/${id}` + '/detalle',{
             method: 'POST',
             headers:{
@@ -76,20 +80,22 @@ function agregarDetallesPedido(id, articulos){
                 'Authorization': 'Bearer '+ jwt
             },
             body: JSON.stringify({
-                cantidad: 5,
-                articulo_name: 'teclado5' //forzamos para test
+                // cantidad: 5,
+                // articulo_name: 'teclado5' //forzamos para test
+                ...articulo //seria lo de arriba declaramos sus propiedades
             })
         })
 
         .then(response => {
 
+            console.log(response.status)
             if (response.status == 200){
-
+                console.log('agrgamos detalle')
                 return response.json()
             }
         })
         .then(json => {
-            console.log(json.message)
+            console.log(json.data)
         })
 
     }

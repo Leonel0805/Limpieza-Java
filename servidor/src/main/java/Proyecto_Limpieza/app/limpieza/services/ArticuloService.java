@@ -3,10 +3,7 @@ package Proyecto_Limpieza.app.limpieza.services;
 import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.ArticuloDAOImpl;
-import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IArticuloDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +23,21 @@ public class ArticuloService {
         return persistencia.findAll();
     }
 
-    public Articulo findByIdAndStock(Long id) {
+    public Articulo findById(Long id){
 
-        String username = userDetailService.obtenerUsuarioAutenticado();
-        System.out.println(username);
+        Optional<Articulo> articuloOptional = persistencia.findById(id);
+
+        if (articuloOptional.isEmpty()) {
+            throw new RuntimeException("Articulo no encontrado");
+        }
+
+        Articulo articulo = articuloOptional.get();
+        return articulo;
+
+    }
+
+//    este no seria necesario, en caso de no estar con stock manipulamos el frontend
+    public Articulo findByIdAndStock(Long id) {
 
         Optional<Articulo> articuloOptional = persistencia.findByIdAndStock(id);
 
@@ -82,7 +90,7 @@ public class ArticuloService {
 
     public Articulo actualizarArticulo(Long id, ArticuloDTO articuloDTO) {
 
-        Articulo articulo = this.findByIdAndStock(id);
+        Articulo articulo = this.findById(id);
 
         this.actualizarValores(articuloDTO, articulo);
         this.guardarArticulo(articulo);
@@ -106,6 +114,9 @@ public class ArticuloService {
 
         articulo.setNombre(articuloDTO.nombre());
         articulo.setDescripcion(articuloDTO.descripcion());
+        if (articuloDTO.stock() > 0 && articulo.getSin_stock()){
+            articulo.setSin_stock(false);
+        }
         articulo.setStock(articuloDTO.stock());
         articulo.setPrecio(articuloDTO.precio());
     }
