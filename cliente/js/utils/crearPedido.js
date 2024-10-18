@@ -1,15 +1,22 @@
 import { obtenerArticulosCarrito } from '../comprar.js';
 import { vaciarCarrito } from '../carrito/carrito.js';
+import { obtenerDatosById } from '../comprar.js';
+import { generarCards } from '../comprar.js';
+
 
 // jwt local
 const jwt = localStorage.getItem('jwt');
 const apiURL = 'http://localhost:8080/api/pedidos'
+const baseURL = localStorage.getItem('baseURL')
 
 // carrito Local
 let carrito = localStorage.getItem('carrito');
 
 // convertimos los articulos en objetos
 let articulosCarrito = obtenerArticulosCarrito(carrito)
+
+let articulosDB = await  obtenerDatosById(articulosCarrito)
+
 
 // obtenemos botton finalizar Compra
 let buttonComprar = document.querySelector('.comprar__resumen__button')
@@ -71,8 +78,6 @@ function agregarDetallesPedido(id, articulos){
     // AGREGAMOS cada articulo al pedido
     for (let articulo of articulosBody){
 
-        console.log('mi articulo',articulo)
-        console.log('mi articulobody', JSON.stringify(articulo))
         fetch(apiURL + `/${id}` + '/detalle',{
             method: 'POST',
             headers:{
@@ -95,7 +100,19 @@ function agregarDetallesPedido(id, articulos){
             
             } else {
 
-                return response.json()
+                return response.json().then(errorData => {
+
+                    // lo que ponemos del error
+                    let overlay = document.querySelector('.overlay')
+                    let overlayText = document.querySelector('.overlay__parrafo')
+                    let overlayContainer = document.querySelector('.overlay__container')
+
+                    overlay.style.display = 'flex'
+                    overlayContainer.classList.add('overlay--error')
+
+                    overlayText.innerHTML = errorData.message
+
+                })
             }
         })
         .then(json => {
@@ -103,6 +120,8 @@ function agregarDetallesPedido(id, articulos){
 
             let overlay = document.querySelector('.overlay')
             overlay.style.display = 'flex'
+
+
 
         })
 
@@ -117,6 +136,9 @@ buttonFinish.addEventListener('click', function(){
 
     let overlay = document.querySelector('.overlay')
     overlay.style.display = 'none'
+    
+    generarCards(articulosDB)
+
 
 })
 

@@ -15,7 +15,7 @@ export function obtenerArticulosCarrito(carrito){
 }
 
 
-async function obtenerDatosById(articulos) {
+export async function obtenerDatosById(articulos) {
 
     let articulosDB = [];
 
@@ -31,7 +31,7 @@ async function obtenerDatosById(articulos) {
     return articulosDB; 
 }
 
-function generarCards(articulosList){
+export function generarCards(articulosList){
 
     if (articulosList && articulosList.length > 0) {
         articulosList.forEach(articulo => {
@@ -50,6 +50,7 @@ function crearCard(articulo){
 
     let existArticulo = articulosCarrito.find(articuloCarrito => articuloCarrito.id == articulo.id)
 
+    console.log(articulo)
     let tbody = document.querySelector('#tbody')
 
     // creamos nuestro tr
@@ -90,7 +91,7 @@ function crearCard(articulo){
     inputCantidad.className = 'comprar__cantidad'
     inputCantidad.type = 'number'
     inputCantidad.min = 1
-    inputCantidad.max = 99
+    inputCantidad.max = articulo.stock //ponemos valor maximo cantidad de stock disponible en DB
     inputCantidad.value = existArticulo.cantidad
 
     let cardSubTotal = document.createElement('td')

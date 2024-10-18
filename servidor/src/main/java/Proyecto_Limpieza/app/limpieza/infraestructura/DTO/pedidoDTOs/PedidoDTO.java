@@ -8,8 +8,6 @@ public record PedidoDTO(
 
         EstadoPedido estado, //si hay un estado asignarlo, sino poner default
 
-        LocalDateTime fecha_creacion,
-
         String nombre_encargado
 ) {
 }

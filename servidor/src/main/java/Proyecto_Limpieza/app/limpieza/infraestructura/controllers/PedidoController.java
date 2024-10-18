@@ -8,6 +8,7 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.detallePedidoDTO.Detal
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoYDetallesDTO;
 import Proyecto_Limpieza.app.limpieza.services.DetallePedidoService;
 import Proyecto_Limpieza.app.limpieza.services.EncargadoService;
 import Proyecto_Limpieza.app.limpieza.services.PedidoService;
@@ -74,6 +75,25 @@ public class PedidoController {
         }
 
     }
+
+//    POST crear Pedido con detalles ya incluidos
+    @PostMapping("/create")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ENCARGADO')")
+    public ResponseEntity<?> crearPedidoDetalles(@RequestBody PedidoYDetallesDTO pedidoYDetallesDTO){
+
+        try {
+            Pedido pedido = pedidoService.crearPedidoConDetalles(pedidoYDetallesDTO);
+            ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
+            APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido creado correctamente!");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("Error - BadRequest", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+    }
+
 
     //    POST agregar detalles al pedido
     @PostMapping("/{id}/detalle")

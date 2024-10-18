@@ -32,6 +32,10 @@ main{
     align-items: center;
 }
 
+.overlay--error{
+    background-color: red;
+}
+
 .overlay__parrafo{
 
 }

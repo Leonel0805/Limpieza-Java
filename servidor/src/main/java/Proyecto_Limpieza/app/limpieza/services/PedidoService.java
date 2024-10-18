@@ -10,6 +10,7 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.detallePedidoDTO.Detal
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.estadoPedidoDTO.EstadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.ListadoPedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoYDetallesDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PedidoDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IPedidoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,43 @@ public class PedidoService{
         Pedido pedido = new Pedido(pedidoDTO, encargado);
         pedido.setEstado(EstadoPedido.PENDIENTE);
 
+        this.save(pedido);
+
+        return pedido;
+    }
+
+    //    creamos pedido con detalles
+    public Pedido crearPedidoConDetalles(PedidoYDetallesDTO pedidoYDetallesDTO) {
+
+        String encargadoString;
+
+//        verificamos si enviamos un encargado por el DTO
+        if (pedidoYDetallesDTO.pedido().nombre_encargado() != null) {
+            encargadoString = pedidoYDetallesDTO.pedido().nombre_encargado();
+
+        } else {
+            encargadoString = userDetailService.obtenerUsuarioAutenticado();
+        }
+
+        Encargado encargado = encargadoService.findByUsernameAndIsEnabled(encargadoString);
+
+        Pedido pedido = new Pedido(pedidoYDetallesDTO.pedido(), encargado);
+
+        pedidoYDetallesDTO.detalles().stream()
+                .map(detallePedidoDTO -> {
+
+//                    creamos cada detalle pedido, lo guardamos y lo retornamos
+                    DetallePedido detallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
+                    return detallePedido;
+
+                })
+//                agregamos cada detallePedido al pedido
+                .forEach(detallePedido -> {
+
+                    pedido.addDetallePedido(detallePedido);
+                } );
+
+//        guardamos el pedido con los detalles ya almacenados
         this.save(pedido);
 
         return pedido;

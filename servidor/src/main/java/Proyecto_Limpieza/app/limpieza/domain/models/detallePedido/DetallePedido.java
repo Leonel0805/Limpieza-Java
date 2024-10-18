@@ -2,6 +2,7 @@ package Proyecto_Limpieza.app.limpieza.domain.models.detallePedido;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
 import Proyecto_Limpieza.app.limpieza.domain.models.pedido.Pedido;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.detallePedidoDTO.DetallePedidoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,4 +37,5 @@ public class DetallePedido {
         this.cantidad = cantidad;
         this.articulo = articulo;
     }
+
 }
