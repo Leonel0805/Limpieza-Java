@@ -6,8 +6,7 @@ import { generarCards } from '../comprar.js';
 
 // jwt local
 const jwt = localStorage.getItem('jwt');
-const apiURL = 'http://localhost:8080/api/pedidos'
-const baseURL = localStorage.getItem('baseURL')
+const apiURL = 'http://localhost:8080/api/pedidos/create'
 
 // carrito Local
 let carrito = localStorage.getItem('carrito');
@@ -22,16 +21,26 @@ let articulosDB = await  obtenerDatosById(articulosCarrito)
 let buttonComprar = document.querySelector('.comprar__resumen__button')
 
 
-// Creamos el pedido para obtener el id
-async function crearPedido(){
+// Creamos el pedido
+function crearPedido(){
 
-    return fetch (apiURL, {
+    let articulosBody = crearDetalles(articulosCarrito)
+    let requestBody = {
+        pedido: {},
+        detalles: articulosBody
+    }
+
+    console.log(articulosBody)
+
+    fetch (apiURL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+ jwt
         },
-        body: JSON.stringify({}) //vacio porque un admin puede crear un pedido a un encargado
+        body: JSON.stringify(
+            requestBody
+        ) //vacio porque un admin puede crear un pedido a un encargado
     })
     .then(response => {
 
@@ -43,8 +52,7 @@ async function crearPedido(){
     .then(json => {
 
         // retornamos el id del response
-        console.log(json.data.id)
-        return json.data.id
+        console.log(json.message)
 
     })
 }
@@ -147,9 +155,9 @@ buttonComprar.addEventListener('click', async function(){
 
     // creamos el pedido y obtenemos el id solo si el carrito tiene items
     if (articulosCarrito.length != 0){
-        let id = await crearPedido()
+        crearPedido()
         // agregamos
-        agregarDetallesPedido(id, articulosCarrito)
+        // agregarDetallesPedido(id, articulosCarrito)
         vaciarCarrito()
 
     } else{
