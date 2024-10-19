@@ -456,6 +456,15 @@ main{
     background-color: rgb(23, 173, 3);
 }
 
+
+.articulo__button--NoStock{
+    color: white;
+    background-color: rgb(238, 62, 62);
+    padding: 8px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
 /* SECTION TIPS */
 
 .tips{

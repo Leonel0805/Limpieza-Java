@@ -18,6 +18,6 @@ public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
     @Query(value = "SELECT * FROM articulos a WHERE a.nombre = :name AND a.sin_stock = False", nativeQuery = true)
     Optional<Articulo> findByNameAndStock(String name);
 
-    @Query(value = "SELECT * FROM articulos a WHERE a.nombre LIKE %:query% AND a.sin_stock = False", nativeQuery = true)
+    @Query(value = "SELECT * FROM articulos a WHERE a.nombre LIKE %:query%", nativeQuery = true)
     List<Articulo> findByParam(@Param("query") String query);
 }
