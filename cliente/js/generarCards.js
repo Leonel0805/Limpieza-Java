@@ -1,7 +1,7 @@
 import { crearCards } from './utils/crearCards.js';
 
 
-const apiURL = "https://miraculous-warmth-production.up.railway.app/api/articulos";
+const apiURL = "http://localhost:8080/api/articulos";
 
 async function generarCards() {
     let response = await fetch(apiURL);

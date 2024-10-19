@@ -9,7 +9,9 @@ import java.util.Optional;
 
 public interface IArticuloDAO {
 
+
     List<Articulo> findAll();
+    List<Articulo> findAllOrderStock();
 
     List<Articulo> findByParam(String query);
 

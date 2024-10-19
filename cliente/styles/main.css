@@ -426,12 +426,13 @@ main{
 .articulo__content{
     width: 90%;
     margin: 0 auto;
-    margin-top: 8px;
+    margin: 16px; 
 
 }
 
 .articulo__title{
     color: #1825aa;
+    margin: 4px 0;
 }
 
 .articulo__precio{

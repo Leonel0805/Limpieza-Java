@@ -35,7 +35,7 @@ public class ArticuloController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAll() {
 
-        List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAll().stream()
+        List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAllOrderStock().stream()
                 .map(articulo -> new ListadoArticuloDTO(articulo))
                 .collect(Collectors.toList());
 

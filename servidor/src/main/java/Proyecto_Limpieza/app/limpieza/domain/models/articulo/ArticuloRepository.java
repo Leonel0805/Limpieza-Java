@@ -11,6 +11,9 @@ import java.util.Optional;
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
 
+    @Query(value = "SELECT * FROM articulos a ORDER BY a.sin_stock ASC", nativeQuery = true)
+    List<Articulo> findAllOrderStock();
+
     @Query(value = "SELECT * FROM articulos a WHERE a.id = :id AND a.sin_stock = False", nativeQuery = true)
     Optional<Articulo> findByIdAndStock(@Param("id") Long id);
 

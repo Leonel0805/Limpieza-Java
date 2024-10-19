@@ -34,7 +34,7 @@ export function crearCard(articulo){
         // Creamos articulo precio
         let articuloPrecio = document.createElement('p')
         articuloPrecio.className = 'articulo__precio'
-        articuloPrecio.innerText = articulo.precio
+        articuloPrecio.innerText = '$' + articulo.precio
 
         // Creamos botton agregar if el stock > 0
         let articuloButton;
@@ -50,7 +50,6 @@ export function crearCard(articulo){
                 articuloButton.innerHTML = 'Sin Stock'
         }
  
-
         // añadimos todo
         articuloImageContainer.appendChild(articuloImage)
 

@@ -21,6 +21,11 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
+    public List<Articulo> findAllOrderStock() {
+        return articuloRepository.findAllOrderStock();
+    }
+
+    @Override
     public List<Articulo> findByParam(String query) {
         return articuloRepository.findByParam(query);
     }

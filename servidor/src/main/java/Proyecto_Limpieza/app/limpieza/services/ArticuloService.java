@@ -23,6 +23,10 @@ public class ArticuloService {
         return persistencia.findAll();
     }
 
+    public List<Articulo> findAllOrderStock() {
+        return persistencia.findAllOrderStock();
+    }
+
     public Articulo findById(Long id){
 
         Optional<Articulo> articuloOptional = persistencia.findById(id);
