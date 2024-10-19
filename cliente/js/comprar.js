@@ -2,9 +2,9 @@ import { obtenerCarrito } from '../js/carrito/carrito.js';
 import { guardarCarrito } from '../js/carrito/carrito.js';
 
 
-let carrito = localStorage.getItem('carrito')
 const apiURL = 'http://localhost:8080/api/articulos'
 const baseURl = localStorage.getItem('baseURL')
+let carrito = localStorage.getItem('carrito')
 
 
 export function obtenerArticulosCarrito(carrito){
@@ -33,17 +33,22 @@ export async function obtenerDatosById(articulos) {
 
 export function generarCards(articulosList){
 
+
     if (articulosList && articulosList.length > 0) {
         articulosList.forEach(articulo => {
             crearCard(articulo);
         });
     } else {
         console.error('articulosList está vacío o es undefined');
+        let tbody = document.querySelector('#tbody')
+        tbody.innerHTML = ''
+    
     }
 }
 
 
 function crearCard(articulo){
+
 
     console.log('entramos a ccrear card')
     let articulosCarrito = obtenerArticulosCarrito(carrito)
@@ -51,7 +56,6 @@ function crearCard(articulo){
     let existArticulo = articulosCarrito.find(articuloCarrito => articuloCarrito.id == articulo.id)
 
     console.log(articulo)
-    let tbody = document.querySelector('#tbody')
 
     // creamos nuestro tr
     let comprarCard = document.createElement('tr')
@@ -156,6 +160,7 @@ function resumen(){
 
 function manipularInputComprar(){
 
+    console.log('manipulamos inputs')
     let carrito = obtenerCarrito() 
     let inputNumbers = document.querySelectorAll('.comprar__cantidad')
 
@@ -166,6 +171,7 @@ function manipularInputComprar(){
 
             // obtenemos la card del que se actualizo valor por input
             let carritoCard = event.target.closest('.comprar__card')
+
 
             // obtenemos new cantidad y paseamos a int
             let newCantidad = parseInt(event.target.value, 10)
@@ -190,8 +196,9 @@ function manipularInputComprar(){
 }
 
 // INIT
-async function init(){
+export async function init(){
 
+    let carrito = localStorage.getItem('carrito')
     let articulosCarrito = await obtenerArticulosCarrito(carrito) 
     let articulosDB = await  obtenerDatosById(articulosCarrito)
 

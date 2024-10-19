@@ -1,20 +1,12 @@
 import { obtenerArticulosCarrito } from '../comprar.js';
 import { vaciarCarrito } from '../carrito/carrito.js';
 import { obtenerDatosById } from '../comprar.js';
-import { generarCards } from '../comprar.js';
+import { init } from '../comprar.js';
 
 
 // jwt local
 const jwt = localStorage.getItem('jwt');
 const apiURL = 'http://localhost:8080/api/pedidos/create'
-
-// carrito Local
-let carrito = localStorage.getItem('carrito');
-
-// convertimos los articulos en objetos
-let articulosCarrito = obtenerArticulosCarrito(carrito)
-
-let articulosDB = await  obtenerDatosById(articulosCarrito)
 
 
 // obtenemos botton finalizar Compra
@@ -22,7 +14,7 @@ let buttonComprar = document.querySelector('.comprar__resumen__button')
 
 
 // Creamos el pedido
-function crearPedido(){
+function crearPedido(articulosCarrito){
 
     let articulosBody = crearDetalles(articulosCarrito)
     let requestBody = {
@@ -30,8 +22,7 @@ function crearPedido(){
         detalles: articulosBody
     }
 
-    console.log(articulosBody)
-
+// Hacemos la request
     fetch (apiURL, {
         method: 'POST',
         headers: {
@@ -40,19 +31,38 @@ function crearPedido(){
         },
         body: JSON.stringify(
             requestBody
-        ) //vacio porque un admin puede crear un pedido a un encargado
+        )
     })
     .then(response => {
 
         if (response.status == 201){
             return response.json()
+        } else{
+            
+            return response.json().then(errorData => {
+
+                // lo que ponemos del error
+                let overlay = document.querySelector('.overlay')
+                let overlayText = document.querySelector('.overlay__parrafo')
+                let overlayContainer = document.querySelector('.overlay__container')
+
+                overlay.style.display = 'flex'
+                overlayContainer.classList.add('overlay--error')
+
+                overlayText.innerHTML = errorData.message
+
+            })
         }
         // mandar error mensaje
     })
     .then(json => {
 
-        // retornamos el id del response
         console.log(json.message)
+        let overlay = document.querySelector('.overlay')
+        overlay.style.display = 'flex'
+
+        vaciarCarrito()
+        init()
 
     })
 }
@@ -78,94 +88,104 @@ function crearDetalles(articulos){
 
 
 // agregamos todo del carrito al pedido creado
-function agregarDetallesPedido(id, articulos){
+// function agregarDetallesPedido(id, articulos){
 
     
-    let articulosBody = crearDetalles(articulos)
+//     let articulosBody = crearDetalles(articulos)
 
-    // AGREGAMOS cada articulo al pedido
-    for (let articulo of articulosBody){
+//     // AGREGAMOS cada articulo al pedido
+//     for (let articulo of articulosBody){
 
-        fetch(apiURL + `/${id}` + '/detalle',{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ jwt
-            },
-            body: JSON.stringify({
-                // cantidad: 5,
-                // articulo_name: 'teclado5' //forzamos para test
-                ...articulo //seria lo de arriba declaramos sus propiedades
-            })
-        })
+//         fetch(apiURL + `/${id}` + '/detalle',{
+//             method: 'POST',
+//             headers:{
+//                 'Content-Type': 'application/json',
+//                 'Authorization': 'Bearer '+ jwt
+//             },
+//             body: JSON.stringify({
+//                 // cantidad: 5,
+//                 // articulo_name: 'teclado5' //forzamos para test
+//                 ...articulo //seria lo de arriba declaramos sus propiedades
+//             })
+//         })
 
-        .then(response => {
+//         .then(response => {
 
-            console.log(response.status)
-            if (response.status == 200){
-                console.log('agrgamos detalle')
-                return response.json()
+//             console.log(response.status)
+//             if (response.status == 200){
+//                 console.log('agrgamos detalle')
+//                 return response.json()
             
-            } else {
+//             } else {
 
-                return response.json().then(errorData => {
+//                 return response.json().then(errorData => {
 
-                    // lo que ponemos del error
-                    let overlay = document.querySelector('.overlay')
-                    let overlayText = document.querySelector('.overlay__parrafo')
-                    let overlayContainer = document.querySelector('.overlay__container')
+//                     // lo que ponemos del error
+//                     let overlay = document.querySelector('.overlay')
+//                     let overlayText = document.querySelector('.overlay__parrafo')
+//                     let overlayContainer = document.querySelector('.overlay__container')
 
-                    overlay.style.display = 'flex'
-                    overlayContainer.classList.add('overlay--error')
+//                     overlay.style.display = 'flex'
+//                     overlayContainer.classList.add('overlay--error')
 
-                    overlayText.innerHTML = errorData.message
+//                     overlayText.innerHTML = errorData.message
 
-                })
-            }
+//                 })
+//             }
+//         })
+//         .then(json => {
+//             console.log(json.message)
+
+//             let overlay = document.querySelector('.overlay')
+//             overlay.style.display = 'flex'
+
+//         })
+//     }
+// }
+
+
+function finalizarComprarErrorOrSuccess(){
+
+    let buttonFinish = document.querySelector('.overlay__button')
+   
+    buttonFinish.addEventListener('click', async function(){
+
+        let overlay = document.querySelector('.overlay')
+        overlay.style.display = 'none'
+
+
+    })
+}
+
+
+// si hacemos click
+
+async function buttonComprarFunction(){
+
+    // carrito Local
+    let carrito = localStorage.getItem('carrito');
+    let articulosCarrito = await obtenerArticulosCarrito(carrito) 
+
+    console.log(articulosCarrito.length, 'mis articulos')
+
+    if (articulosCarrito.length > 0){
+
+        buttonComprar.addEventListener('click', async function(){
+            console.log('entramos para crear pedido')
+            crearPedido(articulosCarrito)
+            finalizarComprarErrorOrSuccess() 
         })
-        .then(json => {
-            console.log(json.message)
-
-            let overlay = document.querySelector('.overlay')
-            overlay.style.display = 'flex'
-
-
-
-        })
-
+    } else {
+                   
+        console.log('carrito vacio paaa')
+        let buttonFinalizar = document.querySelector('.comprar__resumen__button')
+        buttonFinalizar.innerHTML = 'Carrito vacio'
     }
-
 
 }
 
-let buttonFinish = document.querySelector('.overlay__button')
+buttonComprarFunction()
 
-buttonFinish.addEventListener('click', function(){
-
-    let overlay = document.querySelector('.overlay')
-    overlay.style.display = 'none'
-    
-    generarCards(articulosDB)
-
-
-})
-
-// si hacemos click
-buttonComprar.addEventListener('click', async function(){
-
-    // creamos el pedido y obtenemos el id solo si el carrito tiene items
-    if (articulosCarrito.length != 0){
-        crearPedido()
-        // agregamos
-        // agregarDetallesPedido(id, articulosCarrito)
-        vaciarCarrito()
-
-    } else{
-        console.log('carrito vacio pa')
-    }
-
-
-})
 
 
 

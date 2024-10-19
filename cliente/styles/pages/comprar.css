@@ -2,7 +2,9 @@ main{
     min-height: 80vh ;
 }
 
-
+a{
+    color: black;
+}
 
 .overlay{
     width: 100%;
