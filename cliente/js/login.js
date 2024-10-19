@@ -1,4 +1,4 @@
-
+import { showPassword } from "./utils/showPassword.js";
 // Obtenemos el username y el password
 let inputUsername = document.querySelector('#username');
 let inputPassword = document.querySelector('#inputPassword');
@@ -55,24 +55,6 @@ function authenticate(username, password){
 }
 
 
-export function showPassword(){
-
-    // obtenemos el icon y nuestro input
-    let icon = document.querySelector('.login__icon')
-
-    icon.addEventListener('click', function(){
-
-        if(inputPassword.type == 'password'){
-            inputPassword.type = 'text';
-            icon.classList.remove('fa-eye')
-            icon.classList.add('fa-eye-slash')
-        } else {
-            inputPassword.type = 'password';
-            icon.classList.remove('fa-eye-slash')
-            icon.classList.add('fa-eye')
-        }
-
-    })
-}
-
-showPassword()
+document.addEventListener('DOMContentLoaded', function() {
+    showPassword();
+});

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -29,8 +29,11 @@
                     <div class="login__passwordContainer">
                         <label class="login__label" for="password"></label>
                         <i class="login__icon fa-solid fa-eye"></i>
-                        <input id="inputPassword" class="login__input" type="password" id="password" placeholder="Contraseña">
-        
+                        <input class="login__input" type="password" id="password" placeholder="Contraseña">
+    
+
+                        <label class="login__label" for="password-repeat"></label>
+                        <input class="login__input" type="password" id="password-repeat" placeholder="Repetir Contraseña">
                     </div>
     
                     <button class="login__button" type="submit">Registrarse</button>
@@ -52,5 +55,6 @@
     </main>
 
     <script type="module" src="../../js/register.js"></script>
+
 </body>
 </html>

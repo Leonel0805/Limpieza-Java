@@ -1,9 +1,12 @@
-import { showPassword } from './login.js'
+import { showPassword } from "./utils/showPassword.js";
+
 
 // Obtener username, email, password
 let inputUsername = document.querySelector('#username');
 let inputEmail = document.querySelector('#email');
 let inputPassword = document.querySelector('#password');
+let inputPasswordRepeat = document.querySelector('#password-repeat');
+
 
 let registerForm = document.querySelector('.login__form')
 const baseURL = localStorage.getItem('baseURL');
@@ -17,18 +20,33 @@ registerForm.addEventListener('submit', function(event) {
 
     let usernameValue = inputUsername.value;
     let emailValue = inputEmail.value;
-    let passwordValue = password.value;
+    let passwordValue = inputPassword.value;
+    let passwordRepeatValue = inputPasswordRepeat.value;
 
-    // creamos el objeto para enviarlo por body
-    let auth = {
-        username: usernameValue,
-        email: emailValue,
-        password: passwordValue
+    // validamos y confirmamos la contraseña
+
+    let auth = {}
+
+    if (passwordValue == passwordRepeatValue){
+       
+        auth = {
+            username: usernameValue,
+            email: emailValue,
+            password: passwordValue
+        }
+
+        localStorage.setItem('authRegister', JSON.stringify(auth));
+        window.location.href = baseURL + '/cliente/templates/pages/admin_encargado.html';
+    
+    } else{
+
+        console.error('error')
     }
 
-    localStorage.setItem('authRegister', JSON.stringify(auth));
-
-    window.location.href = baseURL + '/cliente/templates/pages/admin_encargado.html';
+    // creamos el objeto para enviarlo por body
 
 })
 
+document.addEventListener('DOMContentLoaded', function() {
+    showPassword(); // Llamamos a la función aquí
+});
