@@ -55,7 +55,7 @@ public class DetallePedidoService {
             Integer cantidad = detallePedido.getCantidad();
 
             articulo.setStock(articulo.getStock() + cantidad);
-            articulo.setSin_stock(false);
+            articulo.setIs_active(false);
             articuloService.guardarArticulo(articulo);
 
             // Eliminar el detallePedido de la lista original

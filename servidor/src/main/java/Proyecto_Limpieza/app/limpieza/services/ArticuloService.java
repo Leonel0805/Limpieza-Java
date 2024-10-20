@@ -106,8 +106,8 @@ public class ArticuloService {
 
         Articulo articulo = this.findByIdAndStock(id);
 
-        articulo.setStock(0);
-        articulo.setSin_stock(Boolean.TRUE);
+//        articulo.setStock(0);
+        articulo.setIs_active(Boolean.TRUE);
 
         this.guardarArticulo(articulo);
 
@@ -118,10 +118,9 @@ public class ArticuloService {
 
         articulo.setNombre(articuloDTO.nombre());
         articulo.setDescripcion(articuloDTO.descripcion());
-        if (articuloDTO.stock() > 0 && articulo.getSin_stock()){
-            articulo.setSin_stock(false);
+        if (articuloDTO.stock() > 0){
+            articulo.setStock(articuloDTO.stock());
         }
-        articulo.setStock(articuloDTO.stock());
         articulo.setPrecio(articuloDTO.precio());
     }
 
@@ -133,8 +132,6 @@ public class ArticuloService {
         if (nuevoStock < 0) {
             throw new RuntimeException("No hay cantidad disponible");
 
-        } else if (nuevoStock == 0) {
-            articulo.setSin_stock(true);
         }
 
         articulo.setStock(nuevoStock);

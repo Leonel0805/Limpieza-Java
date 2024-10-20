@@ -53,9 +53,7 @@
 
 /* ponemos esto a todo hijo de articulo__content */
 .articulo__content *{
-    /* background-color: red; */
     width: 100%;
-    margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
 
@@ -99,6 +97,14 @@
 
 .articulo__button:hover{
     background-color: rgb(23, 173, 3);
+}
+
+.articulo__button--NoStock{
+    width: 25%;
+    border: none;
+    border: 1px solid black;
+    padding: 8px;
+    border-radius: 8px;
 }
 
 

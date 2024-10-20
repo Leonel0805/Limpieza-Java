@@ -27,7 +27,7 @@ public class Articulo {
     private String descripcion;
     private int stock;
     private float precio;
-    private Boolean sin_stock;
+    private Boolean is_active;
     //private image imagen;
 
     @OneToMany(mappedBy = "articulo")
@@ -38,7 +38,7 @@ public class Articulo {
         this.descripcion = articuloDTO.descripcion();
         this.stock = articuloDTO.stock();
         this.precio = articuloDTO.precio();
-        this.sin_stock = Boolean.FALSE;
+        this.is_active = Boolean.FALSE;
     }
 
 }

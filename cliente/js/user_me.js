@@ -16,7 +16,6 @@ export function obtenerDatos(token){
             return response.json()
         }
     })
-    
 }
 
 
@@ -70,11 +69,9 @@ async function init() {
     // En caso de no tener un
     if (await obtenerDatos(jwt)){
         cargarDatos(); 
-
     } else{
         window.location.href = baseURL + '/index.html';
     }
-
 }
 
 

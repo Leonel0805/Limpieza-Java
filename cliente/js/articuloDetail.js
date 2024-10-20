@@ -74,9 +74,20 @@ export function crearCard(articulo){
 
 
     // Creamos botton agregar
-    let articuloButton = document.createElement('button')
-    articuloButton.classList.add('articulo__button')
-    articuloButton.innerText = 'Agregar'
+
+    // Creamos botton agregar if el stock > 0
+    let articuloButton;
+
+    if (articulo.stock > 0){
+            articuloButton = document.createElement('button')
+            articuloButton.className = 'articulo__button'
+            articuloButton.innerText = 'Agregar'
+
+    } else {
+            articuloButton = document.createElement('p')
+            articuloButton.className = 'articulo__button--NoStock'
+            articuloButton.innerHTML = 'Sin Stock'
+    }
 
     // añadimos todo
     articuloImageContainer.appendChild(articuloImage)
