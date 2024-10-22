@@ -25,6 +25,8 @@ public class Articulo {
     @Column(unique = true)
     private String nombre;
     private String descripcion;
+
+    private String imgUrl;
     private int stock;
     private float precio;
     private Boolean is_active;

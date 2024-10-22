@@ -5,7 +5,9 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDT
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.ArticuloDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,9 @@ public class ArticuloService {
 
     @Autowired
     private ArticuloDAOImpl persistencia;
+
+    @Autowired
+    CloudinaryService cloudinaryService;
 
 
     @Autowired
@@ -77,7 +82,7 @@ public class ArticuloService {
         persistencia.guardarArticulo(articulo);
     }
 
-    public Articulo crearArticulo(ArticuloDTO articuloDTO) {
+    public Articulo crearArticulo(ArticuloDTO articuloDTO, MultipartFile file) {
 
         Optional<Articulo> existingArticulo = persistencia.findByNameAndStock(articuloDTO.nombre());
 
@@ -87,6 +92,20 @@ public class ArticuloService {
 
         // Crear y guardar el nuevo artículo
         Articulo articulo = new Articulo(articuloDTO);
+
+//        cargamos y retornamos un string para el archivo
+        try {
+            String imageString = cloudinaryService.cargarImagen(file);
+            articulo.setImgUrl(imageString);
+            System.out.println("se cargo la imagewn" +imageString);
+        } catch (IOException e) {
+            System.out.println("Nombre del archivo: " + file.getOriginalFilename());
+            System.out.println("Tamaño del archivo: " + file.getSize());
+            System.out.println("Tipo de contenido: " + file.getContentType());
+            System.out.println("errorrrrrrr");
+            throw new RuntimeException(e);
+        }
+
         persistencia.guardarArticulo(articulo);
 
         return articulo;
