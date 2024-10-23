@@ -68,7 +68,9 @@ function crearCard(articulo){
 
     // creamos la imagen
     let cardImage = document.createElement('img')
-    cardImage.alt = 'Imagen'
+    cardImage.classList.add('comprar__cardImg')
+    cardImage.alt = 'Imagen de ' + articulo.nombre
+    cardImage.src = articulo.imageUrl
 
     // creamos nuestro nombre de Card
     let cardTitle = document.createElement('td')

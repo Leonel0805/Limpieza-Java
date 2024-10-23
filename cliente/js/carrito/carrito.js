@@ -39,9 +39,10 @@ function crearArticulo(articuloCard){
 
         // obtuvimos el articulo de la database
         let articuloObjeto = {
-            id : articulo.id,
-            name : articulo.nombre,
-            cantidad : 1
+            id: articulo.id,
+            name: articulo.nombre,
+            cantidad: 1,
+            image: articulo.imageUrl
         }
         
         console.log('mi articuloObjeto', articuloObjeto)
@@ -165,11 +166,16 @@ function generarCarritoCards(carrito){
         let carritoCard = document.createElement('div')
         carritoCard.className = 'carrito__card'
         carritoCard.setAttribute('data-id', articulo.id) 
+
+        // creamos el container del img
+        let carritoImgContainer = document.createElement('div')
+        carritoImgContainer.classList.add('carrito__imgContainer')
     
         // creamos img
         let carritoImg = document.createElement('img')
         carritoImg.className = 'carrito__img'
         carritoImg.setAttribute('alt', 'Imagen')
+        carritoImg.src = articulo.image
     
         // creamos eltitle
         let carritoTitle = document.createElement('h3')
@@ -186,7 +192,8 @@ function generarCarritoCards(carrito){
 
 
         // agregamos todo al  card y al container
-        carritoCard.appendChild(carritoImg)
+        carritoImgContainer.appendChild(carritoImg)
+        carritoCard.appendChild(carritoImgContainer)
         carritoCard.appendChild(carritoTitle)
         carritoCard.appendChild(carritoCantidad)
 

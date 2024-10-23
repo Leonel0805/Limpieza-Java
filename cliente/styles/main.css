@@ -192,19 +192,32 @@ header{
     align-items: center;
     box-sizing: border-box;
     font-size: 1.1rem;
+    gap: 8px;
     border-radius: 8px;
+    padding: 0 8px;
+}
+
+.carrito__imgContainer{
+    width: 25%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .carrito__img{
-    width: 30%;
-    height: 60px;
-    object-fit: contain;
+    width: 80%;
+    height: 80%;
 }
 
-/* .carrito__title{
-} */
+.carrito__title{
+    font-size: 1rem;
+    text-align: center;
+    width: 50%;
+}
 .carrito__cantidad{
-    width: 20%;
+    width: 15%;
     text-align: center;
     border: none;
     outline: none;
@@ -419,7 +432,9 @@ main{
     width: 100%;
     height: 100%;
     border: transparent;
-    object-fit: contain;
+    object-fit: fill;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
     
 }
 
