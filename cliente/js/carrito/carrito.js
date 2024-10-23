@@ -1,4 +1,24 @@
 
+const apiURL = 'http://localhost:8080/api/articulos/activos'
+
+
+
+async function obtenerDatosById(articulos) {
+
+    let articulosDB = [];
+
+    for (let articulo of articulos) {
+        let response = await fetch(apiURL + `/${articulo.id}`);
+        if (response.status == 200) {
+            let data = await response.json();
+            // agregamos a la lista
+            articulosDB.push(data);
+        }
+    }
+
+    return articulosDB; 
+}
+
 // Agregar funcion click agregar y obtener la card
 export function buttonAgregar(){
 
@@ -24,7 +44,6 @@ export function buttonAgregar(){
 // creamos el objeto obteniendo de la database por id
 function crearArticulo(articuloCard){
 
-    let apiURL = 'http://localhost:8080/api/articulos'
     let id = articuloCard.getAttribute('data-id')
     
     // realizamos fetch a la data base
@@ -94,13 +113,14 @@ export function obtenerCarrito(){
 }
 
 // Mostrar carrito, generar cards y manipular input
-function mostrarCarrito(){
+async function mostrarCarrito(){
 
     let carrito = obtenerCarrito()
 
     if (!verificarButtons()){
         console.log('carrito no vacio ajsdfkasdjf')
-        generarCarritoCards(carrito)
+        let articulosDB = await obtenerDatosById(carrito)
+        generarCarritoCards(articulosDB, carrito)
         manipularInput()
     } 
 
@@ -153,19 +173,22 @@ function verificarButtons(){
 }
 
 // generamos las cards para poner en el contenido del carrito
-function generarCarritoCards(carrito){
+function generarCarritoCards(articulosDB, carrito){
 
     let carritoContent = document.querySelector('.carrito__content')
     carritoContent.innerHTML = ''
 
-    carrito.forEach(articulo => {
+    articulosDB.forEach(articuloDB => {
+
+        let articuloExist = carrito.find(articulo => articulo.id == articuloDB.id )
+        console.log(articuloExist,  'este es mi articulo para generar en el carrito')
 
         carritoContent = document.querySelector('.carrito__content')
 
         // creamos nuestros elementos para mostrarlos en el carrito
         let carritoCard = document.createElement('div')
         carritoCard.className = 'carrito__card'
-        carritoCard.setAttribute('data-id', articulo.id) 
+        carritoCard.setAttribute('data-id', articuloDB.id) 
 
         // creamos el container del img
         let carritoImgContainer = document.createElement('div')
@@ -175,20 +198,20 @@ function generarCarritoCards(carrito){
         let carritoImg = document.createElement('img')
         carritoImg.className = 'carrito__img'
         carritoImg.setAttribute('alt', 'Imagen')
-        carritoImg.src = articulo.image
+        carritoImg.src = articuloDB.imageUrl
     
         // creamos eltitle
         let carritoTitle = document.createElement('h3')
         carritoTitle.classList = 'carrito__title'
-        carritoTitle.innerHTML = articulo.name
+        carritoTitle.innerHTML = articuloDB.nombre
     
         // creamos input
         let carritoCantidad = document.createElement('input')
         carritoCantidad.className = 'carrito__cantidad'
         carritoCantidad.type ='number'
-        carritoCantidad.value = articulo.cantidad
+        carritoCantidad.value = articuloExist.cantidad
         carritoCantidad.min = 1
-        carritoCantidad.max = 99
+        carritoCantidad.max = articuloDB.stock
 
 
         // agregamos todo al  card y al container

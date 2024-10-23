@@ -49,13 +49,13 @@ export function generarCards(articulosList){
 
 function crearCard(articulo){
 
+    let tbody = document.querySelector('#tbody')
 
-    console.log('entramos a ccrear card')
     let articulosCarrito = obtenerArticulosCarrito(carrito)
 
     let existArticulo = articulosCarrito.find(articuloCarrito => articuloCarrito.id == articulo.id)
 
-    console.log(articulo)
+    console.log('mi', existArticulo)
 
     // creamos nuestro tr
     let comprarCard = document.createElement('tr')
