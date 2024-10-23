@@ -21,6 +21,8 @@ function crearPedido(articulosCarrito){
         detalles: articulosBody
     }
 
+    console.log(requestBody)
+
 // Hacemos la request
     fetch (apiURL, {
         method: 'POST',

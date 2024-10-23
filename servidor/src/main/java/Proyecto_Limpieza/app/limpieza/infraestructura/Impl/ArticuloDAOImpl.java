@@ -21,8 +21,8 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
-    public List<Articulo> findAllOrderStock() {
-        return articuloRepository.findAllOrderStock();
+    public List<Articulo> findAllIsActiveAndOrderStock() {
+        return articuloRepository.findAllIsActiveAndOrderStock();
     }
 
     @Override
@@ -36,13 +36,13 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
-    public Optional<Articulo> findByNameAndStock(String name) {
-        return articuloRepository.findByNameAndStock(name);
+    public Optional<Articulo> findByNameIsActive(String name) {
+        return articuloRepository.findByNameIsActive(name);
     }
 
     @Override
-    public Optional<Articulo> findByIdAndStock(Long id) {
-        return articuloRepository.findByIdAndStock(id);
+    public Optional<Articulo> findByIdIsActive(Long id) {
+        return articuloRepository.findByIdIsActive(id);
     }
 
     @Override

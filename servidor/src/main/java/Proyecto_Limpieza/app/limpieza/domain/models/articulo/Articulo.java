@@ -40,7 +40,7 @@ public class Articulo {
         this.descripcion = articuloDTO.descripcion();
         this.stock = articuloDTO.stock();
         this.precio = articuloDTO.precio();
-        this.is_active = Boolean.FALSE;
+        this.is_active = Boolean.TRUE;
     }
 
 }

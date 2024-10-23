@@ -28,8 +28,8 @@ public class ArticuloService {
         return persistencia.findAll();
     }
 
-    public List<Articulo> findAllOrderStock() {
-        return persistencia.findAllOrderStock();
+    public List<Articulo> findAllIsActiveAndOrderStock() {
+        return persistencia.findAllIsActiveAndOrderStock();
     }
 
     public Articulo findById(Long id){
@@ -46,21 +46,21 @@ public class ArticuloService {
     }
 
 //    este no seria necesario, en caso de no estar con stock manipulamos el frontend
-    public Articulo findByIdAndStock(Long id) {
+    public Articulo findByIdIsActive(Long id) {
 
-        Optional<Articulo> articuloOptional = persistencia.findByIdAndStock(id);
+        Optional<Articulo> articuloOptional = persistencia.findByIdIsActive(id);
 
         if (articuloOptional.isEmpty()) {
-            throw new RuntimeException("Articulo no encontrado o está sin stock");
+            throw new RuntimeException("Articulo no encontrado o no disponible");
         }
 
         Articulo articulo = articuloOptional.get();
         return articulo;
     }
 
-    public Articulo findByNameAndStock(String name) {
+    public Articulo findByNameIsActive(String name) {
 
-        Optional<Articulo> articuloOptional = persistencia.findByNameAndStock(name);
+        Optional<Articulo> articuloOptional = persistencia.findByNameIsActive(name);
 
         if (articuloOptional.isEmpty()) {
             throw new RuntimeException("Articulo no encontrado o está sin stock");
@@ -84,7 +84,7 @@ public class ArticuloService {
 
     public Articulo crearArticulo(ArticuloDTO articuloDTO, MultipartFile file) {
 
-        Optional<Articulo> existingArticulo = persistencia.findByNameAndStock(articuloDTO.nombre());
+        Optional<Articulo> existingArticulo = persistencia.findByNameIsActive(articuloDTO.nombre());
 
         if (existingArticulo.isPresent()) {
             throw new RuntimeException("El artículo con nombre " + articuloDTO.nombre() + " ya existe");
@@ -97,12 +97,8 @@ public class ArticuloService {
         try {
             String imageString = cloudinaryService.cargarImagen(file);
             articulo.setImgUrl(imageString);
-            System.out.println("se cargo la imagewn" +imageString);
+
         } catch (IOException e) {
-            System.out.println("Nombre del archivo: " + file.getOriginalFilename());
-            System.out.println("Tamaño del archivo: " + file.getSize());
-            System.out.println("Tipo de contenido: " + file.getContentType());
-            System.out.println("errorrrrrrr");
             throw new RuntimeException(e);
         }
 
@@ -123,10 +119,10 @@ public class ArticuloService {
 
     public Articulo eliminarArticulo(Long id) {
 
-        Articulo articulo = this.findByIdAndStock(id);
+        Articulo articulo = this.findByIdIsActive(id);
 
 //        articulo.setStock(0);
-        articulo.setIs_active(Boolean.TRUE);
+        articulo.setIs_active(Boolean.FALSE);
 
         this.guardarArticulo(articulo);
 

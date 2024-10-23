@@ -30,13 +30,24 @@ public class ArticuloController {
     @Autowired
     private ArticuloService articuloService;
 
-
-//    GET ALL
     @GetMapping
     @PreAuthorize("permitAll()")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll(){
 
-        List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAllOrderStock().stream()
+        List<ListadoArticuloDTO> listArticulos = articuloService.findAll().stream()
+                .map(articulo -> new ListadoArticuloDTO(articulo))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(listArticulos);
+
+    }
+
+//    GET ALL ORDER STOCK ACTIVE
+    @GetMapping("/activos")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> findAllIsActiveAndOrderStock() {
+
+        List<ListadoArticuloDTO> list_articulosDTO = articuloService.findAllIsActiveAndOrderStock().stream()
                 .map(articulo -> new ListadoArticuloDTO(articulo))
                 .collect(Collectors.toList());
 
@@ -59,6 +70,22 @@ public class ArticuloController {
             APIResponseDTO response = new APIResponseDTO("BadRequest", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+    }
+
+    @GetMapping("/activos/{id}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> findByIdIsActive(@PathVariable Long id) {
+
+        try {
+            Articulo articulo = articuloService.findByIdIsActive(id);
+            ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
+            return ResponseEntity.status(HttpStatus.OK).body(articuloResponse);
+
+        } catch (RuntimeException e) {
+            APIResponseDTO response = new APIResponseDTO("BadRequest", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
     }
 
 

@@ -13,6 +13,7 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.pedidoDTOs.PedidoYDetallesDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.PedidoDAOImpl;
 import Proyecto_Limpieza.app.limpieza.infraestructura.persistencia.IPedidoDAO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PedidoService{
 
     @Autowired
@@ -121,19 +123,15 @@ public class PedidoService{
 
         Pedido pedido = new Pedido(pedidoYDetallesDTO.pedido(), encargado);
 
-        pedidoYDetallesDTO.detalles().stream()
-                .map(detallePedidoDTO -> {
 
-//                    creamos cada detalle pedido, lo guardamos y lo retornamos
+        pedidoYDetallesDTO.detalles().forEach(
+                detallePedidoDTO -> {
+
+//                  creamos cada detalle pedido, lo guardamos y lo retornamos
                     DetallePedido detallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
-                    return detallePedido;
-
-                })
-//                agregamos cada detallePedido al pedido
-                .forEach(detallePedido -> {
-
                     pedido.addDetallePedido(detallePedido);
-                } );
+                });
+
 
 //        guardamos el pedido con los detalles ya almacenados
         this.save(pedido);

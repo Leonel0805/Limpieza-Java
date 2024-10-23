@@ -1,7 +1,7 @@
 import { crearCards } from './utils/crearCards.js';
 
 
-const apiURL = "http://localhost:8080/api/articulos";
+const apiURL = "http://localhost:8080/api/articulos/activos";
 
 async function generarCards() {
     let response = await fetch(apiURL);

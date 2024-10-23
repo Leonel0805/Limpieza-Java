@@ -164,7 +164,7 @@ th, td {
     position: relative;
     top: 70px;
     width: 22%;
-    min-height: 300px;
+    max-height: 300px;
     box-shadow: 2px 2px 10px rgb(136, 136, 136);
 }
 

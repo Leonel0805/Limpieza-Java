@@ -11,15 +11,15 @@ public interface IArticuloDAO {
 
 
     List<Articulo> findAll();
-    List<Articulo> findAllOrderStock();
+    List<Articulo> findAllIsActiveAndOrderStock();
 
     List<Articulo> findByParam(String query);
 
     Optional<Articulo> findById(Long id);
 
-    Optional<Articulo> findByNameAndStock(String name);
+    Optional<Articulo> findByNameIsActive(String name);
 
-    Optional<Articulo> findByIdAndStock(Long id);
+    Optional<Articulo> findByIdIsActive(Long id);
 
     void guardarArticulo(Articulo articulo);
 

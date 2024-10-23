@@ -2,7 +2,7 @@ import { obtenerCarrito } from '../js/carrito/carrito.js';
 import { guardarCarrito } from '../js/carrito/carrito.js';
 
 
-const apiURL = 'http://localhost:8080/api/articulos'
+const apiURL = 'http://localhost:8080/api/articulos/activos'
 const baseURl = localStorage.getItem('baseURL')
 let carrito = localStorage.getItem('carrito')
 

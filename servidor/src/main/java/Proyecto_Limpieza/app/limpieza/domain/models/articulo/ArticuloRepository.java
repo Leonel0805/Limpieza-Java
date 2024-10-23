@@ -11,15 +11,16 @@ import java.util.Optional;
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
 
-    @Query(value = "SELECT * FROM articulos a WHERE a.is_active = false ORDER BY a.stock DESC", nativeQuery = true)
-    List<Articulo> findAllOrderStock();
-
-    @Query(value = "SELECT * FROM articulos a WHERE a.id = :id AND a.is_active = False", nativeQuery = true)
-    Optional<Articulo> findByIdAndStock(@Param("id") Long id);
+    @Query(value = "SELECT * FROM articulos a WHERE a.is_active = true ORDER BY a.stock DESC", nativeQuery = true)
+    List<Articulo> findAllIsActiveAndOrderStock();
 
 
-    @Query(value = "SELECT * FROM articulos a WHERE a.nombre = :name AND a.is_active = False", nativeQuery = true)
-    Optional<Articulo> findByNameAndStock(String name);
+    @Query(value = "SELECT * FROM articulos a WHERE a.id = :id AND a.is_active = true", nativeQuery = true)
+    Optional<Articulo> findByIdIsActive(@Param("id") Long id);
+
+
+    @Query(value = "SELECT * FROM articulos a WHERE a.nombre = :name AND a.is_active = true", nativeQuery = true)
+    Optional<Articulo> findByNameIsActive(String name);
 
     @Query(value = "SELECT * FROM articulos a WHERE a.nombre LIKE %:query%", nativeQuery = true)
     List<Articulo> findByParam(@Param("query") String query);
