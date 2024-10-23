@@ -9,11 +9,11 @@ public record ListadoArticuloDTO (
         String nombre,
         String descripcion,
         int stock,
-        float precio
-        //private image imagen;
+        float precio,
+        String imageUrl
 ){
     public ListadoArticuloDTO(Articulo articulo) {
-        this(articulo.getId(), articulo.getNombre(), articulo.getDescripcion(), articulo.getStock(), articulo.getPrecio());
+        this(articulo.getId(), articulo.getNombre(), articulo.getDescripcion(), articulo.getStock(), articulo.getPrecio(), articulo.getImgUrl());
 
     }
 

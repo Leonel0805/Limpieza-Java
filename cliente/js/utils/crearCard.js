@@ -21,6 +21,7 @@ export function crearCard(articulo){
         let articuloImage = document.createElement('img')
         articuloImage.className = 'articulo__image'
         articuloImage.setAttribute('alt','Imagen')
+        articuloImage.src = articulo.imageUrl
 
         // // creamos Articulo Content
         let articuloContent = document.createElement('div')

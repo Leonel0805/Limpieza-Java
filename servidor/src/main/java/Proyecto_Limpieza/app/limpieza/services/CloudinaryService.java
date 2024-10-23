@@ -27,8 +27,6 @@ public class CloudinaryService {
         // Realiza la subida del archivo
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), params);
 
-        // Imprime el resultado
-        System.out.println("Este es el resultado de la subida: " + uploadResult);
 
         // Retorna la URL de la imagen
         return (String) uploadResult.get("url");
