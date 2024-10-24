@@ -52,13 +52,33 @@ function crearParrafoDato(key, value){
 
     let spanHTML = document.createElement('span')
     spanHTML.className = 'detalles__bold'
-    spanHTML.innerHTML = key 
+    spanHTML.innerHTML = key + ': '
 
 
-    const textValue = document.createTextNode(`: ${value}`);
+    let textValue;
 
     parrafoHTML.appendChild(spanHTML)
-    parrafoHTML.appendChild(textValue)
+
+    if (key == 'edificio'){
+
+
+        Object.entries(value).forEach(([k, v]) => {
+            
+            console.log(k, v)
+            let textKeyValue = document.createElement('p')
+            textKeyValue.textContent = `${k} - ${v} `
+
+            textValue = document.createTextNode(textKeyValue.innerHTML)
+
+            parrafoHTML.appendChild(textValue)
+        }) 
+
+
+    } else{
+        textValue = document.createTextNode(`${value}`);
+        parrafoHTML.appendChild(textValue)
+    }
+
 
     divDetalles.appendChild(parrafoHTML)
 }
