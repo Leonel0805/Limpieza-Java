@@ -1,5 +1,6 @@
 package Proyecto_Limpieza.app.limpieza.domain.models.articulo;
 
+import Proyecto_Limpieza.app.limpieza.domain.models.categoria.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +25,7 @@ public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
 
     @Query(value = "SELECT * FROM articulos a WHERE a.nombre LIKE %:query%", nativeQuery = true)
     List<Articulo> findByParam(@Param("query") String query);
+
+    @Query(value = "SELECT a.* FROM articulos a INNER JOIN categorias c ON a.categoria_id = :categoriaQueryId", nativeQuery = true)
+    List<Articulo> findByCategoria(@Param("categoriaQueryId") Long categoriaQueryId);
 }

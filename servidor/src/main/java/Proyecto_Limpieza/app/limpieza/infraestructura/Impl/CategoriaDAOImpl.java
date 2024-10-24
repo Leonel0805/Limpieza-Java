@@ -31,6 +31,11 @@ public class CategoriaDAOImpl implements ICategoriaDAO {
     }
 
     @Override
+    public Optional<Categoria> findByNameParam(String query) {
+        return categoriaRepository.findByNameParam(query);
+    }
+
+    @Override
     public void guardarCategoria(Categoria categoria) {
         categoriaRepository.save(categoria);
     }

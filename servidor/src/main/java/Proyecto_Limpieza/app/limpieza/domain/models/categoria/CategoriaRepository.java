@@ -11,4 +11,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 //    no hace falta crear la query manualmente, JPA lo hace automatico
     @Query(value = "SELECT * FROM categorias c WHERE c.name = :name", nativeQuery = true)
     Optional<Categoria> findByName(@Param("name")String name);
+
+    @Query(value = "SELECT * FROM categorias c WHERE c.name LIKE %:query%", nativeQuery = true)
+    Optional<Categoria> findByNameParam(@Param("query")String query);
 }

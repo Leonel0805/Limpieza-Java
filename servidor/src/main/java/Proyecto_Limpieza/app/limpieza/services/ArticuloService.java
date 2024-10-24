@@ -78,7 +78,17 @@ public class ArticuloService {
     public List<Articulo> findByParam(String query) {
 
         String newQuery = query.toLowerCase();
-        List<Articulo> articulosSearch = persistencia.findByParam(newQuery);
+        List<Articulo> articulosSearch;
+
+        articulosSearch = persistencia.findByParam(newQuery);
+
+        if (articulosSearch.isEmpty()) {
+            Categoria categoria = categoriaService.findByNameParam(newQuery);
+
+            if (categoria != null) {
+                articulosSearch = persistencia.findByCategoria(categoria.getId());
+            }
+        }
 
         return articulosSearch;
     }

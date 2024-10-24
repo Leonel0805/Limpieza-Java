@@ -24,4 +24,15 @@ public class CategoriaService {
 
         return categoriaFind.get();
     }
+
+    public Categoria findByNameParam(String query) {
+
+        Optional<Categoria> categoriaFind = persistencia.findByNameParam(query);
+
+        if (categoriaFind.isEmpty()) {
+            return null;
+        }
+
+        return categoriaFind.get();
+    }
 }

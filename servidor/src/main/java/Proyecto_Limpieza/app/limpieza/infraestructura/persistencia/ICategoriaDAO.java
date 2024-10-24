@@ -13,6 +13,8 @@ public interface ICategoriaDAO {
 
     Optional<Categoria> findByName(String name);
 
+    Optional<Categoria> findByNameParam(String query);
+
     void guardarCategoria(Categoria categoria);
 
     void eliminarArticulo(Long id);
