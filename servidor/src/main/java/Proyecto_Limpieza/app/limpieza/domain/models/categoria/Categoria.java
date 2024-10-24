@@ -2,6 +2,7 @@ package Proyecto_Limpieza.app.limpieza.domain.models.categoria;
 
 
 import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.categoriaDTO.CategoriaDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,8 +26,12 @@ public class Categoria {
     @OneToMany(mappedBy = "categoria")
     private List<Articulo> articulos;
 
+    public Categoria(CategoriaDTO categoriaDTO) {
+        this.name = categoriaDTO.name();
+    }
 
-//    metodo para asignar tanto a categoria el articulo como a articulo la categoria
+
+    //    metodo para asignar tanto a categoria el articulo como a articulo la categoria
     public void addArticulo(Articulo articulo) {
         articulos.add(articulo);
         articulo.setCategoria(this);
