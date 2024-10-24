@@ -26,6 +26,6 @@ public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
     @Query(value = "SELECT * FROM articulos a WHERE a.nombre LIKE %:query%", nativeQuery = true)
     List<Articulo> findByParam(@Param("query") String query);
 
-    @Query(value = "SELECT a.* FROM articulos a INNER JOIN categorias c ON a.categoria_id = :categoriaQueryId", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT a.* FROM articulos a INNER JOIN categorias c ON a.categoria_id = :categoriaQueryId", nativeQuery = true)
     List<Articulo> findByCategoria(@Param("categoriaQueryId") Long categoriaQueryId);
 }
