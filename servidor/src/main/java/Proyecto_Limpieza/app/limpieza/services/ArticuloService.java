@@ -1,6 +1,7 @@
 package Proyecto_Limpieza.app.limpieza.services;
 
 import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
+import Proyecto_Limpieza.app.limpieza.domain.models.categoria.Categoria;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.ArticuloDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,13 @@ public class ArticuloService {
     @Autowired
     CloudinaryService cloudinaryService;
 
+    @Autowired
+    private CategoriaService categoriaService;
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
+
+
 
     public List<Articulo> findAll() {
         return persistencia.findAll();
@@ -102,9 +107,16 @@ public class ArticuloService {
             throw new RuntimeException(e);
         }
 
-        persistencia.guardarArticulo(articulo);
+        try{
+            Categoria categoria = categoriaService.findByName(articuloDTO.categoria().name());
+            categoria.addArticulo(articulo);
+            persistencia.guardarArticulo(articulo);
+            return articulo;
 
-        return articulo;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public Articulo actualizarArticulo(Long id, ArticuloDTO articuloDTO) {

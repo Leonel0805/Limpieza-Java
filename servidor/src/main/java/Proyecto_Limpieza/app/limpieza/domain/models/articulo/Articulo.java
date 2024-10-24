@@ -1,5 +1,6 @@
 package Proyecto_Limpieza.app.limpieza.domain.models.articulo;
 
+import Proyecto_Limpieza.app.limpieza.domain.models.categoria.Categoria;
 import Proyecto_Limpieza.app.limpieza.domain.models.detallePedido.DetallePedido;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDTO;
 import jakarta.persistence.*;
@@ -30,8 +31,12 @@ public class Articulo {
     private int stock;
     private float precio;
     private Boolean is_active;
-    //private image imagen;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+//    Lista de detalle pedido
     @OneToMany(mappedBy = "articulo")
     private Set<DetallePedido> detallesPedido;
 

@@ -109,7 +109,7 @@ public class ArticuloController {
     //    POST
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity guardarArticulo(@RequestPart (value = "articulo") @Valid ArticuloDTO articuloDTO,
+    public ResponseEntity crearArticulo(@RequestPart (value = "articulo") @Valid ArticuloDTO articuloDTO,
                                           @RequestPart(value = "file") MultipartFile file) {
 
 

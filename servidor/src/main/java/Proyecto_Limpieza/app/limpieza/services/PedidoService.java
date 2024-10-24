@@ -119,24 +119,30 @@ public class PedidoService{
             encargadoString = userDetailService.obtenerUsuarioAutenticado();
         }
 
-        Encargado encargado = encargadoService.findByUsernameAndIsEnabled(encargadoString);
-
-        Pedido pedido = new Pedido(pedidoYDetallesDTO.pedido(), encargado);
-
-
-        pedidoYDetallesDTO.detalles().forEach(
-                detallePedidoDTO -> {
+        if (encargadoString != null) {
+            Encargado encargado = encargadoService.findByUsernameAndIsEnabled(encargadoString);
+            Pedido pedido = new Pedido(pedidoYDetallesDTO.pedido(), encargado);
+            pedidoYDetallesDTO.detalles().forEach(
+                    detallePedidoDTO -> {
 
 //                  creamos cada detalle pedido, lo guardamos y lo retornamos
-                    DetallePedido detallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
-                    pedido.addDetallePedido(detallePedido);
-                });
+                        DetallePedido detallePedido = detallePedidoService.crearDetallePedido(detallePedidoDTO);
+                        pedido.addDetallePedido(detallePedido);
+                    });
 
 
 //        guardamos el pedido con los detalles ya almacenados
-        this.save(pedido);
+            this.save(pedido);
 
-        return pedido;
+            return pedido;
+
+        } else {
+            throw new RuntimeException("No se pudo crear el pedido correctamente");
+        }
+
+
+
+
     }
 
     public Pedido actualizarPedidoById(Long id, EstadoPedidoDTO estadoPedidoDTO) {
