@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,14 +36,14 @@ public class JwtUtils {
         String username = authentication.getName(); //o .getname()
 
 //        guardamos los authorities en string separados por,
-        String authorities = authentication.getAuthorities().stream()
+        List<String> authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
 
         String jwtToken = JWT.create()
                 .withIssuer(this.userGenerator)
                 .withSubject(username)
-                .withClaim("Authorities", authorities) //agregamos para ver authorities en el jwt
+                .withClaim("authorities", authorities) //agregamos para ver authorities en el jwt
                 .withIssuedAt(new Date()) //agregamos fecha
                 .withExpiresAt(new Date(System.currentTimeMillis() + 3600000)) // expira en 30 minutos
                 .withJWTId(UUID.randomUUID().toString()) // asignar id
