@@ -10,10 +10,12 @@ public record ListadoArticuloDTO (
         String descripcion,
         int stock,
         float precio,
-        String imageUrl
+        String imageUrl,
+        Boolean is_active
 ){
     public ListadoArticuloDTO(Articulo articulo) {
-        this(articulo.getId(), articulo.getNombre(), articulo.getDescripcion(), articulo.getStock(), articulo.getPrecio(), articulo.getImgUrl());
+        this(articulo.getId(), articulo.getNombre(), articulo.getDescripcion(), articulo.getStock(), articulo.getPrecio(),
+                articulo.getImgUrl(), articulo.getIs_active());
 
     }
 
