@@ -3,7 +3,7 @@ import { crearHeadTable } from "./adminPanelFunctions.js";
 import { crearArticulosRow } from "./adminPanelFunctions.js";
 
 
-let resourcePath = '/articulos'
+let resourcePath = '/administradores'
 
 
 async function init() {
