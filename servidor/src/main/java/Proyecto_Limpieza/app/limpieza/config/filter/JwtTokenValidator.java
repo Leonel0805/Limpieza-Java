@@ -42,7 +42,8 @@ public class JwtTokenValidator extends OncePerRequestFilter { //esto hace que ca
 
             if (decodedJWT != null) {
                 String username = jwtUtils.extraerUsername(decodedJWT);
-                String stringAuthorities = jwtUtils.extraerClaim(decodedJWT, "Authorities").asString();
+                String stringAuthorities = jwtUtils.extraerClaim(decodedJWT, "authorities").asString();
+
 
                 Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
 

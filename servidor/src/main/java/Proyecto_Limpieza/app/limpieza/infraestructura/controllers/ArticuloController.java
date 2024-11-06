@@ -56,7 +56,7 @@ public class ArticuloController {
 
 //  GET ID
     @GetMapping("/{id}")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {

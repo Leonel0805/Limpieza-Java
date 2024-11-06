@@ -24,6 +24,7 @@ export function crearHeadTable(objectDB){
 
         let tHead = document.createElement('th')
         tHead.classList.add('table__itemHead')
+
         tHead.innerHTML = key
 
         listHead.appendChild(tHead)
@@ -44,7 +45,7 @@ export function crearHeadTable(objectDB){
 
 }
 
-export function crearArticulosRow(allObjectsDB){
+export async function crearArticulosRow(allObjectsDB){
 
     let tbody = document.querySelector('#tbody');
 
@@ -55,10 +56,15 @@ export function crearArticulosRow(allObjectsDB){
         articuloRow.classList.add('tableRow')
 
         // iteramos los valores de cada objecto
-        Object.values(objectDB).forEach(value => {
+        Object.entries(objectDB).forEach(([key, value]) => {
 
             let tdato = document.createElement('td')
             tdato.classList.add('table__value')
+
+            if(key == 'id'){
+                tdato.setAttribute('data-id', value)
+                tdato.classList.add('value__id')
+            }
             tdato.innerHTML = value
     
             // agregamos a la row cada uno de los valores
@@ -89,14 +95,9 @@ export function crearArticulosRow(allObjectsDB){
             articuloRow.appendChild(tdato)
         })
 
-   
-
-
         tbody.appendChild(articuloRow)
-
 
     })
 
-    let listRowDefault = []
   
 }

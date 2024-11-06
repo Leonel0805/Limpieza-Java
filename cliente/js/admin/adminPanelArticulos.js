@@ -13,13 +13,16 @@ async function init() {
     console.log(json)
 
     // creamos los head de la table, usando un objeto como referencia
-    crearHeadTable(json[0])
+    await crearHeadTable(json[0])
 
     // creamos cada una de las rows
-    crearArticulosRow(json)
+    await crearArticulosRow(json)
 
     
 }
 
-// Llamar a la función principal
-init();
+document.addEventListener("DOMContentLoaded", async () => {
+
+    await init(); // Llamar a la función principal después de que el DOM esté cargado
+    document.dispatchEvent(new Event('articulosCargados'));
+});

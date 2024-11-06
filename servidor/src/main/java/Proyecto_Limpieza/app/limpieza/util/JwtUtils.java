@@ -36,9 +36,9 @@ public class JwtUtils {
         String username = authentication.getName(); //o .getname()
 
 //        guardamos los authorities en string separados por,
-        List<String> authorities = authentication.getAuthorities().stream()
+        String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .toString();
 
         String jwtToken = JWT.create()
                 .withIssuer(this.userGenerator)
@@ -76,8 +76,8 @@ public class JwtUtils {
         return decodedJWT.getSubject().toString();
     }
 
-    public Claim extraerClaim(DecodedJWT decodedJWT, String claimNaim) {
-        return decodedJWT.getClaim(claimNaim);
+    public Claim extraerClaim(DecodedJWT decodedJWT, String claimName) {
+        return decodedJWT.getClaim(claimName);
     }
 
     public Map<String, Claim> extraerAllClaims(DecodedJWT decodedJWT) {
