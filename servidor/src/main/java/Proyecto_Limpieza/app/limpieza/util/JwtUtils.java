@@ -37,8 +37,8 @@ public class JwtUtils {
 
 //        guardamos los authorities en string separados por,
         String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toString();
+                .map(GrantedAuthority::getAuthority)  // Convertir cada GrantedAuthority en String
+                .collect(Collectors.joining(","));
 
         String jwtToken = JWT.create()
                 .withIssuer(this.userGenerator)

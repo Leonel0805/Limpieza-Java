@@ -88,7 +88,7 @@ export async function crearArticulosRow(allObjectsDB){
             tdato.classList.add('table__value')
 
             let icon = document.createElement('i')
-            icon.classList.add('fa-regular', object.icon)
+            icon.classList.add('fa-regular','table__icon', object.icon)
 
             tdato.appendChild(icon)
             // agregamos a la row cada uno de los valores

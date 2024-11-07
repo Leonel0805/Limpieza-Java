@@ -11,7 +11,7 @@ document.addEventListener("articulosCargados", function(){
 
     iconsDelete.forEach(icon => {
 
-        icon.addEventListener('click', function(event){
+        icon.addEventListener('click', async function(event){
             
             // accedemos al td de mi icon
             let targetParent = event.target.closest('td');
@@ -23,17 +23,16 @@ document.addEventListener("articulosCargados", function(){
             let id = targetRow.querySelector('.value__id').getAttribute('data-id')
 
             console.log(id)
-            eliminarArticulo(id);
+            await eliminarArticulo(id);
+            window.location.href = './articulosPanel.html'
         })
     })
 });
 
 
-function eliminarArticulo(id){
+async function eliminarArticulo(id){
 
-
-
-    fetch(apiURL + `/${id}`,{
+    await fetch(apiURL + `/${id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

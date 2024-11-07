@@ -16,6 +16,8 @@ public record ArticuloDTO(
         @NotNull
         float precio,
 
+        Boolean is_active,
+
         @NotNull
         CategoriaDTO categoria
 

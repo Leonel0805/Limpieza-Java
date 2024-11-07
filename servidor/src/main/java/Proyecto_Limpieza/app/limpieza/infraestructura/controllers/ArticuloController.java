@@ -56,7 +56,7 @@ public class ArticuloController {
 
 //  GET ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<?> findById(@PathVariable Long id) {
 
         try {
@@ -109,7 +109,7 @@ public class ArticuloController {
     //    POST
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity crearArticulo(@RequestPart (value = "articulo") @Valid ArticuloDTO articuloDTO,
+    public ResponseEntity crearArticulo(@RequestPart(value = "articulo") @Valid ArticuloDTO articuloDTO,
                                           @RequestPart(value = "file") MultipartFile file) {
 
 
@@ -130,10 +130,12 @@ public class ArticuloController {
 //    PUT
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity actualizarArticulo(@PathVariable Long id, @RequestBody @Valid ArticuloDTO articuloDTO) {
+    public ResponseEntity actualizarArticulo(@PathVariable Long id,
+                                             @RequestPart(value = "data") @Valid ArticuloDTO articuloDTO,
+                                             @RequestPart(value = "file") MultipartFile file) {
 
         try {
-            Articulo articulo = articuloService.actualizarArticulo(id, articuloDTO);
+            Articulo articulo = articuloService.actualizarArticulo(id, articuloDTO, file);
             ListadoArticuloDTO articuloResponse = new ListadoArticuloDTO(articulo);
             APIResponseDTO response = new APIResponseDTO(articuloResponse, "Articulo actualizado correctamente!");
 

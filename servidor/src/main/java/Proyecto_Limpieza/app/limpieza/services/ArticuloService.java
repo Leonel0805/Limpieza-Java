@@ -129,11 +129,30 @@ public class ArticuloService {
 
     }
 
-    public Articulo actualizarArticulo(Long id, ArticuloDTO articuloDTO) {
+    public Articulo actualizarArticulo(Long id, ArticuloDTO articuloDTO, MultipartFile file) {
 
         Articulo articulo = this.findById(id);
 
         this.actualizarValores(articuloDTO, articulo);
+
+        if (file != null) {
+            try {
+                String imageString = cloudinaryService.cargarImagen(file);
+                articulo.setImgUrl(imageString);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        try{
+            Categoria categoria = categoriaService.findByName(articuloDTO.categoria().name());
+            categoria.addArticulo(articulo);
+
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+
         this.guardarArticulo(articulo);
 
         return articulo;
@@ -159,9 +178,13 @@ public class ArticuloService {
             articulo.setStock(articuloDTO.stock());
         }
         articulo.setPrecio(articuloDTO.precio());
+
+        if (articuloDTO.is_active() != null) {
+            articulo.setIs_active(articuloDTO.is_active());
+        }
     }
 
-
+//  Metodo cuando se ejecuta una venta
     public Articulo actualizarArticuloStock(Articulo articulo, Integer cantidad) {
 
         Integer nuevoStock = articulo.getStock() - cantidad;
