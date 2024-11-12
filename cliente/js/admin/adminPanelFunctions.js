@@ -64,8 +64,23 @@ export async function crearArticulosRow(allObjectsDB){
             if(key == 'id'){
                 tdato.setAttribute('data-id', value)
                 tdato.classList.add('value__id')
-            }
+            } 
+            
+    
+
             tdato.innerHTML = value
+            
+            if(key == 'imageUrl' ){
+
+                tdato.innerHTML = ''
+                console.log('aaaaaaaaaaaaaaaaa')
+                let href = document.createElement('a')
+                href.setAttribute('href', value)
+                href.setAttribute('target', '_blank')
+                href.textContent = value
+                tdato.appendChild(href)
+            }
+
     
             // agregamos a la row cada uno de los valores
             articuloRow.appendChild(tdato)

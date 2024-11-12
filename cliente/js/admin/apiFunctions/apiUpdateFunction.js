@@ -12,7 +12,6 @@ document.addEventListener("articulosCargados", function(){
 
         icon.addEventListener('click', async function(event){
             
-            await cargarEdit()
             // accedemos al td de mi icon
             let targetParent = event.target.closest('td');
 
@@ -24,6 +23,8 @@ document.addEventListener("articulosCargados", function(){
 
             console.log(id)
             let articuloDB = await obtenerArticulo(id);
+            await cargarEdit(articuloDB)
+
             // window.location.href = './articulosPanel.html'
         })
     })
@@ -31,7 +32,7 @@ document.addEventListener("articulosCargados", function(){
 
 
 
-async function cargarEdit(){
+async function cargarEdit(articuloDB){
 
     let response = await fetch(baseURL + '/cliente/templates/admin/articulos/articuloEditPanel.html')
     let data = await response.text();
@@ -41,20 +42,64 @@ async function cargarEdit(){
     let doc = parser.parseFromString(data, 'text/html')
 
     // manipulamos el doc obtenido
-    crearForm(doc)
+    crearForm(doc, articuloDB)
 
     // Lo agregamos al formulario
     let edit = document.querySelector('.editPanel')
     edit.innerHTML = doc.documentElement.innerHTML
     edit.style.display = 'block'
-    
 }
 
-function crearForm(doc){
+function crearForm(doc, articuloDB){
+
+    const ignoreKeys = ['id']
+
+    let editPanel = doc.querySelector('#editPanel__idObject')
 
 
+    editPanel.innerHTML = articuloDB.id + '-' + articuloDB.nombre
+
+    Object.entries(articuloDB).forEach(([key, value]) => {
+        
+        if(!ignoreKeys.includes(key)){
+
+            // creamso los input 
+            let [input, label] = crearInput(key, value)
+          
+            console.log('valor de for value' +value)
+            // agregamos al doc
+            let editForm = doc.querySelector('.editPanel__form')
+            editForm.appendChild(label)
+            editForm.appendChild(input)
+
+            console.log('mi input por fuera' + input.value)
+
+        }
+
+    })
 }
 
+
+function crearInput(key, value){
+
+    // label
+    let label = document.createElement('label')
+    label.setAttribute('for', key)
+    label.textContent = key + ': '
+
+
+    // input
+    let input = document.createElement('input')
+    input.setAttribute('value', value)
+    input.id = key
+    input.type= 'text'
+
+    console.log('Valor en input.value después de asignación:', input.value);
+
+    console.log('mis keys y value desde crear input ' +key + value)
+
+    return [input, label]
+}
 
 async function obtenerArticulo(id){
 
