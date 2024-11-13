@@ -73,7 +73,6 @@ export async function crearArticulosRow(allObjectsDB){
             if(key == 'imageUrl' ){
 
                 tdato.innerHTML = ''
-                console.log('aaaaaaaaaaaaaaaaa')
                 let href = document.createElement('a')
                 href.setAttribute('href', value)
                 href.setAttribute('target', '_blank')

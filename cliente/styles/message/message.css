@@ -1,0 +1,15 @@
+.message{
+    margin: 16px;
+    display: none;
+}
+
+.message__container{
+    background-color: rgb(145, 248, 145);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.message__parrafo{
+
+    font-size: 1.2rem;
+}

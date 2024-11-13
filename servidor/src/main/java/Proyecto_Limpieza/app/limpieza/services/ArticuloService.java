@@ -135,13 +135,15 @@ public class ArticuloService {
 
         this.actualizarValores(articuloDTO, articulo);
 
+        System.out.println(articuloDTO);
+
         if (file != null) {
             try {
                 String imageString = cloudinaryService.cargarImagen(file);
                 articulo.setImgUrl(imageString);
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException(e + "asdfasf");
             }
         }
 

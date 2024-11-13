@@ -128,11 +128,13 @@ public class ArticuloController {
     }
 
 //    PUT
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity actualizarArticulo(@PathVariable Long id,
                                              @RequestPart(value = "data") @Valid ArticuloDTO articuloDTO,
-                                             @RequestPart(value = "file") MultipartFile file) {
+                                             @RequestPart(value = "file", required = false) MultipartFile file) {
+
+        //   indicamos application/
 
         try {
             Articulo articulo = articuloService.actualizarArticulo(id, articuloDTO, file);
