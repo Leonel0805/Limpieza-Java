@@ -80,6 +80,9 @@ export async function crearArticulosRow(allObjectsDB){
                 tdato.appendChild(href)
             }
 
+            if(key == 'categoria'){
+                tdato.innerHTML = value.name
+            }
     
             // agregamos a la row cada uno de los valores
             articuloRow.appendChild(tdato)
