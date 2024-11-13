@@ -25,7 +25,8 @@ export function crearHeadTable(objectDB){
         let tHead = document.createElement('th')
         tHead.classList.add('table__itemHead')
 
-        tHead.innerHTML = key
+        let newkey = key.replace('_', ' ')
+        tHead.innerHTML = newkey
 
         listHead.appendChild(tHead)
 
@@ -66,7 +67,6 @@ export async function crearArticulosRow(allObjectsDB){
                 tdato.classList.add('value__id')
             } 
             
-    
 
             tdato.innerHTML = value
             

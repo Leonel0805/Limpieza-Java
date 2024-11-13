@@ -1,9 +1,9 @@
-import { getAllDatabase } from "./adminPanelFunctions.js";
-import { crearHeadTable } from "./adminPanelFunctions.js";
-import { crearArticulosRow } from "./adminPanelFunctions.js";
+import { getAllDatabase } from "../adminPanelFunctions.js";
+import { crearHeadTable } from "../adminPanelFunctions.js";
+import { crearArticulosRow } from "../adminPanelFunctions.js";
 
 
-let resourcePath = '/articulos'
+let resourcePath = '/categorias'
 
 
 async function init() {
@@ -13,10 +13,10 @@ async function init() {
     console.log(json)
 
     // creamos los head de la table, usando un objeto como referencia
-    await crearHeadTable(json[0])
+    crearHeadTable(json[0])
 
     // creamos cada una de las rows
-    await crearArticulosRow(json)
+    crearArticulosRow(json)
 
     
 }
@@ -24,5 +24,5 @@ async function init() {
 document.addEventListener("DOMContentLoaded", async () => {
 
     await init(); // Llamar a la función principal después de que el DOM esté cargado
-    document.dispatchEvent(new Event('articulosCargados'));
+    document.dispatchEvent(new Event('panelCargado'));
 });
