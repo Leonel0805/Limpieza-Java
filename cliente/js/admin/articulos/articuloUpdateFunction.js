@@ -11,6 +11,7 @@ let categorias = await obtenerCategorias()
 document.addEventListener("panelCargado", function(){
 
     asignarIcons();
+
 });
 
 function asignarIcons(){
@@ -32,7 +33,25 @@ function asignarIcons(){
             let id = targetRow.querySelector('.value__id').getAttribute('data-id')
 
             let articuloDB = await obtenerArticulo(id);
+
+            
             await cargarEdit(articuloDB)
+
+            let editContainer = document.querySelector('.editPanel__container')
+            console.log(editContainer)
+        
+
+            document.addEventListener('click', function(event){
+
+                let edit = document.querySelector('.editPanel')
+        
+                if (editContainer.contains(event.target)){
+                    edit.style.display = 'block'
+                } else{
+                    edit.style.display = 'none'
+        
+                }
+            })
 
             // se llama para poder enviarlo el form
             enviarForm(id)
@@ -58,7 +77,10 @@ async function cargarEdit(articuloDB){
     // Lo agregamos al formulario
     let edit = document.querySelector('.editPanel')
     edit.innerHTML = doc.documentElement.innerHTML
+
     edit.style.display = 'block'
+
+   
 }
 
 // creamos el form dinamico
@@ -228,7 +250,7 @@ function enviarForm(id){
         console.log(selects)
 
         selects.forEach(select => {
-            
+
             if (select.id == 'categoria') {
                 data[select.id] = {
                     name: select.value
@@ -314,5 +336,17 @@ function crearMessage(message){
     editPanel.style.display = 'none'
 
     divmessage.style.display = 'block'
+
+}
+
+
+let edit = document.querySelector('.editPanel') 
+
+
+function sacarEdit(event){
+
+    if(!edit.contains(event.target)){
+        console.log('click por fuera')
+    }
 
 }
