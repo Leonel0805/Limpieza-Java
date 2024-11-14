@@ -1,3 +1,5 @@
+import {init} from './adminPanelArticulos.js';
+
 const apiURL = 'http://localhost:8080/api/articulos'
 const jwt = localStorage.getItem('jwt')
 const baseURL = localStorage.getItem('baseURL')
@@ -6,9 +8,13 @@ let categorias = await obtenerCategorias()
 
 
 // llamaos al evento cargado para ponerle la funcion
-document.addEventListener("articulosCargados", function(){
+document.addEventListener("panelCargado", function(){
 
-    console.log('articulos asdfas')
+    asignarIcons();
+});
+
+function asignarIcons(){
+
     // Ahora puedes acceder a tus elementos con querySelectorAll
     let iconsUpdate = document.querySelectorAll('.fa-pen-to-square');
 
@@ -25,18 +31,15 @@ document.addEventListener("articulosCargados", function(){
             // buscamos dentro de nuestro tr al td con el id
             let id = targetRow.querySelector('.value__id').getAttribute('data-id')
 
-            console.log(id)
             let articuloDB = await obtenerArticulo(id);
             await cargarEdit(articuloDB)
 
             // se llama para poder enviarlo el form
-            let message = enviarForm(id)
+            enviarForm(id)
 
         })
     })
-});
-
-
+}
 
 
 // cargamos edit
@@ -64,6 +67,7 @@ function crearForm(doc, articuloDB){
     const ignoreKeys = ['id']
 
     let editPanel = doc.querySelector('#editPanel__idObject')
+    let editPanelButton = doc.querySelector('.editPanel__button')
 
 
     editPanel.innerHTML = articuloDB.id + '-' + articuloDB.nombre
@@ -79,8 +83,8 @@ function crearForm(doc, articuloDB){
             let [input, label] = crearInput(key, value);
 
             // Agregar los elementos al formulario
-            editForm.appendChild(label);
-            editForm.appendChild(input);
+            editForm.insertBefore(label, editPanelButton);
+            editForm.insertBefore(input, editPanelButton);
 
             console.log('mi input por fuera ' + input.value);
         }
@@ -130,6 +134,23 @@ function crearInput(key, value){
         })
 
     }
+
+    if(key == 'is_active'){
+        input = document.createElement('select')
+        input.id = key
+        input.name = key
+
+        let listOptions = ['true', 'false']
+
+        listOptions.forEach(option => {
+            let optionHtml = document.createElement('option')
+            optionHtml.value = option
+            optionHtml.innerHTML = option
+            input.appendChild(optionHtml);
+        })
+
+    }
+
 
     return [input, label]
 }
@@ -193,7 +214,7 @@ function enviarForm(id){
         let data = {}
 
         let inputs = document.querySelectorAll('.editPanel__input')
-        let select = document.querySelector('select')
+        let selects = document.querySelectorAll('select')
 
         // asignamos en data el input mas su valor
         inputs.forEach(input => {
@@ -204,9 +225,21 @@ function enviarForm(id){
         })
 
         // asignamos a data la categoria con su valor 
-        data[select.id] = {
-            name: select.value
-        } 
+        console.log(selects)
+
+        selects.forEach(select => {
+            
+            if (select.id == 'categoria') {
+                data[select.id] = {
+                    name: select.value
+                };
+            } else {
+                data[select.id] = select.value;
+            }
+
+        })
+     
+      
 
         let fileData = document.querySelector('#imageUrl')
 
@@ -248,11 +281,20 @@ async function actualizarArticulo(id,data, file){
     if (response.status == 200){
         let json = await response.json()
         console.log('pasamos 200',json.message)
+        
+        let thead = document.querySelector('#thead')
+        let tbody = document.querySelector('#tbody')
+
+        thead.innerHTML = ''
+        tbody.innerHTML = ''
+        await init()
         crearMessage(json.message)
+        document.dispatchEvent(new Event('panelCargado'));
+        
 
     } else {
-        let json =  response.json()
-        crearMessage(json.message)
+        let json =  await response.json()
+        return json.message
     }
 
 }

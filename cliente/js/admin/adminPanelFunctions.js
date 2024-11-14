@@ -18,7 +18,10 @@ export function getAllDatabase(resourcePath){
 
 export function crearHeadTable(objectDB){
 
-    let listHead = document.querySelector('.table__listHead')
+    let theadTable = document.querySelector('#thead')
+
+    let listHead = document.createElement('tr')
+    listHead.classList.add('table__listHead')
 
     Object.keys(objectDB).forEach(key => {
 
@@ -29,9 +32,8 @@ export function crearHeadTable(objectDB){
         tHead.innerHTML = newkey
 
         listHead.appendChild(tHead)
-
-
     })
+
 
     // creamos los th add para editar y eliminar
     let listHeadDefault = ['Editar', 'Eliminar']
@@ -44,6 +46,7 @@ export function crearHeadTable(objectDB){
 
     })
 
+    theadTable.appendChild(listHead)
 }
 
 export async function crearArticulosRow(allObjectsDB){

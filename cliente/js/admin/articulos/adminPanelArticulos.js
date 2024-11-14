@@ -6,7 +6,7 @@ import { crearArticulosRow } from "../adminPanelFunctions.js";
 let resourcePath = '/articulos'
 
 
-async function init() {
+export async function init() {
 
     // hacemos un Get All a la database
     let json = await getAllDatabase(resourcePath);
