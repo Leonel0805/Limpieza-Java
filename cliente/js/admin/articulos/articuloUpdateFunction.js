@@ -1,4 +1,5 @@
 import { init } from '../adminPanelFunctions.js';
+import { getObjectById } from '../adminPanelFunctions.js';
 import { viewHidePanel } from '../../utils/viewHideEditPanel.js';
 import { crearMessage } from '../apiFunctions/crearMessage.js';
 
@@ -8,7 +9,6 @@ const baseURL = localStorage.getItem('baseURL')
 const resourPath = '/articulos';
 
 let categorias = await obtenerCategorias()
-
 
 // llamaos al evento cargado para ponerle la funcion
 document.addEventListener("panelCargado", function(){
@@ -34,7 +34,7 @@ function asignarIcons(){
             // buscamos dentro de nuestro tr al td con el id
             let id = targetRow.querySelector('.value__id').getAttribute('data-id')
 
-            let articuloDB = await obtenerArticulo(id);
+            let articuloDB = await getObjectById(id, resourPath);
 
             await cargarEdit(articuloDB)
 
@@ -186,26 +186,7 @@ async function obtenerCategorias() {
 }
 
 
-// Obtener articulo por id de la database
-async function obtenerArticulo(id){
 
-    return await fetch(apiURL + `/${id}`,{
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+ jwt
-        }
-    })
-    .then(response => {
-
-        if (response.status == 200){
-            return response.json()
-        }
-    })
-    .then(json => {
-        return json
-    })
-}
 
 
 // enviar form

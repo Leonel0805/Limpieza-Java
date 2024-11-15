@@ -1,4 +1,6 @@
 const apiURL = 'http://localhost:8080/api';
+const jwt = localStorage.getItem('jwt');
+
 
 function getAllDatabase(resourcePath){
 
@@ -12,6 +14,27 @@ function getAllDatabase(resourcePath){
     })
     .then(json => {
 
+        return json
+    })
+}
+
+// Obtener articulo por id de la database
+export async function getObjectById(id, resourcePath){
+
+    return await fetch(apiURL + resourcePath + `/${id}`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+ jwt
+        }
+    })
+    .then(response => {
+
+        if (response.status == 200){
+            return response.json()
+        }
+    })
+    .then(json => {
         return json
     })
 }
