@@ -19,6 +19,17 @@ public class CategoriaService {
         return persistencia.findAll();
     }
 
+    public Categoria findById(Long id) {
+
+        Optional<Categoria> categoriaOptional = persistencia.findById(id);
+
+        if (categoriaOptional.isEmpty()) {
+            throw new RuntimeException("No se encontró ninguna categoría con ese id");
+        }
+
+        return categoriaOptional.get();
+    }
+
     public Categoria findByName(String name) {
 
         Optional<Categoria> categoriaFind = persistencia.findByName(name);
@@ -56,4 +67,27 @@ public class CategoriaService {
 
         return categoria;
     }
+
+    public Categoria updateCategoria(Long id, CategoriaDTO categoriaDTO){
+
+        Categoria categoriaFind =  this.findById(id);
+
+        if (categoriaFind != null) {
+
+            categoriaFind.setName(categoriaDTO.name());
+
+            persistencia.guardarCategoria(categoriaFind);
+        }
+
+        return categoriaFind;
+    }
+
+    //    eliminar categoria
+    public void deleteCategoria(Long id) {
+
+        persistencia.eliminarArticulo(id);
+    }
+
+
 }
+

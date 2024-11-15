@@ -1,5 +1,6 @@
 import { obtenerDatos } from '../user_me.js';
 import { capitalizeFistLetter } from '../user_me.js';
+import { viewHidePanel } from './viewHideEditPanel.js';
 
 let editButton = document.querySelector('.detalles__card__button')
 const APIUrl = 'http://localhost:8080/api/me' 
@@ -13,24 +14,9 @@ editButton.addEventListener('click', async function(){
 
     await cargarEdit()
     sendForm()
-    
+
     // modificamos para poder salir de actualizar los datos
-    let editContainer = document.querySelector('.edit__container')
-
-
-    document.addEventListener('click', function(event){
-
-        let edit = document.querySelector('.edit')
-
-
-        if (editContainer.contains(event.target)){
-            edit.style.display = 'block'
-        } else{
-            edit.style.display = 'none'
-
-        }
-    })
-
+    viewHidePanel('edit', 'edit__container')
 });
 
 

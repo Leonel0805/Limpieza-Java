@@ -7,6 +7,8 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.categoriaDTO.Categoria
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.categoriaDTO.ListadoCategoriaDTO;
 import Proyecto_Limpieza.app.limpieza.services.CategoriaService;
 import com.cloudinary.Api;
+import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class CategoriaController {
     @Autowired
     CategoriaService categoriaService;
 
-//    Find All
+    //    Find All
     @GetMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAll() {
@@ -34,6 +36,24 @@ public class CategoriaController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(categoriaDTOList);
+    }
+
+//    buscar por id
+    @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+
+        try{
+            Categoria categoria = categoriaService.findById(id);
+            ListadoCategoriaDTO responseCategoria = new ListadoCategoriaDTO(categoria);
+
+            return ResponseEntity.status(HttpStatus.OK).body(responseCategoria);
+
+        } catch (RuntimeException e){
+            APIResponseDTO response = new APIResponseDTO("Error -" + HttpStatus.NOT_FOUND, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
     }
 
     @PostMapping
@@ -49,9 +69,42 @@ public class CategoriaController {
 
         } catch (RuntimeException e) {
 
-            APIResponseDTO response = new APIResponseDTO("Error: "+ HttpStatus.BAD_REQUEST, e.getMessage());
+            APIResponseDTO response = new APIResponseDTO("Error: " + HttpStatus.BAD_REQUEST, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+
+//  PUT Actualizar categoria
+    @PutMapping("/{id}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> updateCategoria(@PathVariable Long id,
+                                             @RequestBody @Valid CategoriaDTO categoriaDTO) {
+
+        try {
+            Categoria categoria = categoriaService.updateCategoria(id, categoriaDTO);
+            ListadoCategoriaDTO categoriaResponse = new ListadoCategoriaDTO(categoria);
+            APIResponseDTO response = new APIResponseDTO(categoriaResponse, "Categoria actualizado correctamente!");
+
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (RuntimeException e) {
+
+            APIResponseDTO response = new APIResponseDTO("Error: " + HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+    }
+
+//    Delete
+    @DeleteMapping("/{id}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> deleteCategoria(@PathVariable Long id) {
+
+        categoriaService.deleteCategoria(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
 
 }

@@ -1,4 +1,5 @@
 import {init} from './adminPanelArticulos.js';
+import { viewHidePanel } from '../../utils/viewHideEditPanel.js';
 
 const apiURL = 'http://localhost:8080/api/articulos'
 const jwt = localStorage.getItem('jwt')
@@ -16,7 +17,6 @@ document.addEventListener("panelCargado", function(){
 
 function asignarIcons(){
 
-    // Ahora puedes acceder a tus elementos con querySelectorAll
     let iconsUpdate = document.querySelectorAll('.fa-pen-to-square');
 
     iconsUpdate.forEach(icon => {
@@ -34,28 +34,12 @@ function asignarIcons(){
 
             let articuloDB = await obtenerArticulo(id);
 
-            
             await cargarEdit(articuloDB)
 
-            let editContainer = document.querySelector('.editPanel__container')
-            console.log(editContainer)
-        
-
-            document.addEventListener('click', function(event){
-
-                let edit = document.querySelector('.editPanel')
-        
-                if (editContainer.contains(event.target)){
-                    edit.style.display = 'block'
-                } else{
-                    edit.style.display = 'none'
-        
-                }
-            })
+            viewHidePanel('editPanel', 'editPanel__container')
 
             // se llama para poder enviarlo el form
             enviarForm(id)
-
         })
     })
 }
@@ -64,7 +48,7 @@ function asignarIcons(){
 // cargamos edit
 async function cargarEdit(articuloDB){
 
-    let response = await fetch(baseURL + '/cliente/templates/admin/articulos/articuloEditPanel.html')
+    let response = await fetch(baseURL + '/cliente/templates/admin/editPanel.html')
     let data = await response.text();
   
     //parseamos para que sea un document
@@ -339,14 +323,3 @@ function crearMessage(message){
 
 }
 
-
-let edit = document.querySelector('.editPanel') 
-
-
-function sacarEdit(event){
-
-    if(!edit.contains(event.target)){
-        console.log('click por fuera')
-    }
-
-}
