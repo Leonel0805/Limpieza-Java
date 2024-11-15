@@ -1,9 +1,11 @@
-import {init} from './adminPanelArticulos.js';
+import { init } from '../adminPanelFunctions.js';
 import { viewHidePanel } from '../../utils/viewHideEditPanel.js';
+import { crearMessage } from '../apiFunctions/crearMessage.js';
 
 const apiURL = 'http://localhost:8080/api/articulos'
 const jwt = localStorage.getItem('jwt')
 const baseURL = localStorage.getItem('baseURL')
+const resourPath = '/articulos';
 
 let categorias = await obtenerCategorias()
 
@@ -108,7 +110,6 @@ function crearInput(key, value){
 
     // input
     let input;
-
 
     if(key == 'imageUrl'){
         input = document.createElement('input');
@@ -293,7 +294,7 @@ async function actualizarArticulo(id,data, file){
 
         thead.innerHTML = ''
         tbody.innerHTML = ''
-        await init()
+        await init(resourPath)
         crearMessage(json.message)
         document.dispatchEvent(new Event('panelCargado'));
         
@@ -306,20 +307,4 @@ async function actualizarArticulo(id,data, file){
 }
 
 
-function crearMessage(message){
-
-    console.log('mostramos message')
-    let divmessage = document.querySelector('.message')
-    let pmessage = document.querySelector('.message__parrafo')
-
-    pmessage.innerHTML = message
-    
-    let editPanel = document.querySelector('.editPanel__container')
-    let editOverlay = document.querySelector('.editPanel__overlay')
-    editOverlay.style.display = 'none'
-    editPanel.style.display = 'none'
-
-    divmessage.style.display = 'block'
-
-}
 

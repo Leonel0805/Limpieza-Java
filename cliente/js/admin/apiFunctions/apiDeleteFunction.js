@@ -1,3 +1,6 @@
+import { init } from "../adminPanelFunctions.js";
+import { crearMessage } from "./crearMessage.js";
+
 const apiURL = 'http://localhost:8080/api'
 
 const jwt = localStorage.getItem('jwt')
@@ -25,8 +28,7 @@ export function addButtonDelete(resourcePath){
                 let id = targetRow.querySelector('.value__id').getAttribute('data-id')
     
                 console.log(id)
-                await eliminarArticulo(id, resourcePath);
-                window.location.href = './articulosPanel.html'
+                await eliminarObject(id, resourcePath);
             })
         })
     
@@ -34,23 +36,28 @@ export function addButtonDelete(resourcePath){
 
 
 
-async function eliminarArticulo(id, resourcePath){
+async function eliminarObject(id, resourcePath){
 
-    await fetch(apiURL + resourcePath +`/${id}`,{
+    let response = await fetch(apiURL + resourcePath +`/${id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+ jwt
         }
     })
-    .then(response => {
 
-        if (response.status == 200){
-            return response.json()
-        }
-    })
-    .then(json => {
-        console.log(json)
-    })
- 
+    if(response.status == 200){
+        let json = response.json()
+
+        let thead = document.querySelector('#thead')
+        let tbody = document.querySelector('#tbody')
+
+        thead.innerHTML = ''
+        tbody.innerHTML = ''
+        await init(resourcePath)
+        crearMessage(json.message)
+        document.dispatchEvent(new Event('panelCargado'));
+
+    }
+
 }

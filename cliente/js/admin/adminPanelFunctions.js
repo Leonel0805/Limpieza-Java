@@ -1,6 +1,6 @@
 const apiURL = 'http://localhost:8080/api';
 
-export function getAllDatabase(resourcePath){
+function getAllDatabase(resourcePath){
 
     return fetch(apiURL + resourcePath)
     .then(response => {
@@ -16,14 +16,14 @@ export function getAllDatabase(resourcePath){
     })
 }
 
-export function crearHeadTable(objectDB){
+function crearHeadTable(objectsDB){
 
     let theadTable = document.querySelector('#thead')
 
     let listHead = document.createElement('tr')
     listHead.classList.add('table__listHead')
 
-    Object.keys(objectDB).forEach(key => {
+    Object.keys(objectsDB).forEach(key => {
 
         let tHead = document.createElement('th')
         tHead.classList.add('table__itemHead')
@@ -49,7 +49,7 @@ export function crearHeadTable(objectDB){
     theadTable.appendChild(listHead)
 }
 
-export async function crearArticulosRow(allObjectsDB){
+async function crearArticulosRow(allObjectsDB){
 
     let tbody = document.querySelector('#tbody');
 
@@ -120,4 +120,18 @@ export async function crearArticulosRow(allObjectsDB){
     })
 
   
+}
+
+export async function init(resourcePath) {
+
+    // hacemos un Get All a la database
+    let json = await getAllDatabase(resourcePath);
+    console.log(json)
+
+    // creamos los head de la table, usando un objeto como referencia
+    await crearHeadTable(json[0])
+
+    // creamos cada una de las rows
+    await crearArticulosRow(json)
+
 }
