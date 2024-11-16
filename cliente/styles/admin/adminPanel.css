@@ -77,20 +77,34 @@
 }
 
 /* TABLE */
-.table__listHead{
-    background-color: red;
+.table{
+    /* border: 2px solid black; */
 }
+
 
 .table__itemHead{
     padding: 16px;
-    background-color: rgb(129, 129, 238);
+    background-color: #f3f3f3; 
+    color: #005f56; 
+    border-bottom: 2px solid #008f68;
     text-transform: uppercase;
 
 }
 
-.tableRow{
-    background-color: rgb(205, 205, 252);
+#tbody{
+    box-shadow: 5px 5px 10px rgba(90, 90, 90, 0.473);
+}
 
+.tableRow{
+    background-color: #ccf2e0; 
+}
+
+.tableRow:nth-child(odd){
+    background-color: #b3e6d4; 
+}
+
+.tableRow:nth-child(even){
+    background-color: #e6faf1; 
 }
 
 .table__value{
