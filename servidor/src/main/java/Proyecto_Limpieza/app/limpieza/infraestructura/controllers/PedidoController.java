@@ -33,9 +33,11 @@ public class PedidoController {
     private EncargadoService encargadoService;
 
 
+
+
     @GetMapping
     @PreAuthorize("permitAll()")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAllNoDelete() {
 
         List<ListadoPedidoDTO> pedidosResponse = pedidoService.findAllNoDelete();
         return ResponseEntity.status(HttpStatus.OK).body(pedidosResponse);
@@ -49,7 +51,7 @@ public class PedidoController {
             Pedido pedido = pedidoService.findById(id);
             ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoResponse);
+            return ResponseEntity.status(HttpStatus.OK).body(pedidoResponse);
 
         } catch (RuntimeException e) {
             APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.NOT_FOUND, e.getMessage());

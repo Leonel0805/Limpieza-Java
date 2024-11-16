@@ -47,7 +47,7 @@ async function eliminarObject(id, resourcePath){
     })
 
     if(response.status == 200){
-        let json = response.json()
+        let json = await response.json()
 
         let thead = document.querySelector('#thead')
         let tbody = document.querySelector('#tbody')
@@ -55,7 +55,12 @@ async function eliminarObject(id, resourcePath){
         thead.innerHTML = ''
         tbody.innerHTML = ''
         await init(resourcePath)
-        crearMessage(json.message)
+
+        console.log(json.message)
+
+        if(json){
+            crearMessage(json.message)
+        }
         document.dispatchEvent(new Event('panelCargado'));
 
     }

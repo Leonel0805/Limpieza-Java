@@ -13,11 +13,11 @@ let categorias = await obtenerCategorias()
 // llamaos al evento cargado para ponerle la funcion
 document.addEventListener("panelCargado", function(){
 
-    asignarIcons();
+    addIconUpdateFunction();
 
 });
 
-function asignarIcons(){
+function addIconUpdateFunction(){
 
     let iconsUpdate = document.querySelectorAll('.fa-pen-to-square');
 

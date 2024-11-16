@@ -3,10 +3,12 @@ import { viewHidePanel } from "../../utils/viewHideEditPanel.js";
 import { getObjectById } from "../adminPanelFunctions.js";
 import { crearMessage } from "../apiFunctions/crearMessage.js";
 
-const apiURL = 'http://localhost:8080/api/categorias'
+import { StatusEnum } from "./pedidosEstado.js";
+
+const apiURL = 'http://localhost:8080/api/pedidos'
 const baseURL = localStorage.getItem('baseURL')
 const jwt = localStorage.getItem('jwt')
-const resourcePath = '/categorias';
+const resourcePath = '/pedidos';
 
 document.addEventListener("panelCargado", function(){
 
@@ -31,9 +33,13 @@ function addIconUpdateFuntion(){
             // buscamos dentro de nuestro tr al td con el id
             let id = targetRow.querySelector('.value__id').getAttribute('data-id')
 
-            let categoriaDB = await getObjectById(id, resourcePath);
+            console.log(id)
 
-            await cargarEdit(categoriaDB)
+            let pedidoDB = await getObjectById(id, resourcePath);
+
+            console.log('mi pedido' +pedidoDB)
+
+            await cargarEdit(pedidoDB)
 
             viewHidePanel('editPanel', 'editPanel__container')
 
@@ -45,7 +51,7 @@ function addIconUpdateFuntion(){
 
 
 // cargamos edit
-async function cargarEdit(categoriaDB){
+async function cargarEdit(pedidoDB){
 
     let response = await fetch(baseURL + '/cliente/templates/admin/editPanel.html')
     let data = await response.text();
@@ -55,7 +61,7 @@ async function cargarEdit(categoriaDB){
     let doc = parser.parseFromString(data, 'text/html')
 
     // manipulamos el doc obtenido
-    crearForm(doc, categoriaDB)
+    crearForm(doc, pedidoDB)
 
     // Lo agregamos al formulario
     let edit = document.querySelector('.editPanel')
@@ -66,7 +72,7 @@ async function cargarEdit(categoriaDB){
 }
 
 // creamos el form dinamico
-function crearForm(doc, categoriaDB){
+function crearForm(doc, pedidoDB){
 
     const ignoreKeys = ['id']
 
@@ -74,12 +80,12 @@ function crearForm(doc, categoriaDB){
     let editPanelButton = doc.querySelector('.editPanel__button')
 
 
-    editPanel.innerHTML = categoriaDB.id + '-' + categoriaDB.nombre
+    editPanel.innerHTML = pedidoDB.id 
 
     let editForm = doc.querySelector('.editPanel__form')
 
 
-    for (let [key, value] of Object.entries(categoriaDB)) {
+    for (let [key, value] of Object.entries(pedidoDB)) {
         if (!ignoreKeys.includes(key)) {
             // Crear el input y label de forma asíncrona
             console.log(key, value)
@@ -103,12 +109,27 @@ function crearInput(key, value){
     // input
     let input;
 
-
     input = document.createElement('input');
     input.classList.add('editPanel__input')
     input.setAttribute('value', value)
     input.id = key
     input.type= 'text'
+
+    if(key == 'estado'){
+        input = document.createElement('select')
+        input.id = key
+        input.name = key
+
+
+        Object.values(StatusEnum).forEach(value => {
+
+            let optionHtml = document.createElement('option')
+            optionHtml.value = value
+            optionHtml.innerHTML = value
+            input.appendChild(optionHtml);
+        });
+
+    }
     
     return [input, label]
 }
@@ -125,7 +146,7 @@ function enviarForm(id){
         let data = {}
 
         let inputs = document.querySelectorAll('.editPanel__input')
-        // let selects = document.querySelectorAll('select')
+        let selects = document.querySelectorAll('select')
 
         // asignamos en data el input mas su valor
         inputs.forEach(input => {
@@ -135,6 +156,12 @@ function enviarForm(id){
             }
         })
 
+        selects.forEach(select => {
+
+            if(select.id == 'estado'){
+                data[select.id] = select.value
+            }
+        })
 
         await actualizarArticulo(id, data)
 
@@ -147,6 +174,8 @@ function enviarForm(id){
 async function actualizarArticulo(id,data){
 
     let bodyData = JSON.stringify(data)
+
+    console.log(bodyData)
 
     // request
     let response = await fetch(apiURL + `/${id}`,{

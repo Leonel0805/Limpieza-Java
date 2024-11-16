@@ -93,9 +93,9 @@ async function crearArticulosRow(allObjectsDB){
                 tdato.classList.add('value__id')
             } 
             
-
             tdato.innerHTML = value
             
+            // Seteamos el innerHTML dependiendo de cual es la key
             if(key == 'imageUrl' ){
 
                 tdato.innerHTML = ''
@@ -109,10 +109,28 @@ async function crearArticulosRow(allObjectsDB){
             if(key == 'categoria'){
                 tdato.innerHTML = value.name
             }
+
+            if(key == 'encargado'){
+                tdato.innerHTML = value.username
+            }
+
+            if(key == 'detalle_pedidos'){
+
+                // value es una lista de todos los detalles pedido
+                let pedidos = value 
+
+                pedidos.forEach((pedido, index) => {
+                    if (index === 0) {
+                        tdato.innerHTML = pedido.articulo.nombre;
+                    } else {
+                        tdato.innerHTML += ` - ${pedido.articulo.nombre}`;
+                    }
+                });
+            }
+    
     
             // agregamos a la row cada uno de los valores
             articuloRow.appendChild(tdato)
-    
         })
 
 
