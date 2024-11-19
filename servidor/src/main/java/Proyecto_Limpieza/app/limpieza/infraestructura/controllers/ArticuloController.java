@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,16 @@ public class ArticuloController {
 
     @Autowired
     private ArticuloService articuloService;
+
+    @GetMapping("/fields")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> findFields(){
+
+        List<Map<String, String>> listField = articuloService.getFields();
+
+        return ResponseEntity.status(HttpStatus.OK).body(listField);
+    }
+
 
     @GetMapping
     @PreAuthorize("permitAll()")

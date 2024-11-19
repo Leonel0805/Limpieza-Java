@@ -3,14 +3,15 @@ package Proyecto_Limpieza.app.limpieza.services;
 import Proyecto_Limpieza.app.limpieza.domain.models.articulo.Articulo;
 import Proyecto_Limpieza.app.limpieza.domain.models.categoria.Categoria;
 import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ArticuloDTO;
+import Proyecto_Limpieza.app.limpieza.infraestructura.DTO.ArticuloDTO.ListadoArticuloDTO;
 import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.ArticuloDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.lang.reflect.Field;
 
 @Service
 public class ArticuloService {
@@ -28,6 +29,26 @@ public class ArticuloService {
     private UserDetailServiceImpl userDetailService;
 
 
+    public List<Map<String, String>> getFields(){
+
+        Class<?> dtoClass = ListadoArticuloDTO.class;
+        Field[] fields = dtoClass.getDeclaredFields();
+
+//        creamos la lista
+        List<Map<String, String>> listFields = new ArrayList<>();
+
+        for (Field field : fields) {
+
+            Map<String, String> fieldInfo = new HashMap<>();
+
+            fieldInfo.put("name", field.getName());
+            fieldInfo.put("type", field.getType().getSimpleName());
+
+            listFields.add(fieldInfo);
+        }
+
+        return listFields;
+    }
 
     public List<Articulo> findAll() {
         return persistencia.findAll();

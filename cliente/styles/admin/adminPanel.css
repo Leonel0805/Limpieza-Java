@@ -64,6 +64,7 @@
 }
 
 .panelAdmin__container{
+    position: relative;
     padding: 64px 0px;
     background-color: #ccf2e0;
     width: 90%;
@@ -74,6 +75,14 @@
     flex-wrap: wrap;
     border-radius: 10px;
     box-shadow: 0px 0px 20px 3px rgb(95, 95, 95);
+}
+
+.panelAdminIcon{
+
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2.1rem;
 }
 
 /* TABLE */
