@@ -1,7 +1,11 @@
+import { viewHidePanel } from "../../utils/viewHideEditPanel.js";
+import { init } from "../adminPanelFunctions.js";
+import { crearMessage } from "../apiFunctions/crearMessage.js";
 
 const baseURL = localStorage.getItem('baseURL')
-const apiURL = 'http://localhost:8080/api/articulos/fields'
+const apiURL = 'http://localhost:8080/api/articulos'
 const jwt = localStorage.getItem('jwt')
+const resourcePath = '/articulos'
 
 
 let categorias = []
@@ -39,10 +43,14 @@ function addArticulo(){
     addIcon.addEventListener('click', async function(){
 
 
-        let response = await fetch(apiURL)
+        let response = await fetch(apiURL + '/fields')
         let articuloFields = await response.json()
 
-        cargarPanel(articuloFields)
+        await cargarPanel(articuloFields)
+
+        viewHidePanel('editPanel', 'editPanel__container')
+
+        enviarForm()
 
     })
 }
@@ -97,8 +105,6 @@ function crearForm(doc, articuloFields){
             editForm.insertBefore(label, editPanelButton);
             editForm.insertBefore(input, editPanelButton);
         }
-    
- 
 
     }
 }
@@ -163,5 +169,99 @@ function crearInput(nameField){
     }
 
     return [input, label]
+}
+
+// enviar form
+function enviarForm(){
+
+    let form = document.querySelector('.editPanel__form');
+
+    form.addEventListener('submit', async function(event){
+
+        event.preventDefault();
+
+        let data = {}
+
+        let inputs = document.querySelectorAll('.editPanel__input')
+        let selects = document.querySelectorAll('select')
+
+        // asignamos en data el input mas su valor
+        inputs.forEach(input => {
+
+            if(input.id != 'imageUrl'){
+                data[input.id] = input.value
+            }
+        })
+
+        // asignamos a data la categoria con su valor 
+        console.log(selects)
+
+        selects.forEach(select => {
+
+            if (select.id == 'categoria') {
+                data[select.id] = {
+                    name: select.value
+                };
+            } else {
+                data[select.id] = select.value;
+            }
+
+        })
+     
+      
+
+        let fileData = document.querySelector('#imageUrl')
+
+        let file = fileData.files[0];
+
+        console.log(data)
+
+        await actualizarArticulo(data, file)
+
+    })
+}
+
+async function actualizarArticulo(data, file){
+
+    // creamos formData para poder enviar tanto el articulo como el archivo dentro del body
+    let formData = new FormData();
+
+    // especificar que se envia como un application/json
+    formData.append('data', new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+    // si tengo el archivo enviarlo en mi request, sino no
+    if(file){
+        formData.append('file', file);
+    }
+
+    // request
+    let response = await fetch(apiURL, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer '+ jwt
+        },
+        body: formData
+
+    })
+   
+
+    if (response.status == 201){
+        let json = await response.json()
+        
+        let thead = document.querySelector('#thead')
+        let tbody = document.querySelector('#tbody')
+
+        thead.innerHTML = ''
+        tbody.innerHTML = ''
+        await init(resourcePath)
+        crearMessage(json.message)
+        document.dispatchEvent(new Event('panelCargado'));
+        
+
+    } else {
+        let json =  await response.json()
+        return json.message
+    }
+
 }
 

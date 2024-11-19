@@ -65,8 +65,6 @@ async function cargarEdit(articuloDB){
     edit.innerHTML = doc.documentElement.innerHTML
 
     edit.style.display = 'block'
-
-   
 }
 
 // creamos el form dinamico
@@ -82,8 +80,6 @@ function crearForm(doc, articuloDB){
 
     let editForm = doc.querySelector('.editPanel__form')
 
-    console.log(editForm)
-
     for (let [key, value] of Object.entries(articuloDB)) {
         if (!ignoreKeys.includes(key)) {
             // Crear el input y label de forma asíncrona
@@ -94,7 +90,6 @@ function crearForm(doc, articuloDB){
             editForm.insertBefore(label, editPanelButton);
             editForm.insertBefore(input, editPanelButton);
 
-            console.log('mi input por fuera ' + input.value);
         }
     }
 }

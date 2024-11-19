@@ -120,7 +120,7 @@ public class ArticuloController {
     //    POST
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity crearArticulo(@RequestPart(value = "articulo") @Valid ArticuloDTO articuloDTO,
+    public ResponseEntity crearArticulo(@RequestPart(value = "data") @Valid ArticuloDTO articuloDTO,
                                           @RequestPart(value = "file") MultipartFile file) {
 
 
@@ -129,7 +129,7 @@ public class ArticuloController {
             ListadoArticuloDTO articuloDTOList = new ListadoArticuloDTO(articulo);
             APIResponseDTO response = new APIResponseDTO(articuloDTOList, "Articulo creado correctamente");
 
-            return ResponseEntity.status(HttpStatus.OK).body(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
         } catch (RuntimeException e) {
             APIResponseDTO response = new APIResponseDTO("Error - " + HttpStatus.BAD_REQUEST, e.getMessage());
