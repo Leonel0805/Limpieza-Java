@@ -20,9 +20,9 @@ function addCategoria(){
     addIcon.addEventListener('click', async function(){
         
         // Hardcodeamos, tiene que ser los fields
-        let id = 5
 
-        let categoriaFields = await getObjectById(id, resourcePath);
+
+        let categoriaFields = await getFields();
 
         await cargarEdit(categoriaFields)
 
@@ -59,7 +59,7 @@ async function cargarEdit(categoriaFields){
 // creamos el form dinamico
 function crearForm(doc, categoriaFields){
 
-    const ignoreKeys = ['id']
+    const ignoreFields = ['id']
 
     let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
@@ -70,25 +70,26 @@ function crearForm(doc, categoriaFields){
     let editForm = doc.querySelector('.editPanel__form')
 
 
-    for (let [key, value] of Object.entries(categoriaFields)) {
-        if (!ignoreKeys.includes(key)) {
-            // Crear el input y label de forma asíncrona
-            let [input, label] = crearInput(key, value);
+    for (let field of categoriaFields) {
 
+        let nameField = field.name
+    
+        if(!ignoreFields.includes(nameField)){
+            let [input, label] = crearInput(nameField)
             // Agregar los elementos al formulario
             editForm.insertBefore(label, editPanelButton);
             editForm.insertBefore(input, editPanelButton);
-
         }
+
     }
 }
 
-function crearInput(key, value){
+function crearInput(nameField){
 
     // label
     let label = document.createElement('label')
-    label.setAttribute('for', key)
-    label.textContent = key + ': '
+    label.setAttribute('for', nameField)
+    label.textContent = nameField + ': '
 
     // input
     let input;
@@ -96,8 +97,7 @@ function crearInput(key, value){
 
     input = document.createElement('input');
     input.classList.add('editPanel__input')
-    input.setAttribute('value', value)
-    input.id = key
+    input.id = nameField
     input.type= 'text'
     
     return [input, label]
@@ -166,6 +166,19 @@ async function crearCategoria(data){
     } else {
         let json =  await response.json()
         return json.message
+    }
+
+}
+
+async function getFields(){
+
+    let Path = "/fields"
+
+    let response = await fetch(apiURL + Path)
+
+    if (response.status == 200){
+
+        return response.json()
     }
 
 }

@@ -44,4 +44,7 @@ public class CategoriaDAOImpl implements ICategoriaDAO {
     public void eliminarArticulo(Long id) {
         categoriaRepository.deleteById(id);
     }
+
+    public void findFields() {
+    }
 }

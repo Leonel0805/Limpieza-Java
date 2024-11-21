@@ -2,16 +2,25 @@ import { init } from "../adminPanelFunctions.js";
 import { viewHidePanel } from "../../utils/viewHideEditPanel.js";
 import { getObjectById } from "../adminPanelFunctions.js";
 import { crearMessage } from "../apiFunctions/crearMessage.js";
-
 import { StatusEnum } from "./pedidosEstado.js";
+import { getAllEncargados } from "../../utils/getEncargados.js";
 
 const apiURL = 'http://localhost:8080/api/pedidos'
 const baseURL = localStorage.getItem('baseURL')
 const jwt = localStorage.getItem('jwt')
 const resourcePath = '/pedidos';
 
+
+let encargados = []
+async function cargarEncargados() {
+    encargados = await getAllEncargados(); 
+    console.log(encargados); 
+}
+
+
 document.addEventListener("panelCargado", function(){
 
+    cargarEncargados()
     addIconUpdateFuntion();
 
 });
@@ -72,31 +81,36 @@ async function cargarEdit(pedidoDB){
 }
 
 // creamos el form dinamico
-function crearForm(doc, pedidoDB){
+async function crearForm(doc, pedidoDB){
+
+    console.log('PedidoDB:', pedidoDB);
 
     const ignoreKeys = ['id']
 
     let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
 
-
     editPanel.innerHTML = pedidoDB.id 
 
     let editForm = doc.querySelector('.editPanel__form')
 
-
-    for (let [key, value] of Object.entries(pedidoDB)) {
-        if (!ignoreKeys.includes(key)) {
-            // Crear el input y label de forma asíncrona
-            console.log(key, value)
+    // Usamos un forEach para manejar la asíncronía
+    await Promise.all(Object.entries(pedidoDB)
+    .filter(([key]) => !ignoreKeys.includes(key))
+    .map(async ([key, value]) => {
+        try {
+            console.log('mi key y value', key, value);
             let [input, label] = crearInput(key, value);
+            console.log('Creando elementos:', input, label);
 
-            // Agregar los elementos al formulario
+            // Insertar elementos en el DOM
             editForm.insertBefore(label, editPanelButton);
             editForm.insertBefore(input, editPanelButton);
-
+        } catch (error) {
+            console.error('Error al crear o insertar el elemento:', error);
         }
-    }
+    })
+    );
 }
 
 function crearInput(key, value){
@@ -109,28 +123,69 @@ function crearInput(key, value){
     // input
     let input;
 
-    input = document.createElement('input');
-    input.classList.add('editPanel__input')
-    input.setAttribute('value', value)
-    input.id = key
-    input.type= 'text'
 
     if(key == 'estado'){
         input = document.createElement('select')
         input.id = key
         input.name = key
 
+        Object.values(StatusEnum).forEach(optionValue => {
 
-        Object.values(StatusEnum).forEach(value => {
-
+            console.log(optionValue)
             let optionHtml = document.createElement('option')
-            optionHtml.value = value
-            optionHtml.innerHTML = value
+            optionHtml.value = optionValue
+            optionHtml.innerHTML = optionValue
+            
             input.appendChild(optionHtml);
         });
 
-    }
+    } else if(key == 'fecha_creacion'){
+
+        input = document.createElement('input')
+        let newValue = value.split('.')[0]
+        console.log('mi fecha', value)
+        input.id = key
+        input.name = key
+        input.type = 'datetime-local'
+        
+        input.setAttribute('value', newValue) 
+        input.setAttribute('readonly', true)
+ 
+ 
+    } else if(key == 'encargado'){
+
+        console.log(encargados)
+        let encargadoIn = value
+
+        input = document.createElement('select')
+        input.id = key
+        input.name = key
+
+
+        encargados.forEach(encargado => {
+
+            
+            let option = document.createElement('option')
+            if (encargado.username == encargadoIn.username){
+                option.setAttribute('selected', true)
+            }
+            // ponemos el username, en vez del id porque backend busca por username
+            option.value = encargado.username
+            option.innerHTML = encargado.username
+            input.appendChild(option);
+        });
+
+        console.log(input)
+    } 
     
+    else {
+        input = document.createElement('input');
+        input.classList.add('editPanel__input')
+        input.setAttribute('value', value)
+        input.id = key
+        input.type= 'text'
+    }
+
     return [input, label]
 }
 
@@ -158,12 +213,17 @@ function enviarForm(id){
 
         selects.forEach(select => {
 
-            if(select.id == 'estado'){
+            
+            if (select.id == 'encargado'){
+                data['nombre_encargado'] = select.value
+            } else {
                 data[select.id] = select.value
+
             }
         })
 
-        await actualizarArticulo(id, data)
+        console.log(data)
+        await actualizarPedido(id, data)
 
     })
 }
@@ -171,7 +231,7 @@ function enviarForm(id){
 
 
 // actualizar articulo en la database
-async function actualizarArticulo(id,data){
+async function actualizarPedido(id,data){
 
     let bodyData = JSON.stringify(data)
 

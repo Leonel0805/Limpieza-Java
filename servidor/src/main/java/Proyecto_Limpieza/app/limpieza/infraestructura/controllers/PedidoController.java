@@ -120,10 +120,10 @@ public class PedidoController {
 //    PUT
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> actualizarPedidoEstado(@PathVariable Long id, @RequestBody @Valid EstadoPedidoDTO estadoPedidoDTO) {
+    public ResponseEntity<?> actualizarPedidoEstado(@PathVariable Long id, @RequestBody @Valid PedidoDTO pedidoDTO) {
 
         try {
-            Pedido pedido = pedidoService.actualizarPedidoById(id, estadoPedidoDTO);
+            Pedido pedido = pedidoService.actualizarPedidoById(id, pedidoDTO);
             ListadoPedidoDTO pedidoResponse = new ListadoPedidoDTO(pedido);
             APIResponseDTO response = new APIResponseDTO(pedidoResponse, "Pedido actualizado correctamente!");
 

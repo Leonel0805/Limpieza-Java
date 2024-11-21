@@ -145,6 +145,8 @@ function crearInput(nameField){
 
         categorias.forEach(categoria => {
             let option = document.createElement('option')
+
+    
             option.value = categoria.name
             option.innerHTML = categoria.name
             input.appendChild(option); // Agregar cada opción al select

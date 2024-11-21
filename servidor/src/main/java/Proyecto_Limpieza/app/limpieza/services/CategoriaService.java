@@ -6,8 +6,8 @@ import Proyecto_Limpieza.app.limpieza.infraestructura.Impl.CategoriaDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @Service
 public class CategoriaService {
@@ -89,5 +89,24 @@ public class CategoriaService {
     }
 
 
+    public List<Map<String, String>> getFields() {
+
+        List<Map<String, String>> listField = new ArrayList<>();
+
+        Class<?> categoriaClass = CategoriaDTO.class;
+
+        Field[] fields = categoriaClass.getDeclaredFields();
+
+        for (Field field : fields) {
+
+            Map<String, String> myfield = new HashMap<>();
+            myfield.put("name", field.getName());
+            myfield.put("type", field.getType().getSimpleName());
+
+            listField.add(myfield);
+        }
+
+        return listField;
+    }
 }
 

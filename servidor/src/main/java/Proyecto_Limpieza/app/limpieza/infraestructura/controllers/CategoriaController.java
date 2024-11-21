@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,6 +26,16 @@ public class CategoriaController {
 
     @Autowired
     CategoriaService categoriaService;
+
+
+    @GetMapping("/fields")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> getFields(){
+
+        List<Map<String, String>> listFields = categoriaService.getFields();
+
+        return ResponseEntity.status(HttpStatus.OK).body(listFields);
+    }
 
     //    Find All
     @GetMapping

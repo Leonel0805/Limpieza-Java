@@ -145,18 +145,28 @@ public class PedidoService{
 
     }
 
-    public Pedido actualizarPedidoById(Long id, EstadoPedidoDTO estadoPedidoDTO) {
+    public Pedido actualizarPedidoById(Long id, PedidoDTO pedidoDTO) {
 
         Pedido pedido = this.findById(id);
-        EstadoPedido estadoPedido = estadoPedidoDTO.estado();
 
-        if (estadoPedido == EstadoPedido.CANCELADO) {
+        if (pedidoDTO.estado() != null) {
+
+            EstadoPedido estadoPedido = pedidoDTO.estado();
+            if (estadoPedido == EstadoPedido.CANCELADO) {
 //            devolvemos la cantidad de articulos a la abse de datos
-            detallePedidoService.eliminarDetallesDelPedido(pedido);
+                detallePedidoService.eliminarDetallesDelPedido(pedido);
+            }
+            pedido.setEstado(estadoPedido);
 
         }
 
-        pedido.setEstado(estadoPedido);
+        if (pedidoDTO.nombre_encargado() != null) {
+
+            Encargado encargado = encargadoService.findByUsernameAndIsEnabled(pedidoDTO.nombre_encargado());
+            pedido.setEncargado(encargado);
+
+        }
+
         this.save(pedido);
 
         return pedido;
