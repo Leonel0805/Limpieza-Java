@@ -87,11 +87,10 @@ function crearForm(doc, articuloFields){
 
     let ignoreFields = ['id']
 
-    let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
+    let edtiPanelTitle = doc.querySelector('.editPanel__title')
 
-
-    // editPanel.innerHTML = articuloDB.id + '-' + articuloFields.nombre
+    edtiPanelTitle.firstChild.nodeValue = "Crear articulo ";
 
     let editForm = doc.querySelector('.editPanel__form')
 
@@ -152,6 +151,14 @@ function crearInput(nameField){
             input.appendChild(option); // Agregar cada opción al select
         })
 
+    }
+    if(nameField == 'stock'){
+        input.type = 'number'
+    }
+
+    if(nameField == 'precio'){
+        input.type = 'number',
+        input.step = '0.01'
     }
 
     if(nameField == 'is_active'){

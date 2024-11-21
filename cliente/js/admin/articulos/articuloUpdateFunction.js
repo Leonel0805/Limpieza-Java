@@ -74,6 +74,8 @@ function crearForm(doc, articuloDB){
 
     let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
+    let edtiPanelTitle = doc.querySelector('.editPanel__title')
+    edtiPanelTitle.firstChild.nodeValue = "Editar: ";
 
 
     editPanel.innerHTML = articuloDB.id + '-' + articuloDB.nombre
@@ -118,7 +120,16 @@ function crearInput(key, value){
         input.classList.add('editPanel__input')
         input.setAttribute('value', value)
         input.id = key
-        input.type= 'text'
+        input.type = 'text'
+    }
+
+    if(key == 'stock'){
+        input.type = 'number'
+    }
+
+    if(key == 'precio'){
+        input.type = 'number',
+        input.step = '0.01'
     }
 
     if(key == 'categoria'){
@@ -146,10 +157,14 @@ function crearInput(key, value){
         input.id = key
         input.name = key
 
-        let listOptions = ['true', 'false']
+        let listOptions = [true, false]
 
         listOptions.forEach(option => {
             let optionHtml = document.createElement('option')
+
+            if(value == option){
+                optionHtml.setAttribute('selected', true)
+            }
             optionHtml.value = option
             optionHtml.innerHTML = option
             input.appendChild(optionHtml);
@@ -237,7 +252,6 @@ function enviarForm(id){
 
     })
 }
-
 
 
 // actualizar articulo en la database

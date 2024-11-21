@@ -89,8 +89,11 @@ async function crearForm(doc, pedidoDB){
 
     let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
+    let edtiPanelTitle = doc.querySelector('.editPanel__title')
 
-    editPanel.innerHTML = pedidoDB.id 
+    edtiPanelTitle.firstChild.nodeValue = "Editar: ";
+
+    editPanel.innerHTML = 'pedido '+ pedidoDB.id 
 
     let editForm = doc.querySelector('.editPanel__form')
 
@@ -131,8 +134,11 @@ function crearInput(key, value){
 
         Object.values(StatusEnum).forEach(optionValue => {
 
-            console.log(optionValue)
             let optionHtml = document.createElement('option')
+            // seleccinamos la opción que tiene de estado
+            if (optionValue == value){
+                optionHtml.setAttribute('selected', true)
+            }
             optionHtml.value = optionValue
             optionHtml.innerHTML = optionValue
             
@@ -154,13 +160,11 @@ function crearInput(key, value){
  
     } else if(key == 'encargado'){
 
-        console.log(encargados)
         let encargadoIn = value
 
         input = document.createElement('select')
         input.id = key
         input.name = key
-
 
         encargados.forEach(encargado => {
 
@@ -251,7 +255,6 @@ async function actualizarPedido(id,data){
 
     if (response.status == 200){
         let json = await response.json()
-        console.log('pasamos 200',json.message)
         
         let thead = document.querySelector('#thead')
         let tbody = document.querySelector('#tbody')

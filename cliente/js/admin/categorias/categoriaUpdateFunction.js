@@ -72,9 +72,11 @@ function crearForm(doc, categoriaDB){
 
     let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
+    let edtiPanelTitle = doc.querySelector('.editPanel__title')
 
+    edtiPanelTitle.firstChild.nodeValue = "Editar: ";
 
-    editPanel.innerHTML = categoriaDB.id + '-' + categoriaDB.nombre
+    editPanel.innerHTML = categoriaDB.id + '-' + categoriaDB.name
 
     let editForm = doc.querySelector('.editPanel__form')
 
@@ -136,7 +138,7 @@ function enviarForm(id){
         })
 
 
-        await actualizarArticulo(id, data)
+        await actualizarCategoria(id, data)
 
     })
 }
@@ -144,7 +146,7 @@ function enviarForm(id){
 
 
 // actualizar articulo en la database
-async function actualizarArticulo(id,data){
+async function actualizarCategoria(id,data){
 
     let bodyData = JSON.stringify(data)
 
@@ -162,7 +164,6 @@ async function actualizarArticulo(id,data){
 
     if (response.status == 200){
         let json = await response.json()
-        console.log('pasamos 200',json.message)
         
         let thead = document.querySelector('#thead')
         let tbody = document.querySelector('#tbody')

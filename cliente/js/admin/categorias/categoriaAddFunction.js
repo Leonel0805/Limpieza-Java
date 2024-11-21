@@ -61,11 +61,11 @@ function crearForm(doc, categoriaFields){
 
     const ignoreFields = ['id']
 
-    let editPanel = doc.querySelector('#editPanel__idObject')
     let editPanelButton = doc.querySelector('.editPanel__button')
+    let edtiPanelTitle = doc.querySelector('.editPanel__title')
 
+    edtiPanelTitle.firstChild.nodeValue = "Crear categoría";
 
-    // editPanel.innerHTML = categoriaDB.id + '-' + categoriaDB.nombre
 
     let editForm = doc.querySelector('.editPanel__form')
 
