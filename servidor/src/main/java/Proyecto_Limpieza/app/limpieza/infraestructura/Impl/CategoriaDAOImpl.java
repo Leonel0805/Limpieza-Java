@@ -17,7 +17,7 @@ public class CategoriaDAOImpl implements ICategoriaDAO {
 
     @Override
     public List<Categoria> findAll() {
-        return categoriaRepository.findAll();
+        return categoriaRepository.findAllByOrderByIdAsc();
     }
 
     @Override

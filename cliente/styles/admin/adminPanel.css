@@ -1,12 +1,21 @@
+a:visited{
+    color: black;
+
+}
+
+a:link{
+    color: black;
+}
+a:hover{
+    font-weight: bold;
+
+}
 
 /* EDIT PANEL */
-
-
 .editPanel{
     display: none;
 
 }
-
 
 .editPanel__overlay{
     width: 100%;
@@ -36,10 +45,12 @@
     flex-direction: column;
     width: 50%;
     margin: 0 auto;
+    margin-top: 16px;
 }
 
 .editPanel__form label{
     margin-left: 0px;
+    text-transform: capitalize;
 }
 
 .editPanel__form input{
@@ -50,6 +61,33 @@
     padding: 8px;
 }
 
+.editPanel__form select {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding: 8px;
+    background-color: white;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+}
+
+
+.editPanel__button{
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.07rem;
+    background-color: #40d640;
+    color: white;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.editPanel__button:hover{
+    background-color: rgb(23, 173, 3);
+}
 
 
 /* PANEL GENERAL */
@@ -82,11 +120,11 @@
 }
 
 .panelAdminIcon{
-
     position: absolute;
     top: 20px;
     right: 30px;
     font-size: 2.1rem;
+    cursor: pointer;
 }
 
 /* TABLE */
@@ -128,3 +166,4 @@
 .table__icon{
     cursor: pointer;
 }
+

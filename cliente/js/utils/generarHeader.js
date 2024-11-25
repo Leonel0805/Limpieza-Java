@@ -23,6 +23,8 @@ export async function cargarHeader(){
     let hrefComprar = doc.querySelector('#carritoComprar')
     hrefComprar.href = baseURL + '/cliente/templates/pages/comprar.html'
 
+    let hrefProductos = doc.querySelector('#productos')
+    hrefProductos.href = baseURL + '/index.html'
 
     let headerHtml = document.querySelector('#header');
     headerHtml.innerHTML = doc.documentElement.innerHTML;
