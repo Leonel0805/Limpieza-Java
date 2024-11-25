@@ -2,7 +2,7 @@ const apiURL = 'http://localhost:8080/api';
 const jwt = localStorage.getItem('jwt');
 
 
-function getAllDatabase(resourcePath){
+export function getAllDatabase(resourcePath){
 
     return fetch(apiURL + resourcePath)
     .then(response => {
