@@ -1,7 +1,9 @@
 import { getAllDatabase } from "../adminPanelFunctions.js"
+// import { addIconUpdateFunction } from "../articulos/articuloUpdateFunction.js"
 
 let divFilter = document.querySelector('.panelAdmin__filters')
 
+// Cargamos categorias
 let categorias = []
 async function cargarCategorias() {
     categorias = await getAllDatabase('/categorias'); 
@@ -11,6 +13,7 @@ async function cargarCategorias() {
 
 divFilter.classList.add('filterContainer')
 
+// Creamos tabla
 function crearTabla(){
 
     // seleccionamos
@@ -24,6 +27,7 @@ function crearTabla(){
 
     let listHead = ['categoria', 'precio', 'is active']
 
+    // recorremos campos para poner en el head Table
     for (let head of listHead){
         
         let th = document.createElement('th')
@@ -33,7 +37,7 @@ function crearTabla(){
         tRowHead.appendChild(th)
     }
 
-    
+    // ahora recorremos cada Head y ponermos su td
     for (let head of listHead){
         
         let td = document.createElement('td')
@@ -96,14 +100,13 @@ function crearTabla(){
             td.appendChild(select)
         }
 
+        // agregamos ese td al row
         tRowBody.appendChild(td)
     }
 
+    // agregamos los correspondientes rows a head y body
     thead.appendChild(tRowHead)
     tbody.appendChild(tRowBody)
-
-    document.dispatchEvent(new Event('panelCargado'));
-
 
 }
 
@@ -118,3 +121,5 @@ document.addEventListener('DOMContentLoaded', async function(){
 
 
 })
+
+

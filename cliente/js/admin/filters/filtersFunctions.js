@@ -1,18 +1,18 @@
-import { getAllDatabase } from "../adminPanelFunctions.js";
 import { crearArticulosRow } from "../adminPanelFunctions.js"
 
 
 let apiURL = 'http://localhost:8080/api/articulos'
 
-
 document.addEventListener('creamosTablaFilters', function(){
 
+    // Seleccionamos cada td
     let selectCategory = document.querySelector('#selectCategoria') 
     let inputPrecio = document.querySelector('#inputPrecio')
     let selectIsActive = document.querySelector('#selectIsActive')
 
     let params = {}
 
+    // obtenemos cada value y o guardamos en un objeto params
     selectCategory.addEventListener('change', function(event){
         let opcionCategoria = event.target.value
         params['categoriaValue'] = opcionCategoria
@@ -40,13 +40,13 @@ document.addEventListener('creamosTablaFilters', function(){
 
 })
 
+// Filter --> funcion que desglosa el params {} obteniendo los valores y haciendo petición correspondiente de cada valor
 async function filter({ categoriaValue, precioValue, isActiveValue }){
 
     let query = []
 
-    console.log(categoriaValue, 'asdfasdfasdff eeeee')
+    // obtenemos cada valor y guardamos en query
     if (categoriaValue != null && categoriaValue != 'all'){
-        console.log('si es diferente de null')
         query.push(`categoria=${categoriaValue}`)
     }
     if (precioValue != null){
@@ -56,14 +56,14 @@ async function filter({ categoriaValue, precioValue, isActiveValue }){
         query.push(`isActive=${isActiveValue}`)
     }
 
-    console.log(query)
-
+// cada item de query lo juntamos para hacer la url query
     let paramsURL = ''
     if (query.length > 0 ){
         paramsURL += '?' + query.join('&')
     }
 
     console.log(apiURL + paramsURL)
+    // hacemos petición con los params enviados por url
     let response = await fetch(apiURL + paramsURL)
 
     let articulos
@@ -71,10 +71,13 @@ async function filter({ categoriaValue, precioValue, isActiveValue }){
         articulos = await response.json()
     }
 
-    console.log(articulos)
+    // vaciamos la tabla y mostramos nuevamente los objetos obtenidos
     let tbody = document.querySelector('#tbody');
     tbody.innerHTML = ''
 
     await crearArticulosRow(articulos)
+
+    // disparamos el evento para poder editar
+    document.dispatchEvent(new Event('panelCargado'));
 
 }
