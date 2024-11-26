@@ -1,7 +1,6 @@
 import { getAllDatabase } from "../adminPanelFunctions.js"
 // import { addIconUpdateFunction } from "../articulos/articuloUpdateFunction.js"
 
-let divFilter = document.querySelector('.panelAdmin__filters')
 
 // Cargamos categorias
 let categorias = []
@@ -10,8 +9,6 @@ async function cargarCategorias() {
     console.log( 'asdfasdf', categorias)
 
 }
-
-divFilter.classList.add('filterContainer')
 
 // Creamos tabla
 function crearTabla(){

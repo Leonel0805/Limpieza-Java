@@ -117,17 +117,19 @@
 
 /* Filtros */
 
-.filterContainer{
-    height: 100px;
+.panelAdmin__filters{
+    height: auto;
     width: 100%;
-    background-color: red;
+    background-color: rgb(236, 236, 236);
     padding: 16px 8px;
     box-sizing: border-box;
 }
 
 .tableFilters{
-    width: 30%;
-    margin-left: 64px;
+    width: 50%;
+    margin-left: 72px;
+    border-spacing: 20px 10px;    /* Espaciado entre las filas */
+    
 }
 
 .tableFilters__thead{
@@ -136,8 +138,8 @@
 
 .thFilterHead{
     background-color: white;
-    padding: 8px;
-    border: 2px solid black;
+    padding: 4px 0;
+    border-top: 2px solid black;
 }
 
 .tableFilters__tbody{
