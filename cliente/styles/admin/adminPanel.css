@@ -118,13 +118,16 @@
 /* Filtros */
 
 .filterContainer{
-    height: 150px;
+    height: 100px;
     width: 100%;
     background-color: red;
+    padding: 16px 8px;
+    box-sizing: border-box;
 }
 
 .tableFilters{
-
+    width: 30%;
+    margin-left: 64px;
 }
 
 .tableFilters__thead{
@@ -138,6 +141,23 @@
 }
 
 .tableFilters__tbody{
+
+
+}
+
+.tdFilterBody{
+    text-align: center;
+}
+
+.tdFilterBody select, .tdFilterBody input{
+    text-align: center;
+    width: 90%;
+    background-color: rgb(255, 255, 255);
+    outline: none;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    box-sizing: border-box;
 
 }
 

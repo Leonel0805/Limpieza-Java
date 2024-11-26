@@ -43,9 +43,11 @@ public class ArticuloController {
 
     @GetMapping
     @PreAuthorize("permitAll()")
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAllWithFilters(@RequestParam(value = "categoria", required = false) String categoria,
+                                               @RequestParam(value = "precio", required = false) Double precio,
+                                               @RequestParam(value = "isActive", required = false) Boolean isActive){
 
-        List<ListadoArticuloDTO> listArticulos = articuloService.findAll().stream()
+        List<ListadoArticuloDTO> listArticulos = articuloService.findAllWithFilters(categoria, precio, isActive).stream()
                 .map(articulo -> new ListadoArticuloDTO(articulo))
                 .collect(Collectors.toList());
 

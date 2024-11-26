@@ -140,7 +140,6 @@ function crearInput(nameField){
         input.id = nameField
         input.name = nameField
 
-        console.log(categorias)
 
         categorias.forEach(categoria => {
             let option = document.createElement('option')

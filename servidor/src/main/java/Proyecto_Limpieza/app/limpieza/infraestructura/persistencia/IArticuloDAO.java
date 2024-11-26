@@ -11,6 +11,7 @@ public interface IArticuloDAO {
 
 
     List<Articulo> findAll();
+    List<Articulo> findAllWithFilters(Long categoriaId, Double precio, Boolean isActive);
     List<Articulo> findAllIsActiveAndOrderStock();
 
     List<Articulo> findByParam(String query);

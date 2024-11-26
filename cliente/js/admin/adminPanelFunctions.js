@@ -72,7 +72,7 @@ function crearHeadTable(objectsDB){
     theadTable.appendChild(listHead)
 }
 
-async function crearArticulosRow(allObjectsDB){
+export async function crearArticulosRow(allObjectsDB){
 
     let tbody = document.querySelector('#tbody');
 

@@ -2,15 +2,18 @@ import { getAllDatabase } from "../adminPanelFunctions.js"
 
 let divFilter = document.querySelector('.panelAdmin__filters')
 
+let categorias = []
+async function cargarCategorias() {
+    categorias = await getAllDatabase('/categorias'); 
+    console.log( 'asdfasdf', categorias)
 
-let categorias = await getAllDatabase('/categorias')
+}
 
 divFilter.classList.add('filterContainer')
 
-function crearTabla(divContainer){
+function crearTabla(){
 
     // seleccionamos
-    let table = document.querySelector('.tableFilters')
     let thead = document.querySelector('.tableFilters__thead')
     let tbody = document.querySelector('.tableFilters__tbody')
 
@@ -34,12 +37,21 @@ function crearTabla(divContainer){
     for (let head of listHead){
         
         let td = document.createElement('td')
-        td.classList.add('thFilterBody')
+        td.classList.add('tdFilterBody')
 
         if (head == 'categoria'){
             let select = document.createElement('select')
-            
+            select.id = 'selectCategoria'
+            select.name = 'categorias'
+
+            let option = document.createElement('option')
+            option.setAttribute('value', 'all')
+            option.innerHTML = 'Todos'
+            select.appendChild(option)
+
+
             for (let categoria of categorias){
+                console.log('cargamos cada cateogoria', categoria)
                 let option = document.createElement('option')
                 console.log('for categoria', categoria.name)
                 option.setAttribute('value', categoria.name)
@@ -53,6 +65,7 @@ function crearTabla(divContainer){
 
         if (head == 'precio'){
             let input = document.createElement('input')
+            input.id = 'inputPrecio'
             input.placeholder = 'Precio máximo'
             input.type = 'number'
             input.setAttribute('step', '0.01')
@@ -61,9 +74,15 @@ function crearTabla(divContainer){
 
         }
 
-        
         if (head == 'is active'){
             let select = document.createElement('select')
+            select.id = 'selectIsActive'
+            select.name = 'isActive'
+
+            let option = document.createElement('option')
+            option.setAttribute('value', null)
+            option.innerHTML = '-'
+            select.appendChild(option)
 
             let options = [true, false]
             
@@ -75,19 +94,27 @@ function crearTabla(divContainer){
             }
             
             td.appendChild(select)
-
         }
 
         tRowBody.appendChild(td)
     }
 
-
-
-
-
     thead.appendChild(tRowHead)
     tbody.appendChild(tRowBody)
 
+    document.dispatchEvent(new Event('panelCargado'));
+
+
 }
 
-crearTabla(divFilter)
+
+document.addEventListener('DOMContentLoaded', async function(){
+    
+    // cargamos categorias
+    await cargarCategorias()
+    crearTabla()
+
+    document.dispatchEvent(new Event('creamosTablaFilters'));
+
+
+})

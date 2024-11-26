@@ -54,6 +54,25 @@ public class ArticuloService {
         return persistencia.findAll();
     }
 
+
+    public List<Articulo> findAllWithFilters(String categoria, Double precio, Boolean isActive) {
+
+
+        if (categoria != null || precio != null || isActive != null){
+
+            Long categoriaId = null;
+            if (categoria != null) {
+                Categoria categoriaFind = categoriaService.findByName(categoria);
+                categoriaId = categoriaFind.getId();
+            }
+            List<Articulo> articulosCategoria = persistencia.findAllWithFilters(categoriaId, precio, isActive);
+            return articulosCategoria;
+        }
+
+
+        return persistencia.findAll();
+    }
+
     public List<Articulo> findAllIsActiveAndOrderStock() {
         return persistencia.findAllIsActiveAndOrderStock();
     }
