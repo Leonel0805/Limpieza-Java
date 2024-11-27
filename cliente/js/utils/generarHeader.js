@@ -13,6 +13,9 @@ export async function cargarHeader(){
     let hrefIndex = doc.querySelector('#logo__href')
     hrefIndex.href = baseURL +'/index.html'
 
+    let headerLogo = doc.querySelector('.header__logo')
+    headerLogo.src = baseURL + '/cliente/resources/images/gota-logo.png'
+
     // manipulamos el iniciar sesion
     let hrefLogin = doc.querySelector('.header__session')
     hrefLogin.href = baseURL + '/cliente/templates/auth/login.html'
