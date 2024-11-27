@@ -582,6 +582,10 @@ footer{
     text-align: left;
 }
 
+.footer__logo-img{
+    width: 90px;
+}
+
 .footer__list{
     text-align: left;
 }
