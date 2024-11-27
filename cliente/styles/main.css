@@ -58,6 +58,20 @@ header{
 
 }
 
+#logo__href{
+    width: 10%; 
+
+}
+
+.header__logo{
+    display: block;
+    width: 70px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+
+
 .header__form{
     width: 50%;
     display: flex;
