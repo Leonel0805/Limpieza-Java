@@ -11,6 +11,17 @@ a{
     text-decoration: none;
     transition: font-weight 0.3s ease;
 }
+a:visited{
+    color: black;
+}
+
+a:link{
+    color: black;
+}
+
+html {
+    scroll-behavior: smooth; 
+}
 
 
 body{
@@ -27,7 +38,7 @@ header{
     height: 20vh;
     position: sticky;
     top: 0px;
-    z-index: 10;
+    z-index: 20;
     box-shadow: 2px 2px 50px 2px rgba(92, 92, 92, 0.911);
 }
 
@@ -301,7 +312,7 @@ header{
 }
 
 .navbar__list{
-    background-color: rgb(85, 233, 85);
+    background-color: #A8E6CF;
     height: 100%; /* Definir una altura */
     display: flex;
     justify-content: space-evenly;
@@ -326,21 +337,63 @@ main{
 
 /* SECTION BANNER */
 .banner{
-
     width: 100%;
-    background-color: aqua;
 }
 
 .banner__container{
     width: 100%;
-    height: 300px;
+    height: 80vh;
+    position: relative;
 }
 
-.banner__image{
+.banner__container:hover .banner__image{
+    transition: filter 0.3s ease;
+    filter: brightness(80%);
 
-    width: 100%;
+}
+
+
+.banner__parrafo{
+    color: white;
+    font-weight: bold;
+    font-size: 1.6rem;
+    position: absolute;
+    padding: 8px 16px;
+    border-radius: 8px;
+    top: 30%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    text-align: center;
+    text-shadow: 5px 5px 4px  black;
+    z-index: 10;
+
+}
+
+
+.banner__buttonComprar{
+    font-size: 1.5rem;
+    position: absolute;
+    background-color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    box-shadow: 0px 0px 20px 3px rgb(41, 41, 41);
+    z-index: 10;
+    transition: font-size 0.5s ease;
+
+}
+
+.banner__buttonComprar:hover{
+    font-size: 26px;
+}
+
+
+.banner__image{
+    display: block;
     height: 100%;
-    object-fit: fill;
+    width: 100%;
 }
 
 /* SECTION PAGOS */
