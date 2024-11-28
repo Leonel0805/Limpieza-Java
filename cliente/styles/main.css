@@ -156,8 +156,10 @@ header{
     background-color: transparent;
     font-family: inherit; 
     font-size: 1rem;
+}
 
-
+.header__button-menu:visited{
+    color: black;
 }
 
 .carrito__icon{
@@ -504,7 +506,9 @@ main{
     text-align: center;
     padding-bottom: 24px;
     border-radius: 16px;
+    text-wrap: balance;
     box-shadow: 2px 2px 10px 1px rgba(139, 139, 139, 0.671);
+    overflow: hidden;
 }
 
 .articulo__href{

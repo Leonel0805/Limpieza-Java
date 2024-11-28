@@ -3,6 +3,7 @@ export function showPassword(){
 
     // obtenemos el icon y nuestro input
     let icon = document.querySelector('.login__icon')
+    let inputPassword = document.querySelector('#inputPassword')
     console.log('se ejecuto show')
 
     icon.addEventListener('click', function(){

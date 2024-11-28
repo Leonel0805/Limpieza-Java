@@ -10,7 +10,7 @@
     height: 100%;
     background-color: rgba(59, 59, 59, 0.562);
     position: fixed;
-    z-index: 20;
+    z-index: 30;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,14 +67,14 @@
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    background-color: #40d640;
+    background-color: #72b8be;
     color: white;
     transition: background-color 0.3s;
     cursor: pointer;
 }
 
 .editPanel__button:hover{
-    background-color: rgb(23, 173, 3);
+    background-color: #4A8C8C;
 }
 
 
@@ -90,13 +90,13 @@
     text-align: center;
     padding: 16px 0;
     text-transform: uppercase;
-    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #00ff00
+    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #77A69D
 }
 
 .panelAdmin__container{
     position: relative;
     padding: 64px 0px;
-    background-color: #ccf2e0;
+    background-color: #8ABFB5;
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -188,7 +188,7 @@
 }
 
 .tableRow:nth-child(odd){
-    background-color: #b3e6d4; 
+    background-color: #95dacd; 
 }
 
 .tableRow:nth-child(even){

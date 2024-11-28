@@ -50,13 +50,13 @@
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    background-color: rgb(25, 201, 2);
+    background-color: #72b8be;
     color: white;
-    transition: background-color 0.3s;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .button__principal:hover{
-    background-color: rgb(23, 173, 3);
+    background-color: #4A8C8C;
 }
 

@@ -64,10 +64,17 @@ main{
     font-size: 1.09rem;
     padding: 8px 16px;
     border: none;
-    background-color: rgb(67, 236, 89);
+    background-color: #72b8be;
     color: rgb(238, 238, 238);
     border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.detalles__card__button:hover{
+
+    background-color: #4A8C8C;
+
 }
 
 /* .detalles__title{

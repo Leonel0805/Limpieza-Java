@@ -4,8 +4,8 @@ import { showPassword } from "./utils/showPassword.js";
 // Obtener username, email, password
 let inputUsername = document.querySelector('#username');
 let inputEmail = document.querySelector('#email');
-let inputPassword = document.querySelector('#password');
-let inputPasswordRepeat = document.querySelector('#password-repeat');
+let inputPassword = document.querySelector('#inpuPassword');
+let inputPasswordRepeat = document.querySelector('#inputPaswordConfirm');
 
 
 let registerForm = document.querySelector('.login__form')
@@ -43,7 +43,6 @@ registerForm.addEventListener('submit', function(event) {
         console.error('error')
     }
 
-    // creamos el objeto para enviarlo por body
 
 })
 
