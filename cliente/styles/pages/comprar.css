@@ -198,7 +198,7 @@ th, td {
 
 .comprar__resumen__button{
     width: 90%;
-    background-color: rgb(94, 231, 94);
+    background-color: #72b8be;
     border: none;
     outline: none;
     padding: 8px;
@@ -208,6 +208,12 @@ th, td {
     color: white;
     margin: 0 auto;
     font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+
+}
+
+.comprar__resumen__button:hover{
+    background-color: #4A8C8C;
 }
 
 

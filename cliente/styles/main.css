@@ -11,9 +11,6 @@ a{
     text-decoration: none;
     transition: font-weight 0.3s ease;
 }
-a:visited{
-    color: black;
-}
 
 a:link{
     color: black;
@@ -173,7 +170,7 @@ header{
     position: absolute;
     left: 15px;
     top: -15px;
-    background-color: #55e955;
+    background-color: #48dbc0;
     padding: 4px;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -212,7 +209,7 @@ header{
 .carrito__card{
     display: flex;
     width: 90%;
-    background-color: rgba(85, 233, 85, 0.842);
+    background-color: #8ABFB5;
     margin: 0 auto;
     justify-content: space-around;
     align-items: center;
@@ -272,17 +269,32 @@ header{
     width: 60%;
     text-align: center;
     color: white;
+    transition: background-color 0.3s ease;
 }
 
 .button--red{
-    background-color: rgb(238, 73, 8);
+    background-color: #D9534F;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}
+.button--red:hover{
+    background-color: #be4a46;
 
 }
 
 .button--green{
-    background-color: rgb(48, 218, 48);
+    background-color: #72b8be;
 }
+
+.button--green:hover{
+    background-color: #4A8C8C;
+}
+
+.button--green a{
+    color: white;
+}
+
 
 .button--vacio{
     cursor: default;
@@ -312,7 +324,7 @@ header{
 }
 
 .navbar__list{
-    background-color: #A8E6CF;
+    background-color: #8ABFB5;
     height: 100%; /* Definir una altura */
     display: flex;
     justify-content: space-evenly;
@@ -373,7 +385,7 @@ main{
 .banner__buttonComprar{
     font-size: 1.5rem;
     position: absolute;
-    background-color: white;
+    background-color: #F2F2F2;
     padding: 8px 16px;
     border-radius: 8px;
     top: 50%;
@@ -389,6 +401,9 @@ main{
     font-size: 26px;
 }
 
+.banner__buttonComprar:visited{
+    color: black;
+}
 
 .banner__image{
     display: block;
@@ -462,12 +477,12 @@ main{
     text-align: center;
     padding: 16px 0;
     text-transform: uppercase;
-    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #00ff00
+    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #77A69D
 }
 
 .articulos__container{
     padding: 64px 0px;
-    background-color: #ccf2e0;
+    background-color: #8ABFB5;
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -479,12 +494,20 @@ main{
 }
 
 .articulo__card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
     width: 20%;
     background-color: rgb(238, 238, 238);
     text-align: center;
     padding-bottom: 24px;
     border-radius: 16px;
     box-shadow: 2px 2px 10px 1px rgba(139, 139, 139, 0.671);
+}
+
+.articulo__href{
 }
 
 .articulo__image__container{
@@ -525,11 +548,11 @@ main{
 .articulo__button{
 
     width: 90%;
-    height: 10%;
+    padding: 8px 0;
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    background-color: #40d640;
+    background-color: #72b8be;
     color: white;
     transition: background-color 0.3s;
     cursor: pointer;
@@ -537,13 +560,15 @@ main{
 }
 
 .articulo__button:hover{
-    background-color: rgb(23, 173, 3);
+    background-color: #4A8C8C;
 }
 
 
 .articulo__button--NoStock{
+    width: 95%;
+    padding: 8px 0;
     color: white;
-    background-color: rgb(238, 62, 62);
+    background-color: #D9534F;
     padding: 8px;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
@@ -563,11 +588,12 @@ main{
     text-align: center;
     padding: 16px 0;
     text-transform: uppercase;
-    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #00ff00
+    text-shadow: 2px 2px 0 #c7c7c7, 4px 4px 0 #77A69D
+
 }
 
 .tips__container{
-    background-color: #f1f2fa;
+    background-color: #F2F2F2;
     padding: 32px;
     box-sizing: border-box;
     width: 100%;
@@ -579,7 +605,7 @@ main{
 
 .tip__card{
     width: 45%;
-    background-color: #ccf2e0;
+    background-color: #8ABFB5;
     display: flex;
     border-radius: 8px;
     box-shadow: 2px 4px 10px 1px rgba(82, 82, 82, 0.74);
@@ -613,14 +639,14 @@ main{
 
 footer{
     width: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color: #F2F2F2;
     margin-top: auto;
     position: relative;
     color: greys;
 }
 
 .footer__container{
-    background: linear-gradient(to bottom, #f1f2fa, #ffffff);
+    background: linear-gradient(to bottom, #F2F2F2, #ffffff);
     position: relative;
     width: 100%;
     height: 150px;
