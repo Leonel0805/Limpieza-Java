@@ -67,14 +67,14 @@
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    background-color: #72b8be;
+    background-color: #499aa8;
     color: white;
     transition: background-color 0.3s;
     cursor: pointer;
 }
 
 .editPanel__button:hover{
-    background-color: #4A8C8C;
+    background-color: #408692;
 }
 
 
@@ -96,7 +96,7 @@
 .panelAdmin__container{
     position: relative;
     padding: 64px 0px;
-    background-color: #8ABFB5;
+    background-color: #a3d8d5;
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -188,7 +188,7 @@
 }
 
 .tableRow:nth-child(odd){
-    background-color: #95dacd; 
+    background-color: #67cebb; 
 }
 
 .tableRow:nth-child(even){

@@ -16,18 +16,19 @@ a:link{
     color: black;
 }
 
+/* transicion scroll redirect suave */
 html {
     scroll-behavior: smooth; 
 }
 
-
 body{
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Courier, monospace;
     min-height: 100vh;
-    font-size: 20px;
+    font-size: 22px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
 }
 
 header{
@@ -211,7 +212,7 @@ header{
 .carrito__card{
     display: flex;
     width: 90%;
-    background-color: #8ABFB5;
+    background-color: #a3d8d5;
     margin: 0 auto;
     justify-content: space-around;
     align-items: center;
@@ -286,11 +287,11 @@ header{
 }
 
 .button--green{
-    background-color: #72b8be;
+    background-color: #499aa8;
 }
 
 .button--green:hover{
-    background-color: #4A8C8C;
+    background-color: #408692;
 }
 
 .button--green a{
@@ -319,14 +320,14 @@ header{
 
 /* NAVBAR */
 .navbar{
-
-    background-color: rgb(83, 162, 236);
+/* 
+    background-color: rgb(83, 162, 236); */
     width: 100%;
     flex: 1;
 }
 
 .navbar__list{
-    background-color: #8ABFB5;
+    background-color: #92c2bf;
     height: 100%; /* Definir una altura */
     display: flex;
     justify-content: space-evenly;
@@ -334,7 +335,7 @@ header{
 }
 
 .navbar__item a{
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: white;
     transition: text-shadow 0.3s;
 }
@@ -484,7 +485,7 @@ main{
 
 .articulos__container{
     padding: 64px 0px;
-    background-color: #8ABFB5;
+    background-color: #a3d8d5;
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -556,15 +557,19 @@ main{
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    background-color: #72b8be;
+    background-color: #499aa8;
     color: white;
-    transition: background-color 0.3s;
+
+    transition: background-color 0.5s ease; /* Anima la posición del fondo */
     cursor: pointer;
+    position: relative;
 
 }
 
+
 .articulo__button:hover{
-    background-color: #4A8C8C;
+    background-color: #408692;
+
 }
 
 
@@ -609,7 +614,7 @@ main{
 
 .tip__card{
     width: 45%;
-    background-color: #8ABFB5;
+    background-color: #a3d8d5;
     display: flex;
     border-radius: 8px;
     box-shadow: 2px 4px 10px 1px rgba(82, 82, 82, 0.74);

@@ -20,7 +20,6 @@ body{
     font-size: 32px;
 }
 main{
-    background-color: red;
     height: 100%;
 }
 
@@ -34,7 +33,7 @@ main{
 }
 
 .login__container{
-    background-color: #8ABFB5;
+    background-color: #a3d8d5;
     width: 25%;
     height: 100%;
     font-size: 1.5rem;
@@ -93,7 +92,7 @@ main{
     border: none;
     border-radius: 8px;
     font-size: 1.4rem;
-    background-color: #4A8C8C;
+    background-color: #499aa8;
     color: white;
     cursor: pointer;
     padding: 8px 4px;
@@ -102,7 +101,7 @@ main{
 }
 
 .login__button:hover{
-    background-color: #3c7272;
+    background-color: #408692;
 }
 
 .login__footer{
@@ -124,5 +123,7 @@ main{
 
 .portada{
     width: 70%;
-    background-image: url('../../resources/images/Screenshot\ 2024-09-12\ at\ 10-33-39\ Nivea\ -\ marcas.png');
+    height: 100%;
+    background-image: url('../../resources/images/auth/portada2.jpg');
+    background-position: center center; /* Centra la imagen */
 }

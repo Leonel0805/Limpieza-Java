@@ -64,7 +64,7 @@ main{
     font-size: 1.09rem;
     padding: 8px 16px;
     border: none;
-    background-color: #72b8be;
+    background-color: #499aa8;
     color: rgb(238, 238, 238);
     border-radius: 8px;
     cursor: pointer;
@@ -73,7 +73,7 @@ main{
 
 .detalles__card__button:hover{
 
-    background-color: #4A8C8C;
+    background-color: #408692;
 
 }
 

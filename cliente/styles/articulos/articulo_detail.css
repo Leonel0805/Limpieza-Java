@@ -94,7 +94,7 @@
     border: none;
     border-radius: 8px;
     font-size: 1.07rem;
-    background-color: #72b8be;
+    background-color: #499aa8;
     color: white;
     transition: background-color 0.3s;
     cursor: pointer;
@@ -102,7 +102,7 @@
 }
 
 .articulo__button:hover{
-    background-color: #4A8C8C;
+    background-color: #408692;
 }
 
 .articulo__button--NoStock{
