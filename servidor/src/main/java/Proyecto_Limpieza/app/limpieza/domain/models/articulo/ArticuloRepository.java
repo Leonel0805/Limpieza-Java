@@ -22,10 +22,12 @@ public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
         WHERE (:categoriaId IS NULL OR a.categoria_id = :categoriaId)
           AND (:precio IS NULL OR a.precio <= :precio)
           AND (:isActive IS NULL OR a.is_active = :isActive)
+          AND (:nombre IS NULL OR a.nombre LIKE %:nombre%)
         """, nativeQuery = true)
     List<Articulo> findAllWithFilters(@Param("categoriaId") Long categoriaId,
                                       @Param("precio") Double precio,
-                                      @Param("isActive") Boolean isActive);
+                                      @Param("isActive") Boolean isActive,
+                                      @Param("nombre") String nombre);
 
     @Query(value = "SELECT * FROM articulos a WHERE a.id = :id AND a.is_active = true", nativeQuery = true)
     Optional<Articulo> findByIdIsActive(@Param("id") Long id);

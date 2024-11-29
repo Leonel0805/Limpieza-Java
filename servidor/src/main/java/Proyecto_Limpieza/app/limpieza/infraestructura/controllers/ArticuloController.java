@@ -45,9 +45,10 @@ public class ArticuloController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> findAllWithFilters(@RequestParam(value = "categoria", required = false) String categoria,
                                                @RequestParam(value = "precio", required = false) Double precio,
-                                               @RequestParam(value = "isActive", required = false) Boolean isActive){
+                                               @RequestParam(value = "isActive", required = false) Boolean isActive,
+                                                @RequestParam(value = "nombre", required = false) String nombre){
 
-        List<ListadoArticuloDTO> listArticulos = articuloService.findAllWithFilters(categoria, precio, isActive).stream()
+        List<ListadoArticuloDTO> listArticulos = articuloService.findAllWithFilters(categoria, precio, isActive, nombre).stream()
                 .map(articulo -> new ListadoArticuloDTO(articulo))
                 .collect(Collectors.toList());
 
@@ -100,7 +101,6 @@ public class ArticuloController {
         }
 
     }
-
 
     @GetMapping("/search")
     @PreAuthorize("permitAll()")

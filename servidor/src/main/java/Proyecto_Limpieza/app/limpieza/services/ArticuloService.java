@@ -55,18 +55,18 @@ public class ArticuloService {
     }
 
 
-    public List<Articulo> findAllWithFilters(String categoria, Double precio, Boolean isActive) {
+    public List<Articulo> findAllWithFilters(String categoria, Double precio, Boolean isActive, String nombre) {
 
 
-        if (categoria != null || precio != null || isActive != null){
+        if (categoria != null || precio != null || isActive != null || nombre != null){
 
             Long categoriaId = null;
             if (categoria != null) {
                 Categoria categoriaFind = categoriaService.findByName(categoria);
                 categoriaId = categoriaFind.getId();
             }
-            List<Articulo> articulosCategoria = persistencia.findAllWithFilters(categoriaId, precio, isActive);
-            return articulosCategoria;
+            List<Articulo> articulosFilter = persistencia.findAllWithFilters(categoriaId, precio, isActive, nombre);
+            return articulosFilter;
         }
 
 

@@ -22,7 +22,7 @@ function crearTabla(){
     let tRowBody = document.createElement('tr')
 
 
-    let listHead = ['categoria', 'precio', 'is active']
+    let listHead = ['nombre', 'categoria', 'precio', 'is active']
 
     // recorremos campos para poner en el head Table
     for (let head of listHead){
@@ -39,6 +39,15 @@ function crearTabla(){
         
         let td = document.createElement('td')
         td.classList.add('tdFilterBody')
+
+        if(head == 'nombre'){
+            let input = document.createElement('input')
+            input.id = 'inputNombre'
+            input.placeholder = 'nombre'
+            input.type = 'text'
+
+            td.appendChild(input)
+        }
 
         if (head == 'categoria'){
             let select = document.createElement('select')
@@ -96,6 +105,8 @@ function crearTabla(){
             
             td.appendChild(select)
         }
+
+
 
         // agregamos ese td al row
         tRowBody.appendChild(td)

@@ -21,8 +21,8 @@ public class ArticuloDAOImpl implements IArticuloDAO {
     }
 
     @Override
-    public List<Articulo> findAllWithFilters(Long categoriaId,Double precio, Boolean isActive) {
-        return articuloRepository.findAllWithFilters(categoriaId, precio, isActive);
+    public List<Articulo> findAllWithFilters(Long categoriaId,Double precio, Boolean isActive,String nombre) {
+        return articuloRepository.findAllWithFilters(categoriaId, precio, isActive, nombre);
     }
 
     @Override

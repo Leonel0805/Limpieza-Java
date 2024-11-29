@@ -6,13 +6,23 @@ let apiURL = 'http://localhost:8080/api/articulos'
 document.addEventListener('creamosTablaFilters', function(){
 
     // Seleccionamos cada td
+    let inputNombre = document.querySelector('#inputNombre')
     let selectCategory = document.querySelector('#selectCategoria') 
     let inputPrecio = document.querySelector('#inputPrecio')
     let selectIsActive = document.querySelector('#selectIsActive')
 
+
     let params = {}
 
     // obtenemos cada value y o guardamos en un objeto params
+    inputNombre.addEventListener('input', function(event){
+        let opcionNombre = event.target.value
+        params['nombreValue'] = opcionNombre
+        filter(params)
+
+    })
+
+
     selectCategory.addEventListener('change', function(event){
         let opcionCategoria = event.target.value
         params['categoriaValue'] = opcionCategoria
@@ -41,11 +51,14 @@ document.addEventListener('creamosTablaFilters', function(){
 })
 
 // Filter --> funcion que desglosa el params {} obteniendo los valores y haciendo petición correspondiente de cada valor
-async function filter({ categoriaValue, precioValue, isActiveValue }){
+async function filter({nombreValue, categoriaValue, precioValue, isActiveValue }){
 
     let query = []
 
     // obtenemos cada valor y guardamos en query
+    if (nombreValue != null){
+        query.push(`nombre=${nombreValue}`)
+    }
     if (categoriaValue != null && categoriaValue != 'all'){
         query.push(`categoria=${categoriaValue}`)
     }
